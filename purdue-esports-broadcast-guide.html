@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purdue Esports Broadcast Operations Guide</title>
+<style>
+  :root {
+    --gold: #CFB991;
+    --black: #000000;
+    --dark: #1a1a1a;
+    --mid: #2a2a2a;
+    --light: #f5f5f5;
+    --warn: #e07b39;
+    --ok: #4caf7d;
+    --border: #333;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--dark);
+    color: var(--light);
+    line-height: 1.6;
+  }
+
+  header {
+    background: var(--black);
+    border-bottom: 3px solid var(--gold);
+    padding: 28px 40px 20px;
+  }
+  header h1 {
+    font-size: 1.7rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  header p {
+    color: #aaa;
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+
+  nav {
+    background: var(--mid);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: #bbb;
+    text-decoration: none;
+    padding: 12px 18px;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  nav a:hover, nav a.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 36px 40px 80px;
+  }
+
+  section { display: none; }
+  section.active { display: block; }
+
+  h2 {
+    font-size: 1.25rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 {
+    font-size: 1rem;
+    color: #ddd;
+    margin: 24px 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  p { margin-bottom: 12px; color: #ccc; font-size: 0.95rem; }
+
+  /* Signal flow diagram */
+  .signal-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+    align-items: center;
+  }
+  .sf-box {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    text-align: center;
+    min-width: 110px;
+  }
+  .sf-box .label { color: #888; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 2px; }
+  .sf-box .name { color: var(--light); font-weight: 600; }
+  .sf-arrow { color: var(--gold); font-size: 1.2rem; flex-shrink: 0; }
+
+  /* Equipment cards */
+  .eq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .eq-card {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .eq-card h4 {
+    color: var(--gold);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .eq-card ul { list-style: none; }
+  .eq-card ul li {
+    font-size: 0.88rem;
+    color: #bbb;
+    padding: 3px 0;
+    border-bottom: 1px solid #333;
+  }
+  .eq-card ul li:last-child { border-bottom: none; }
+  .eq-card ul li::before { content: '▸ '; color: var(--gold); }
+
+  /* Checklist */
+  .checklist { list-style: none; margin: 12px 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #2e2e2e;
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: var(--gold);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .checklist li label { cursor: pointer; }
+  .checklist li.checked label { text-decoration: line-through; color: #555; }
+  .check-group {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .check-group-header {
+    background: #222;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .warn-note {
+    background: #2d1f0e;
+    border-left: 3px solid var(--warn);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    color: #e8c49a;
+    margin: 12px 0;
+  }
+  .warn-note strong { color: var(--warn); }
+  .ok-note {
+    background: #0f2e1e;
+    border-left: 3px solid var(--ok);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    color: #a8e0c0;
+    margin: 12px 0;
+  }
+  .ok-note strong { color: var(--ok); }
+
+  /* Troubleshooting */
+  .issue-card {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .issue-header {
+    background: #1e1e1e;
+    padding: 13px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .issue-header:hover { background: #252525; }
+  .issue-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #eee;
+  }
+  .issue-tag {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .tag-cam { background: #1a2d4a; color: #6aacf5; }
+  .tag-net { background: #2d1f0e; color: #e8a96a; }
+  .tag-display { background: #1a2d1a; color: #6adc8a; }
+  .tag-audio { background: #2d1a2d; color: #c88adc; }
+  .tag-hw { background: #2d1010; color: #f5a0a0; }
+  .issue-body {
+    display: none;
+    padding: 16px 18px;
+    border-top: 1px solid var(--border);
+  }
+  .issue-body.open { display: block; }
+  .chevron { color: #666; transition: transform 0.2s; }
+  .chevron.open { transform: rotate(180deg); }
+
+  .steps { list-style: none; counter-reset: step; }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 8px 0;
+    font-size: 0.88rem;
+    color: #ccc;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    content: counter(step);
+    background: var(--gold);
+    color: var(--black);
+    font-weight: 800;
+    font-size: 0.7rem;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  code {
+    background: #111;
+    border: 1px solid #333;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.85em;
+    color: #e0c97f;
+  }
+
+  /* Power strip diagram */
+  .power-strip {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+    background: #111;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid #333;
+  }
+  .plug {
+    background: var(--mid);
+    border: 2px solid #444;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.72rem;
+    text-align: center;
+    color: #bbb;
+    min-width: 90px;
+  }
+  .plug .plug-icon { font-size: 1.1rem; display: block; margin-bottom: 3px; }
+  .plug.filled { border-color: var(--ok); }
+  .plug.filled .plug-icon { color: var(--ok); }
+
+  /* Connection table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin: 14px 0;
+  }
+  th {
+    background: #111;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #2a2a2a;
+    color: #ccc;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #222; }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #888;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-bottom: 16px;
+  }
+  .reset-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .game-tab {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    color: #bbb;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .game-tab:hover { border-color: var(--gold); color: var(--gold); }
+  .game-tab.active { background: #1a2200; border-color: var(--gold); color: var(--gold); font-weight: 600; }
+  .game-tab.disabled { opacity: 0.45; cursor: default; }
+  .game-tab.disabled:hover { border-color: var(--border); color: #bbb; }
+
+  .filter-btn {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    color: #bbb;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--black); font-weight: 700; }
+
+  /* Tech Specs */
+  .specs-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: sticky;
+    top: 20px;
+  }
+  .specs-nav a {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-left: 2px solid #333;
+    transition: all 0.15s;
+  }
+  .specs-nav a:hover { color: var(--gold); border-left-color: var(--gold); }
+  .specs-layout {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .specs-section {
+    margin-bottom: 48px;
+    scroll-margin-top: 20px;
+  }
+  .specs-section h3 {
+    font-size: 1rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .specs-section h4 {
+    font-size: 0.8rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 20px 0 8px;
+  }
+  .specs-section p {
+    font-size: 0.9rem;
+    color: #bbb;
+    line-height: 1.7;
+  }
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 8px 0 20px; }
+  .spec-table th { background: #111; color: var(--gold); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; text-align: left; }
+  .spec-table td { padding: 8px 12px; border-bottom: 1px solid #262626; color: #ccc; vertical-align: top; }
+  .spec-table td:first-child { color: #888; white-space: nowrap; width: 35%; }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table tr:hover td { background: #222; }
+  .device-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .device-card { background: #1e1e1e; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .device-card-header { background: #111; padding: 10px 14px; }
+  .device-card-header .device-name { font-size: 0.88rem; font-weight: 600; color: #eee; }
+  .device-card-header .device-role { font-size: 0.72rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+  .device-card table { margin: 0; }
+  .device-card td { font-size: 0.8rem; padding: 6px 12px; }
+  .placeholder-field {
+    display: inline-block;
+    background: #2a1f00;
+    border: 1px dashed #c8902a;
+    border-radius: 3px;
+    padding: 1px 8px;
+    font-size: 0.8rem;
+    color: #f0b84a;
+    font-family: 'Consolas', monospace;
+  }
+  .signal-hop {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+  .signal-hop-box {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    min-width: 120px;
+    flex: 1;
+  }
+  .signal-hop-box .sh-device { color: #eee; font-weight: 600; margin-bottom: 4px; }
+  .signal-hop-box .sh-detail { color: #777; line-height: 1.4; }
+  .signal-hop-box .sh-detail span { display: block; }
+  .signal-hop-arrow { display: flex; align-items: center; padding: 0 6px; color: var(--gold); font-size: 1rem; flex-shrink: 0; }
+  .rationale-card {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .rationale-card h4 { color: #eee; font-size: 0.88rem; margin-bottom: 8px; }
+  .rationale-card p { font-size: 0.85rem; color: #999; margin: 0; line-height: 1.6; }
+  @media (max-width: 700px) {
+    .specs-layout { grid-template-columns: 1fr; }
+    .specs-nav { display: none; }
+    .device-grid { grid-template-columns: 1fr; }
+  }
+    main { padding: 20px 16px 60px; }
+    header { padding: 20px 16px 16px; }
+    nav { padding: 0 8px; }
+    nav a { padding: 10px 10px; font-size: 0.8rem; }
+    .eq-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Purdue Esports — Broadcast Operations Guide</h1>
+  <p>Casting Set · vMix / OMT System · Internal Reference</p>
+</header>
+
+<nav>
+  <a href="#" class="active" onclick="showSection('overview', this)">Overview</a>
+  <a href="#" onclick="showSection('setup', this)">Setup Checklist</a>
+  <a href="#" onclick="showSection('connections', this)">Connections</a>
+  <a href="#" onclick="showSection('games', this)">Game Setup</a>
+  <a href="#" onclick="showSection('troubleshooting', this)">Troubleshooting</a>
+  <a href="#" onclick="showSection('techspecs', this)" style="display:none">Tech Specs</a>
+</nav>
+
+<main>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="active">
+    <h2>System Overview</h2>
+    <p>The Purdue Esports broadcast system is split across two spaces: the <strong style="color:#eee">production studio</strong> (permanent) and the <strong style="color:#eee">casting set</strong> (multi-purpose room, set up and torn down each show). This guide covers the casting set and its integration with the studio.</p>
+
+    <h3>Equipment Inventory</h3>
+    <div class="eq-grid">
+      <div class="eq-card">
+        <h4>🎥 Casting Set</h4>
+        <ul>
+          <li>Alienware m16 R1 — casting/ingest laptop</li>
+          <li>Sonnet eGFX Breakaway Box (Thunderbolt)</li>
+          <li>Elgato Cam Link Pro (inside Breakaway Box)</li>
+          <li>Blackmagic Micro Studio 4K G2 × 2 (Cam 1, 2)</li>
+          <li>Panasonic Lumix G (Cam 3)</li>
+          <li>GVM LED Studio Lights × 2</li>
+          <li>HDMI Switcher → Casting TVs × 2</li>
+          <li>Elgato Stream Deck Mini (caster table)</li>
+          <li>USB extension cable (Stream Deck to laptop)</li>
+          <li>Power strip (wall outlet behind panel)</li>
+          <li>Network cable (wall port behind panel)</li>
+        </ul>
+      </div>
+      <div class="eq-card">
+        <h4>🖥️ Production Studio</h4>
+        <ul>
+          <li>Alienware Aurora R16 × 2 (vMix Director + Observer 1)</li>
+          <li>Alienware m16 R1 × 2 (Observers 2–3)</li>
+          <li>RODECaster Pro II audio board</li>
+          <li>Elgato Stream Deck XL (Director PC)</li>
+          <li>XLR × 2, ¼" × 2 — broadcast headsets (across hall)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Signal Flow</h3>
+    <p>Understanding the signal chain helps you quickly isolate where a problem is occurring.</p>
+
+    <h4 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px">Video (Casting Set → Studio)</h4>
+    <div class="signal-flow">
+      <div class="sf-box"><div class="label">Source</div><div class="name">Cameras 1–3</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Ingest</div><div class="name">Cam Link Pro (HDMI 1–3)</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Canvas</div><div class="name">OBS (4K tiled)</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Transport</div><div class="name">OMT over Network</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Production</div><div class="name">vMix (Director PC)</div></div>
+    </div>
+
+    <h4 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px">Video (Observer PCs → Studio)</h4>
+    <div class="signal-flow">
+      <div class="sf-box"><div class="label">Source</div><div class="name">Observer PCs (×3)</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Transport</div><div class="name">OMT 1440p60</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Production</div><div class="name">vMix (Director PC)</div></div>
+    </div>
+
+    <h4 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px">Audio</h4>
+    <div class="signal-flow">
+      <div class="sf-box"><div class="label">Input</div><div class="name">Broadcast Headsets</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Board</div><div class="name">RODECaster Pro II</div></div>
+      <div class="sf-arrow">↔</div>
+      <div class="sf-box"><div class="label">DAW/Mix</div><div class="name">vMix (USB)</div></div>
+    </div>
+
+    <h4 style="color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px">Casting TV Output</h4>
+    <div class="signal-flow">
+      <div class="sf-box"><div class="label">Source</div><div class="name">OBS OMT Source</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Output</div><div class="name">Laptop HDMI</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Switcher</div><div class="name">HDMI Switcher</div></div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-box"><div class="label">Display</div><div class="name">TV 1 + TV 2</div></div>
+    </div>
+  </section>
+
+  <!-- SETUP CHECKLIST -->
+  <section id="setup">
+    <h2>Setup Checklist</h2>
+    <p>The checklist is split into two halves: <strong style="color:#eee">Casting Set</strong> and <strong style="color:#eee">Studio</strong>. With multiple people, both halves can be done simultaneously — you just can't run final A/V verification until everything is connected at both ends. Complete each group within its half in order, as sequence matters.</p>
+    <button class="reset-btn" onclick="resetChecklist()">↺ Reset Checklist</button>
+
+    <div class="warn-note">
+      <strong>⚠ Critical startup rule:</strong> Do NOT power on the casting laptop until ALL physical connections are made — power, Thunderbolt, ethernet, HDMI, and USB. If the laptop boots before the Thunderbolt box is connected, the Cam Link Pro will not be recognized and you'll need to fully shut down and restart.
+    </div>
+
+    <h3 style="margin-top:28px; color: var(--gold); font-size:0.95rem;">— CASTING SET —</h3>
+
+    <!-- STEP 1 -->
+    <div class="check-group">
+      <div class="check-group-header">1 — Access & Power Run</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT ACCESS STEPS HERE -->
+        <li><input type="checkbox" id="c1"><label for="c1">Retrieve keys from desk worker to unlock the concealed wall panel</label></li>
+        <li><input type="checkbox" id="c1b"><label for="c1b">Ask the desk worker to change the <strong>room lighting scene</strong> to the appropriate game</label></li>
+        <li><input type="checkbox" id="c2"><label for="c2">Run power strip cable from wall outlet (inside concealed panel) to casting set</label></li>
+        <li><input type="checkbox" id="c3"><label for="c3">Run network cable from wall port (inside concealed panel) to casting set</label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="check-group">
+      <div class="check-group-header">2 — Power Up All Devices (Laptop Last)</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT POWER ITEMS HERE — all 8 plugs must be filled -->
+        <li><input type="checkbox" id="c4"><label for="c4">Plug in <strong>Sonnet Breakaway Box</strong> power — verify unit has power before proceeding</label></li>
+        <li><input type="checkbox" id="c5"><label for="c5">Plug in <strong>Camera 1</strong> power (Blackmagic wide — long adjustable lens)</label></li>
+        <li><input type="checkbox" id="c6"><label for="c6">Plug in <strong>Camera 2</strong> power (Blackmagic close — stubby prime lens)</label></li>
+        <li><input type="checkbox" id="c7"><label for="c7">Plug in <strong>Camera 3</strong> power (Panasonic Lumix G — stubby prime lens)</label></li>
+        <li><input type="checkbox" id="c8"><label for="c8">Plug in <strong>GVM Light 1</strong> power and power on — adjust for scene</label></li>
+        <li><input type="checkbox" id="c9"><label for="c9">Plug in <strong>GVM Light 2</strong> power and power on — adjust for scene</label></li>
+        <li><input type="checkbox" id="c10"><label for="c10">Plug in <strong>HDMI Switcher</strong> power</label></li>
+        <li><input type="checkbox" id="c11"><label for="c11">Plug in <strong>casting laptop</strong> power adapter</label></li>
+        <li><input type="checkbox" id="c_verify_power"><label for="c_verify_power">Verify all 8 power strip slots are occupied — <strong>no free plugs</strong><br><small style="color:#888">Breakaway Box · Cam 1 · Cam 2 · Cam 3 · Light 1 · Light 2 · HDMI Switcher · Laptop</small></label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="check-group">
+      <div class="check-group-header">3 — Run All Video Cables</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT CAMERA CABLE ROUTING HERE -->
+        <li><input type="checkbox" id="c12"><label for="c12"><strong>Camera 1</strong> (Blackmagic wide — long adjustable lens) HDMI → Cam Link Pro <strong>HDMI 1</strong></label></li>
+        <li><input type="checkbox" id="c13"><label for="c13"><strong>Camera 2</strong> (Blackmagic close — stubby prime lens) HDMI → Cam Link Pro <strong>HDMI 2</strong></label></li>
+        <li><input type="checkbox" id="c14"><label for="c14"><strong>Camera 3</strong> (Panasonic Lumix G) HDMI → Cam Link Pro <strong>HDMI 3</strong></label></li>
+        <li><input type="checkbox" id="c15"><label for="c15">Laptop <strong>HDMI out</strong> → HDMI Switcher <strong>input</strong> port</label></li>
+        <li><input type="checkbox" id="c16"><label for="c16">HDMI Switcher <strong>output 1</strong> → Casting TV 1 (direct HDMI)</label></li>
+        <li><input type="checkbox" id="c17"><label for="c17">HDMI Switcher <strong>output 2</strong> → Casting TV 2 (direct HDMI)</label></li>
+        <li><input type="checkbox" id="c18"><label for="c18">Power on all 3 cameras and confirm each has a live output signal</label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="check-group">
+      <div class="check-group-header">4 — Connect Laptop Peripherals (Before Booting)</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT LAPTOP CONNECTION STEPS HERE -->
+        <li><input type="checkbox" id="c19"><label for="c19">Connect <strong>ethernet</strong>: wall cable → USB-to-Ethernet adapter → laptop. <strong>Do not use the laptop's built-in ethernet port</strong> — it is unreliable</label></li>
+        <li><input type="checkbox" id="c20"><label for="c20">Connect <strong>Thunderbolt USB-C</strong>: Breakaway Box → the USB-C port at the <strong>far end of the rear IO</strong> (furthest from the power adapter). Ensure fully seated on both ends.<br><small style="color:#888">The port closest to the power adapter is less reliable for Thunderbolt — always use the far one.</small></label></li>
+        <li><input type="checkbox" id="c21"><label for="c21">Connect <strong>USB extension cable</strong> → laptop, run to caster table → plug in <strong>Stream Deck Mini</strong></label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="check-group">
+      <div class="check-group-header">5 — Run Audio Loom & Headset Connections</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT AUDIO CABLE STEPS HERE -->
+        <li><input type="checkbox" id="c22"><label for="c22">Unravel the audio cable loom from behind the seating cubes and route it to the caster table</label></li>
+        <li><input type="checkbox" id="c23"><label for="c23">Connect <strong>Caster 1</strong> (left seat, when facing table from camera side): XLR mic cable + ¼" return to broadcast headset</label></li>
+        <li><input type="checkbox" id="c24"><label for="c24">Connect <strong>Caster 2</strong> (right seat, when facing table from camera side): XLR mic cable + ¼" return to broadcast headset</label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="check-group">
+      <div class="check-group-header">6 — Boot Casting Laptop & Verify Capture</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT BOOT AND VERIFICATION STEPS HERE -->
+        <li><input type="checkbox" id="c25"><label for="c25">Confirm all cables from steps 2–5 are connected before powering on</label></li>
+        <li><input type="checkbox" id="c26"><label for="c26">Power on the Alienware m16 — watch for the <strong>blue "S" indicator to light up on the Breakaway Box</strong> during boot. This confirms Thunderbolt is recognized</label></li>
+        <li><input type="checkbox" id="c27"><label for="c27">Open <strong>Elgato Capture Utility</strong> — confirm live feeds are visible for all 3 cameras. If not, do not proceed — see Troubleshooting → Cameras</label></li>
+        <li><input type="checkbox" id="c28"><label for="c28">Open <strong>OBS</strong> — confirm all 3 camera sources are showing live feeds. The bottom-right quarter of the 4K tile should be <strong>blank</strong> (3 cameras fill 3 of 4 quadrants)</label></li>
+        <li><input type="checkbox" id="c29"><label for="c29">Open <strong>Bitfocus Companion Satellite</strong> — confirm the caster Stream Deck Mini shows <strong>M</strong> and <strong>TB</strong> buttons on each side</label></li>
+        <li><input type="checkbox" id="c30"><label for="c30">Confirm OMT output is active in OBS and transmitting to the studio network</label></li>
+        <li><input type="checkbox" id="c31"><label for="c31">Verify program feed is visible on both casting TVs. If not: in OBS, right-click <strong>OMT Source</strong> → <em>Open Source Projector</em> → select TV monitor (not laptop display). Press <kbd style="background:#111;border:1px solid #444;padding:1px 5px;border-radius:3px;font-family:monospace">ESC</kbd> if you accidentally select the laptop screen</label></li>
+      </ul>
+    </div>
+
+    <h3 style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— PRODUCTION STUDIO —</h3>
+
+    <!-- STEP 7 -->
+    <div class="check-group">
+      <div class="check-group-header">7 — Audio Board First</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT AUDIO BOARD STARTUP HERE -->
+        <li><input type="checkbox" id="c32"><label for="c32"><strong>Power on the RODECaster Pro II before anything else</strong> — at minimum, it must be on before vMix is opened</label></li>
+        <li><input type="checkbox" id="c33"><label for="c33">Confirm the <strong>MUSIC</strong> channel is playing — if not, verify <strong>Foobar2000</strong> is running on the Director PC and routing to the board</label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 8 -->
+    <div class="check-group">
+      <div class="check-group-header">8 — Boot Director PC & Open vMix</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT VMIX STARTUP AND VERIFICATION HERE -->
+        <li><input type="checkbox" id="c34"><label for="c34">Boot the Director PC (Alienware Aurora R16) and open <strong>vMix</strong></label></li>
+        <li><input type="checkbox" id="c35"><label for="c35">Confirm vMix is receiving all 3 cameras from the casting set OMT feed</label></li>
+        <li><input type="checkbox" id="c36"><label for="c36">Test <strong>Caster 1</strong> headset (left seat) and <strong>Caster 2</strong> headset (right seat) — confirm correct left/right assignment. This matters for managing individual levels during the show</label></li>
+        <li><input type="checkbox" id="c37"><label for="c37">Check your <strong>producer headset</strong> — it is the <strong>3rd fader</strong> on the RODECaster. It is configured to <strong>never go to stream</strong>, only to casters. <strong>Mute it when you are not actively talking to casters</strong></label></li>
+        <li><input type="checkbox" id="c38"><label for="c38">Ask casters to speak in their shoutcasting voice as if action is happening. Adjust levels so caster audio peaks at <strong>−10 to −15 dB</strong> on the meter</label></li>
+        <li><input type="checkbox" id="c39"><label for="c39">Confirm casters can hear your talkback mic and music when the channel is unmuted</label></li>
+        <li><input type="checkbox" id="c_solo"><label for="c_solo">Check that no channels are accidentally <strong>solo'd</strong> on the RODECaster — a solo'd channel will cause you to not hear other sources in your headset</label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 9 -->
+    <div class="check-group">
+      <div class="check-group-header">9 — Observer PCs & Game Setup</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT OBSERVER PC STEPS HERE — game-specific notes will be added per-game -->
+        <li><input type="checkbox" id="c40"><label for="c40">Boot all Observer PCs and open OBS on each</label></li>
+        <li><input type="checkbox" id="c41"><label for="c41">Open the appropriate game on each Observer PC and set game capture to the correct game</label></li>
+        <li><input type="checkbox" id="c42"><label for="c42">Verify each Observer is transmitting video and audio via OMT to vMix</label></li>
+        <li><input type="checkbox" id="c43"><label for="c43">Put each Observer feed on program one at a time — confirm you <strong>and the casters</strong> can hear game audio from that feed</label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 10 -->
+    <div class="check-group">
+      <div class="check-group-header">10 — Audio Quirk Check</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT KNOWN AUDIO ISSUE CHECKS HERE -->
+        <li><input type="checkbox" id="c44"><label for="c44">Ask each caster to confirm they can hear in <strong>both ears</strong>. If one ear is missing: twist the ¼" headset connection gently until stereo is restored. Unplug and replug if needed — the ¼" cable can be finicky</label></li>
+      </ul>
+    </div>
+
+    <div class="ok-note">
+      <strong>✔ Ready to go:</strong> All 8 power plugs filled · Blue S lit on Breakaway Box · All 3 cameras live in OBS (bottom-right tile blank) · Stream Deck Mini showing M + TB buttons · Casting TVs showing program feed · vMix receiving all sources · Caster levels at −10 to −15 dB · Both ears confirmed on all headsets
+    </div>
+
+    <h3 style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— PRE-GAME (ALL TITLES) —</h3>
+    <p style="font-size:0.88rem; color:#999;">These steps apply before every match regardless of game. Complete before moving to game-specific setup.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 20px;">
+      <div class="warn-note" style="margin:0">
+        <strong>📋 Stream permission:</strong> Before going live, let the opponent know that <strong>APGL# accounts are for production</strong> and that the match will be streamed. Almost nobody objects — it's a formality, but do it every time.
+      </div>
+      <div class="ok-note" style="margin:0">
+        <strong>🎮 Observer overlay (Stream Deck XL):</strong> There is a row of buttons for observer overlay selection. Set the correct one for today's title. All games except Marvel Rivals have a dedicated button — <strong>for Rivals, use OVL OFF</strong> (the in-game overlay is sufficient).
+      </div>
+    </div>
+
+    <!-- STEP 11 -->
+    <div class="check-group">
+      <div class="check-group-header">11 — Update Opponent Logo</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT LOGO UPDATE STEPS HERE -->
+        <li><input type="checkbox" id="cg1"><label for="cg1">In Chrome on the Director PC, open the <strong>Team Links</strong> bookmarks folder and navigate to the bookmark for today's game</label></li>
+        <li><input type="checkbox" id="cg2"><label for="cg2">Go to the <strong>Schedule</strong> tab and find today's match</label></li>
+        <li><input type="checkbox" id="cg3"><label for="cg3">On the right side, twirl down <strong>Resources</strong> and open the opponent team's logo in a new tab (share icon → open in new tab)</label></li>
+        <li><input type="checkbox" id="cg4"><label for="cg4">Download the logo and overwrite <code>opponent.webp</code> in <strong>Documents &gt; Assets</strong></label></li>
+      </ul>
+    </div>
+
+    <!-- STEP 12 -->
+    <div class="check-group">
+      <div class="check-group-header">12 — Update Stream Title & Category</div>
+      <ul class="checklist">
+        <!-- ADD/EDIT STREAM TITLE FORMAT HERE -->
+        <li><input type="checkbox" id="cg5"><label for="cg5">Open <strong>Twitch Live Manager</strong> (bookmarked in Chrome) on the Director PC</label></li>
+        <li><input type="checkbox" id="cg6"><label for="cg6">Set stream title using the format:<br><code>PUR v [Opponent Abbreviation] - NECC [Game] Week [Number]</code><br><small style="color:#888">Example: <em>PUR v NWU - NECC Valorant Week 4</em></small></label></li>
+        <li><input type="checkbox" id="cg7"><label for="cg7">Set the <strong>game category</strong> on Twitch to match today's title</label></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- GAME SETUP -->
+  <section id="games">
+    <h2>Game-Specific Setup</h2>
+    <p>Complete the <a href="#" onclick="showSection('setup', document.querySelector('nav a:nth-child(2)'));return false;" style="color:var(--gold)">Setup Checklist</a> including all pre-game steps before starting game-specific setup.</p>
+
+    <!-- GAME TABS -->
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:20px 0 24px;">
+      <button class="game-tab" onclick="showGame('valorant', this)">🎯 Valorant</button>
+      <button class="game-tab" onclick="showGame('rivals', this)">⚔️ Marvel Rivals</button>
+      <button class="game-tab" onclick="showGame('rocket', this)">🚀 Rocket League</button>
+      <button class="game-tab" onclick="showGame('lol', this)">🧙 League of Legends</button>
+      <button class="game-tab" onclick="showGame('ow', this)">🤖 Overwatch</button>
+    </div>
+
+    <!-- DEFAULT STATE -->
+    <div id="game-default" style="display:block; background:var(--mid); border:1px solid var(--border); border-radius:8px; padding:32px; text-align:center; color:#666;">
+      <div style="font-size:2rem; margin-bottom:12px;">🎮</div>
+      <div style="font-size:0.95rem;">Select a game above to see its setup steps</div>
+    </div>
+
+    <!-- VALORANT -->
+    <div id="game-valorant" class="game-panel" style="display:none">
+
+      <div class="check-group">
+        <div class="check-group-header">Valorant — Spectra Client Setup</div>
+        <ul class="checklist">
+          <!-- ADD/EDIT SPECTRA SETUP STEPS HERE -->
+          <li><input type="checkbox" id="v1"><label for="v1">Open <strong>Spectra Client</strong> on Observer 1</label></li>
+          <li><input type="checkbox" id="v2"><label for="v2">Fill in opponent team details and the <strong>opponent logo URL</strong> — use the same logo just downloaded on the Director PC for vMix</label></li>
+          <li><input type="checkbox" id="v3"><label for="v3"><strong>Reset series score</strong> to 0–0</label></li>
+          <li><input type="checkbox" id="v4"><label for="v4">Verify <strong>home vs. away</strong> assignment. Home team must be on the <strong>left side</strong> for correct pick/ban order</label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Valorant — Map Ban Session</div>
+        <ul class="checklist">
+          <!-- ADD/EDIT MAP BAN STEPS HERE -->
+          <li><input type="checkbox" id="v5"><label for="v5">In Spectra Client, next to the Connect button: <strong>Extras → Start Map Ban Session</strong></label></li>
+          <li><input type="checkbox" id="v6"><label for="v6">In the browser tab that opens: set the <strong>game style</strong> (Bo3 is standard; Bo5 for playoffs/finals) and the current <strong>map pool</strong></label></li>
+          <li><input type="checkbox" id="v7"><label for="v7">Open each team's individual pick/ban URL, place them <strong>side by side</strong>, and wait for confirmation from the competing teams before proceeding</label></li>
+          <li><input type="checkbox" id="v8"><label for="v8">Find the <strong>Map Ban Session ID</strong> from the URL — typically the value of <code>&amp;sessionID=XXXXXXXX</code></label></li>
+          <li><input type="checkbox" id="v9"><label for="v9">Paste the session ID into <code>MapBanSessionID.txt</code> in vMix, then <strong>reboot vMix</strong>. This updates all vMix sources with the correct session data</label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Valorant — Ticker & Map Setup</div>
+        <ul class="checklist">
+          <!-- ADD/EDIT TICKER/MAP STEPS HERE -->
+          <li><input type="checkbox" id="v10"><label for="v10">Once pick/ban is complete, add the 3 maps to the <strong>ticker setup</strong>:<br>
+            <small style="color:#aaa; display:block; margin-top:4px; line-height:1.6">
+              <strong style="color:#ddd">Left slot</strong> — Current map: map name (title is automatic) + who picked it<br>
+              <strong style="color:#ddd">Middle slot</strong> — Future map: map name + who picked it<br>
+              <strong style="color:#ddd">Right slot</strong> — Future map: map name + who picked it
+            </small>
+          </label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Valorant — Connect & Match Start</div>
+        <ul class="checklist">
+          <!-- CRITICAL STEP — do not reorder -->
+          <li><input type="checkbox" id="v11"><label for="v11">
+            <span style="display:flex; flex-direction:column; gap:4px;">
+              <span>Before hitting <strong>Connect</strong>: verify the correct team is set as <strong>Start as Attack</strong></span>
+              <span style="background:#3d1010; border:1px solid #7a2020; border-radius:4px; padding:6px 10px; font-size:0.82rem; color:#f5a0a0;">
+                ⛔ <strong>CRITICAL:</strong> Getting this wrong will cause the entire overlay to display incorrect side/economy information for the whole map. Double-check with team comms before connecting.
+              </span>
+            </span>
+          </label></li>
+          <li><input type="checkbox" id="v12"><label for="v12">Hit <strong>Connect</strong> in Spectra Client</label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Valorant — During & Between Maps</div>
+        <ul class="checklist">
+          <!-- ADD/EDIT BETWEEN-MAP STEPS HERE -->
+          <li><input type="checkbox" id="v13"><label for="v13">After each map ends: update the <strong>series score</strong> in Spectra Client</label></li>
+          <li><input type="checkbox" id="v14"><label for="v14">Update the <strong>map ban dashboard</strong> to reflect the completed map result</label></li>
+          <li><input type="checkbox" id="v15"><label for="v15">Keep both Spectra Client and the map ban dashboard visible on screen simultaneously for quick access between maps</label></li>
+        </ul>
+      </div>
+
+    </div><!-- end #game-valorant -->
+
+    <!-- MARVEL RIVALS -->
+    <div id="game-rivals" class="game-panel" style="display:none">
+
+      <div class="ok-note">
+        <strong>🟢 Low overhead:</strong> Marvel Rivals has minimal production setup. The in-game overlay is self-sufficient — use <strong>OVL OFF</strong> on the Stream Deck XL observer overlay row.
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Marvel Rivals — Lobby Setup</div>
+        <ul class="checklist">
+          <!-- ADD/EDIT RIVALS SETUP STEPS HERE -->
+          <li><input type="checkbox" id="mr1"><label for="mr1">Get all observers into the match lobby</label></li>
+          <li><input type="checkbox" id="mr2"><label for="mr2">Ask the <strong>lobby leader</strong> to apply the correct <strong>team names and abbreviations</strong> in lobby settings</label></li>
+        </ul>
+      </div>
+
+    </div><!-- end #game-rivals -->
+
+    <!-- ROCKET LEAGUE -->
+    <div id="game-rocket" class="game-panel" style="display:none">
+
+      <div style="background:#2d1f0e; border:1px solid #7a4a10; border-radius:8px; padding:14px 18px; margin-bottom:20px;">
+        <p style="margin:0; font-size:0.88rem; color:#e8c49a;"><strong style="color:var(--warn);">⚠ Deprecation Notice:</strong> BARL is being deprecated in April due to Rocket League adding Easy Anti-Cheat. A replacement system is TBD. Verify this workflow is still valid before each match.</p>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Rocket League — Observer Setup</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="rl1"><label for="rl1">Launch <strong>BakkesMod</strong> on Observer 1 first — it must be running before the game launches</label></li>
+          <li><input type="checkbox" id="rl2"><label for="rl2">Launch <strong>Rocket League</strong> on Observer 1</label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Rocket League — BARL & Websocket Proxy</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="rl3"><label for="rl3">Open <strong>BARL</strong> on the Director PC</label></li>
+          <li><input type="checkbox" id="rl4"><label for="rl4">Confirm the <strong>websocket proxy</strong> is running — check the Command Prompt window and verify it shows the correct IP address of Observer 1.<br><small style="color:#888">If the IP is wrong: edit <code>Documents &gt; Assets &gt; Scripts &gt; BARL Proxy &gt; config.json</code> and restart the proxy.</small></label></li>
+          <li><input type="checkbox" id="rl5"><label for="rl5">Add <strong>opponent name, abbreviation, and logo</strong> in BARL — same process as Valorant (logo downloaded from NECC match page)</label></li>
+          <li><input type="checkbox" id="rl6"><label for="rl6"><strong>Reset series score</strong> to 0–0</label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Rocket League — Verification</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="rl7"><label for="rl7">Verify the full pipeline in a <strong>private lobby with AI players</strong> before going live</label></li>
+          <li><input type="checkbox" id="rl8"><label for="rl8">In game on Observer 1: confirm <strong>Director mode</strong> is selected</label></li>
+          <li><input type="checkbox" id="rl9"><label for="rl9">Hide the in-game UI by pressing <kbd style="background:#111;border:1px solid #444;padding:1px 5px;border-radius:3px;font-family:monospace">H</kbd></label></li>
+        </ul>
+      </div>
+
+    </div><!-- end #game-rocket -->
+
+    <!-- LEAGUE OF LEGENDS -->
+    <div id="game-lol" class="game-panel" style="display:none">
+
+      <div class="check-group">
+        <div class="check-group-header">League of Legends — League Broadcast Setup</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="lol1"><label for="lol1">Open <strong>League Broadcast</strong> on Observer 1</label></li>
+          <li><input type="checkbox" id="lol2"><label for="lol2">Go to the <strong>Teams</strong> tab — add the opponent team if not already present</label></li>
+          <li><input type="checkbox" id="lol3"><label for="lol3">Download and import the opponent logo from the NECC match page (same process as other titles — Resources → share icon)</label></li>
+          <li><input type="checkbox" id="lol4"><label for="lol4">On the NECC match page, find the opponent's <strong>primary and secondary colors</strong> and apply them in League Broadcast</label></li>
+          <li><input type="checkbox" id="lol5"><label for="lol5">Fill in <strong>name, abbreviation, logo, and colors only</strong> — leave all other fields blank</label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">League of Legends — Overlay Verification</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="lol6"><label for="lol6">Go to the <strong>In-Game</strong> tab in League Broadcast</label></li>
+          <li><input type="checkbox" id="lol7"><label for="lol7">Hit the <strong>test tube icon</strong> to load mock data — the overlay should appear in vMix exactly as it would during a live game</label></li>
+        </ul>
+      </div>
+
+    </div><!-- end #game-lol -->
+
+    <!-- OVERWATCH -->
+    <div id="game-ow" class="game-panel" style="display:none">
+
+      <div class="check-group">
+        <div class="check-group-header">Overwatch — Stream Manager Setup</div>
+        <ul class="checklist">
+          <!-- ADD/EDIT OW STREAM MANAGER STEPS HERE -->
+          <li><input type="checkbox" id="ow1"><label for="ow1">In Chrome, open the <strong>Stream Manager</strong> bookmark on the Director PC</label></li>
+          <li><input type="checkbox" id="ow2"><label for="ow2">Update opponent details — get the opponent logo URL from the NECC match page (same process as Valorant: Schedule → match → Resources → share icon) and paste into Stream Manager</label></li>
+          <li><input type="checkbox" id="ow3"><label for="ow3">On the NECC match page, open the <strong>Colors</strong> menu (same area as Images). Find the <strong>opponent's color code</strong> and apply it in Stream Manager</label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Overwatch — Overlay & Dashboard Verification</div>
+        <ul class="checklist">
+          <!-- ADD/EDIT OW VERIFICATION STEPS HERE -->
+          <li><input type="checkbox" id="ow4"><label for="ow4">Adjust the score in Stream Manager and confirm the <strong>overlay responds correctly</strong></label></li>
+          <li><input type="checkbox" id="ow5"><label for="ow5">Verify <strong>maps and hero bans graphics</strong> are working correctly in the overlay</label></li>
+          <li><input type="checkbox" id="ow6"><label for="ow6"><strong>Clear</strong> any existing map picks and hero bans in the dashboard — start fresh</label></li>
+          <li><input type="checkbox" id="ow7"><label for="ow7"><strong>Reset the score</strong> to 0–0</label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">Overwatch — Lobby & Side Assignment</div>
+        <ul class="checklist">
+          <!-- ADD/EDIT OW LOBBY STEPS HERE -->
+          <li><input type="checkbox" id="ow8"><label for="ow8">Once the lobby is set up and team sides are assigned, verify that <strong>teams are on the correct side of the screen</strong> in the overlay — left/right must match the in-game layout</label></li>
+        </ul>
+      </div>
+
+    </div><!-- end #game-ow -->
+
+  </section>
+
+  <!-- CONNECTIONS REFERENCE -->
+  <section id="connections">
+    <h2>Connection Reference</h2>
+
+    <h3>Camera → Capture Card</h3>
+    <table>
+      <tr><th>Camera</th><th>Subject / Lens</th><th>Cam Link Pro Input</th><th>OBS Source Label</th></tr>
+      <tr><td>Camera 1</td><td>Blackmagic Micro Studio 4K G2 — wide shot of both casters (long adjustable lens)</td><td>HDMI 1</td><td><code>CAM LINK HDMI 1</code></td></tr>
+      <tr><td>Camera 2</td><td>Blackmagic Micro Studio 4K G2 — closeup of Caster 1/left (stubby prime lens)</td><td>HDMI 2</td><td><code>CAM LINK HDMI 2</code></td></tr>
+      <tr><td>Camera 3</td><td>Panasonic Lumix G — closeup of Caster 2/right (stubby prime lens)</td><td>HDMI 3</td><td><code>CAM LINK HDMI 3</code></td></tr>
+    </table>
+
+    <h3>HDMI Switcher</h3>
+    <table>
+      <tr><th>Port</th><th>Connected To</th></tr>
+      <tr><td>Input</td><td>Alienware m16 (casting laptop) — HDMI out</td></tr>
+      <tr><td>Output 1</td><td>Casting TV 1 — direct HDMI</td></tr>
+      <tr><td>Output 2</td><td>Casting TV 2 — direct HDMI</td></tr>
+    </table>
+
+    <h3>Thunderbolt Connection</h3>
+    <table>
+      <tr><th>End</th><th>Detail</th></tr>
+      <tr><td>Laptop side</td><td>USB-C port at the <strong>far end of the rear IO</strong> — furthest from the power adapter. Do not use the port adjacent to the power adapter, it is less reliable for Thunderbolt</td></tr>
+      <tr><td>Box side</td><td>Thunderbolt port on Sonnet eGFX Breakaway Box</td></tr>
+      <tr><td>Confirmation</td><td>Blue "S" indicator lights on the Breakaway Box when the laptop recognizes the Thunderbolt connection on boot</td></tr>
+    </table>
+    <div class="warn-note"><strong>⚠</strong> Ensure the cable is fully seated on both ends. A half-seated Thunderbolt cable is the most common cause of cameras not appearing.</div>
+
+    <h3>Power Strip — All 8 Plugs</h3>
+    <div class="power-strip">
+      <div class="plug filled"><span class="plug-icon">🔌</span>Thunderbolt<br>Breakaway Box</div>
+      <div class="plug filled"><span class="plug-icon">🔌</span>Camera 1<br>(Blackmagic)</div>
+      <div class="plug filled"><span class="plug-icon">🔌</span>Camera 2<br>(Blackmagic)</div>
+      <div class="plug filled"><span class="plug-icon">🔌</span>Camera 3<br>(Lumix)</div>
+      <div class="plug filled"><span class="plug-icon">🔌</span>GVM Light 1</div>
+      <div class="plug filled"><span class="plug-icon">🔌</span>GVM Light 2</div>
+      <div class="plug filled"><span class="plug-icon">🔌</span>HDMI Switcher</div>
+      <div class="plug filled"><span class="plug-icon">🔌</span>Casting Laptop</div>
+    </div>
+    <p style="font-size:0.82rem; color:#777;">If any slot is empty, something is not powered — identify what's missing before booting the laptop.</p>
+
+    <h3>Network</h3>
+    <table>
+      <tr><th>Scenario</th><th>Method</th></tr>
+      <tr><td>Normal operation</td><td>Wall port (behind panel) → laptop via USB-Ethernet adapter or direct</td></tr>
+      <tr><td>If OMT feed is unstable / laggy</td><td>Manually run a cable to the switch under OBS 1 in the studio</td></tr>
+    </table>
+  </section>
+
+  <!-- TROUBLESHOOTING -->
+  <section id="troubleshooting">
+    <h2>Troubleshooting</h2>
+    <p>Click any issue to expand. Work through steps in order.</p>
+
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:0 0 24px;">
+      <button class="filter-btn active" onclick="filterIssues('all', this)">All</button>
+      <button class="filter-btn" onclick="filterIssues('tag-cam', this)">📷 Camera</button>
+      <button class="filter-btn" onclick="filterIssues('tag-net', this)">🌐 Network</button>
+      <button class="filter-btn" onclick="filterIssues('tag-display', this)">📺 Display</button>
+      <button class="filter-btn" onclick="filterIssues('tag-audio', this)">🎙 Audio</button>
+      <button class="filter-btn" onclick="filterIssues('tag-hw', this)">🔌 Hardware</button>
+    </div>
+
+    <div class="issue-card" data-tag="tag-cam">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-cam">Camera</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <div class="warn-note"><strong>Key indicator:</strong> If the Elgato "No Input" message does <em>not</em> appear on a camera source, the Thunderbolt box is not communicating with the laptop — it's not an OBS input issue.</div>
+        <ol class="steps">
+          <li>Check that the Sonnet Breakaway Box has power (indicator light on).</li>
+          <li>Reseat the black Thunderbolt USB-C cable — ensure fully seated on <strong>both</strong> ends, using a <strong>rear</strong> USB-C port on the laptop.</li>
+          <li>Shut down the casting laptop completely, then restart it with the Thunderbolt box already connected and powered.</li>
+          <li>After reboot, open <strong>Elgato Capture Utility</strong>. If camera feeds appear there, the hardware connection is good — the problem is OBS input config. Proceed to step 5.</li>
+          <li>In OBS, for each camera source: right-click → <em>Properties</em> → verify Device is set to <code>CAM LINK HDMI 1</code> / <code>CAM LINK HDMI 2</code> / <code>CAM LINK HDMI 3</code> respectively.</li>
+          <li>If Elgato Capture Utility also shows no feeds, the Thunderbolt connection is still not established — repeat steps 1–3, checking the cable for damage.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-net">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🌐 Camera / OBS feed is laggy or dropping frames</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-net">Network</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <p>This is almost always a network throughput issue — the OMT stream is bandwidth-heavy.</p>
+        <ol class="steps">
+          <li>Check the current ethernet connection method (adapter vs. direct cable).</li>
+          <li>If using the USB-Ethernet adapter, try switching to a direct ethernet connection, or vice versa.</li>
+          <li>If still laggy, physically run a cable from the casting set to the <strong>switch under OBS 1</strong> in the studio for a more reliable path.</li>
+          <li>Confirm no other devices are saturating the network segment during the show.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-display">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">📺 Casting TVs not showing stream output</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-display">Display</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <ol class="steps">
+          <li>In OBS, right-click the <strong>OMT Source</strong> → <em>Open Source Projector</em>.</li>
+          <li>In the display selector, choose the TV monitor (not the laptop display).</li>
+          <li>If you accidentally selected the laptop display, press <kbd style="background:#111;border:1px solid #444;padding:1px 5px;border-radius:3px;font-family:monospace">ESC</kbd> immediately to undo without affecting the TVs.</li>
+          <li>Verify the HDMI cable from the laptop is going into the <strong>input</strong> of the HDMI switcher (not an output port).</li>
+          <li>Confirm the HDMI switcher is powered on and outputting to both TVs.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-audio">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🎙 Audio not reaching vMix / caster levels missing</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-audio">Audio</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <ol class="steps">
+          <li>Confirm the RODECaster Pro II was powered on <strong>before</strong> vMix was opened. If vMix launched first, close vMix, power cycle the RODECaster, then reopen vMix.</li>
+          <li>In vMix, verify the audio input device is set to the RODECaster USB interface.</li>
+          <li>Check XLR mic cables and ¼" return cables running through the loom — trace for any disconnected ends at the headset or board end.</li>
+          <li>On the RODECaster, confirm the caster channel faders are up and not muted.</li>
+          <li>If the RODECaster USB disconnects mid-show: unplug and replug the USB cable, then re-select the device in vMix audio settings.</li>
+          <li>Check that no channels are accidentally <strong>solo'd</strong> on the board — a solo'd channel will prevent you from hearing other sources in your producer headset.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-audio">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🎧 Caster only hearing audio in one ear</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-audio">Audio</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <p>This is almost always the ¼" headset return cable being slightly unseated — a known quirk of this connector type.</p>
+        <ol class="steps">
+          <li>Gently twist the ¼" cable at the headset connection point while the caster listens — rotate slowly until stereo is restored.</li>
+          <li>If twisting doesn't resolve it, fully unplug and firmly reseat the ¼" connector.</li>
+          <li>If the issue persists on one specific caster, try swapping their ¼" cable with the spare if available, to rule out a damaged cable.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-audio">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🔇 Can't hear something you should in producer headset</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-audio">Audio</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <ol class="steps">
+          <li>Check the RODECaster for any <strong>solo'd channels</strong> — when a channel is soloed, you only hear that channel. Unsolo everything and check again.</li>
+          <li>Confirm the channel for the source you're not hearing (casters, game audio, music) has its fader up and is not muted.</li>
+          <li>Verify game audio from Observer PCs is routing through vMix and being sent to the RODECaster mix.</li>
+          <li>Remember: the <strong>producer headset (3rd fader)</strong> is configured to never go to stream — if something is not on stream but you can hear it, that's expected behavior.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-net">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🖥 vMix not receiving OMT from casting set</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-net">Network</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <ol class="steps">
+          <li>Confirm OBS is running on the casting laptop and the OMT output is active (not just OBS being open).</li>
+          <li>Verify the casting laptop's network connection is live — check for a valid IP on the broadcast network.</li>
+          <li>On the Director PC in vMix, confirm the OMT input source IP/address matches the casting laptop's current IP.</li>
+          <li>If the IP has changed (e.g., DHCP reassignment), update the OMT source address in vMix accordingly.</li>
+          <li>If feed is present but degraded, follow network troubleshooting steps above (run cable to switch under OBS 1).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-hw">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🔌 A device has no power / power strip has a free plug</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-hw">Hardware</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <p>All 8 power strip slots must be filled before booting. A free plug means something is unpowered.</p>
+        <ol class="steps">
+          <li>Identify what is missing by checking against the full list: Breakaway Box · Cam 1 · Cam 2 · Cam 3 · GVM Light 1 · GVM Light 2 · HDMI Switcher · Casting Laptop.</li>
+          <li>Trace the missing device's power cable — it may have been forgotten during setup or come loose.</li>
+          <li>If the power strip itself appears dead, check that it is firmly plugged into the wall outlet inside the concealed panel and that the panel outlet has power.</li>
+          <li>Do not boot the laptop until all 8 slots are confirmed filled and all devices have power.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-display">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🎛 Stream Deck Mini not showing M / TB buttons in Companion Satellite</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-display">Control</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <ol class="steps">
+          <li>Confirm the USB extension cable is firmly seated at both the laptop and the Stream Deck Mini ends.</li>
+          <li>Check that <strong>Bitfocus Companion Satellite</strong> is running on the casting laptop — it must be open for the deck to receive its button layout.</li>
+          <li>If Companion Satellite is open but the deck is blank or showing wrong buttons, try closing and reopening Companion Satellite.</li>
+          <li>If the deck is still unresponsive, unplug the USB extension from the laptop, wait a few seconds, and replug. Companion Satellite should re-detect the device automatically.</li>
+          <li>If the issue persists, try plugging the Stream Deck Mini directly into a laptop USB port (bypassing the extension cable) to rule out a faulty extension.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-audio">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🎵 Music not playing on the MUSIC channel / Foobar2000 not routing</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-audio">Audio</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <ol class="steps">
+          <li>Check that <strong>Foobar2000</strong> is open and playing on the Director PC — it may not have been launched yet or may have stopped.</li>
+          <li>In Foobar2000, verify the output device is set to route to the RODECaster (check Preferences → Playback → Output).</li>
+          <li>On the RODECaster, confirm the <strong>MUSIC</strong> channel fader is up and not muted.</li>
+          <li>If Foobar2000 is running and routing correctly but the board shows no signal, power cycle the RODECaster and reopen vMix after it restarts.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-audio">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🎮 Game audio from Observer PCs not heard by casters or on stream</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-audio">Audio</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <ol class="steps">
+          <li>In OBS on the affected Observer PC, confirm the game capture source has audio enabled and is not muted in the OBS audio mixer.</li>
+          <li>Verify the Observer PC is transmitting OMT to vMix — if the video feed is also missing, resolve that first (see OMT troubleshooting).</li>
+          <li>In vMix on the Director PC, check the audio settings for that Observer's OMT input — confirm audio is enabled and its level is not zeroed.</li>
+          <li>Put that Observer feed on program and check the RODECaster for signal on the game audio channel. If vMix is sending it but the board isn't receiving it, check the USB connection between the Director PC and the RODECaster.</li>
+          <li>Confirm no solo button is engaged on the board that would mask the game audio channel in your monitor mix.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-audio">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">⏱ Game audio is delayed (often exactly 1 second)</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-audio">Audio</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <p>A consistent 1-second delay is a known OBS sync issue on observer PCs — a full reboot of OBS resolves it reliably.</p>
+        <ol class="steps">
+          <li>Identify which observer's feed has the delayed audio.</li>
+          <li>Fully close OBS on that observer PC and reopen it.</li>
+          <li>Confirm game capture and audio are transmitting again via OMT before putting that feed back on program.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="issue-card" data-tag="tag-audio">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">🔁 Game audio is echoing or doubled</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="issue-tag tag-audio">Audio</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="issue-body">
+        <p>This happens when both <strong>Desktop Audio</strong> and <strong>Game Capture</strong> are passing audio simultaneously in OBS — two slightly offset copies of the same source.</p>
+        <ol class="steps">
+          <li>On the affected observer PC, open the OBS audio mixer.</li>
+          <li>Find the <strong>Desktop Audio</strong> channel and mute it — only <strong>Game Capture</strong> audio should be active.</li>
+          <li>Confirm the echo is gone before returning that feed to program.</li>
+        </ol>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- TECH SPECS -->
+  <section id="techspecs">
+    <h2>Technical Specifications</h2>
+    <p style="margin-bottom:28px;">Full engineering documentation of the Purdue Esports broadcast system. Designed and implemented by <span class="placeholder-field">[Your Name]</span>, <span class="placeholder-field">[Year]</span>.</p>
+
+    <div class="specs-layout">
+
+      <!-- SIDEBAR NAV -->
+      <nav class="specs-nav">
+        <a href="#spec-architecture">Architecture</a>
+        <a href="#spec-signal">Signal Chain</a>
+        <a href="#spec-network">Network</a>
+        <a href="#spec-hardware">Hardware</a>
+        <a href="#spec-software">Software</a>
+        <a href="#spec-rationale">Design Rationale</a>
+      </nav>
+
+      <!-- MAIN CONTENT -->
+      <div>
+
+        <!-- 1. SYSTEM ARCHITECTURE -->
+        <div class="specs-section" id="spec-architecture">
+          <h3>1 — System Architecture</h3>
+          <p><span class="placeholder-field">[Write a 2–4 paragraph narrative here describing the overall system design. Cover: the split-location nature of the system, the portable ingest station concept, why the system was designed to be set up and torn down per show, and the overall philosophy behind the architecture. This is your engineering voice — speak to the problem you were solving and how the design addresses it.]</span></p>
+
+          <h4>System Topology</h4>
+          <p><span class="placeholder-field">[Describe how the two physical spaces relate — casting set as a satellite ingest node feeding the studio production hub over the local broadcast network. Note the asymmetric nature: casting set is output-only over OMT, studio is the mixing/switching/output endpoint.]</span></p>
+
+          <h4>Key Design Constraints</h4>
+          <table class="spec-table">
+            <tr><th>Constraint</th><th>Description</th></tr>
+            <tr><td>Budget</td><td>~$4,000 total for the entire system build, fall semester</td></tr>
+            <tr><td>No broadcast infrastructure</td><td>Zero purpose-built broadcast infrastructure anywhere in the facility — no routing, no dedicated cabling, no patch bays</td></tr>
+            <tr><td>Studio design limitations</td><td>Existing studio was not designed by broadcast engineers — a small box room with a 2-wide desk, not optimized for production workflow</td></tr>
+            <tr><td>Repurposed hardware</td><td>Observer laptops sourced from elsewhere in the organization; observer station is an IKEA table at the back of the studio</td></tr>
+            <tr><td>Multi-purpose casting space</td><td>Casting set occupies a shared room with no permanent install — full setup and teardown required for every show</td></tr>
+            <tr><td>Operator skill level</td><td>System must be operable by trained student staff without an engineering background on show day</td></tr>
+          </table>
+        </div>
+
+        <!-- 2. SIGNAL CHAIN -->
+        <div class="specs-section" id="spec-signal">
+          <h3>2 — Signal Chain</h3>
+
+          <h4>Camera Ingest (Casting Set)</h4>
+          <div class="signal-hop">
+            <div class="signal-hop-box">
+              <div class="sh-device">Cameras × 3</div>
+              <div class="sh-detail">
+                <span>Blackmagic × 2</span>
+                <span>Panasonic Lumix × 1</span>
+                <span class="placeholder-field">[sensor / output spec]</span>
+              </div>
+            </div>
+            <div class="signal-hop-arrow">→</div>
+            <div class="signal-hop-box">
+              <div class="sh-device">HDMI</div>
+              <div class="sh-detail">
+                <span><span class="placeholder-field">[HDMI version]</span></span>
+                <span><span class="placeholder-field">[resolution / fps]</span></span>
+                <span><span class="placeholder-field">[color space]</span></span>
+              </div>
+            </div>
+            <div class="signal-hop-arrow">→</div>
+            <div class="signal-hop-box">
+              <div class="sh-device">Cam Link Pro</div>
+              <div class="sh-detail">
+                <span>Elgato (in Breakaway Box)</span>
+                <span>Inputs: HDMI 1–3</span>
+                <span><span class="placeholder-field">[capture resolution]</span></span>
+              </div>
+            </div>
+            <div class="signal-hop-arrow">→</div>
+            <div class="signal-hop-box">
+              <div class="sh-device">Thunderbolt</div>
+              <div class="sh-detail">
+                <span>Sonnet eGFX</span>
+                <span><span class="placeholder-field">[TB gen / bandwidth]</span></span>
+              </div>
+            </div>
+            <div class="signal-hop-arrow">→</div>
+            <div class="signal-hop-box">
+              <div class="sh-device">OBS (Casting Laptop)</div>
+              <div class="sh-detail">
+                <span>4K tiled canvas</span>
+                <span><span class="placeholder-field">[canvas resolution]</span></span>
+                <span><span class="placeholder-field">[encoder / bitrate]</span></span>
+              </div>
+            </div>
+            <div class="signal-hop-arrow">→</div>
+            <div class="signal-hop-box">
+              <div class="sh-device">OMT → vMix</div>
+              <div class="sh-detail">
+                <span>Over LAN</span>
+                <span><span class="placeholder-field">[OMT bitrate]</span></span>
+                <span><span class="placeholder-field">[latency]</span></span>
+              </div>
+            </div>
+          </div>
+
+          <h4>Signal Chain Detail Table — Camera Path</h4>
+          <table class="spec-table">
+            <tr><th>Hop</th><th>Format</th><th>Protocol / Interface</th><th>Notes</th></tr>
+            <tr><td>Camera output</td><td><span class="placeholder-field">[e.g. 1080p60 4:2:2]</span></td><td>HDMI <span class="placeholder-field">[version]</span></td><td><span class="placeholder-field">[any relevant camera output settings]</span></td></tr>
+            <tr><td>Capture card input</td><td><span class="placeholder-field">[capture resolution]</span></td><td>Cam Link Pro HDMI 1–3</td><td>All 3 cameras ingested simultaneously via single PCIe card</td></tr>
+            <tr><td>Thunderbolt transfer</td><td>Raw capture data</td><td>Thunderbolt <span class="placeholder-field">[gen]</span></td><td>Requires far rear USB-C port; adjacent port insufficient bandwidth</td></tr>
+            <tr><td>OBS canvas</td><td><span class="placeholder-field">[e.g. 3840×2160]</span></td><td>Internal</td><td>3 cameras tiled into 4K quad; bottom-right quadrant unused</td></tr>
+            <tr><td>OMT output</td><td><span class="placeholder-field">[resolution / fps]</span></td><td>Open Media Transport / UDP</td><td><span class="placeholder-field">[target bitrate, any compression]</span></td></tr>
+            <tr><td>vMix input</td><td><span class="placeholder-field">[received resolution]</span></td><td>OMT</td><td>Single OMT source split into 3 camera inputs inside vMix</td></tr>
+          </table>
+
+          <h4>Observer Feed Path</h4>
+          <div class="signal-hop">
+            <div class="signal-hop-box">
+              <div class="sh-device">Observer PC</div>
+              <div class="sh-detail"><span>Game capture</span><span><span class="placeholder-field">[game res / fps]</span></span></div>
+            </div>
+            <div class="signal-hop-arrow">→</div>
+            <div class="signal-hop-box">
+              <div class="sh-device">OBS (Observer)</div>
+              <div class="sh-detail"><span><span class="placeholder-field">[canvas res]</span></span><span>1440p60 output</span></div>
+            </div>
+            <div class="signal-hop-arrow">→</div>
+            <div class="signal-hop-box">
+              <div class="sh-device">OMT → vMix</div>
+              <div class="sh-detail"><span>1440p60</span><span><span class="placeholder-field">[bitrate]</span></span></div>
+            </div>
+          </div>
+
+          <h4>Audio Path</h4>
+          <table class="spec-table">
+            <tr><th>Hop</th><th>Interface</th><th>Notes</th></tr>
+            <tr><td>Caster mic input</td><td>XLR → RODECaster Pro II</td><td>Caster 1 left, Caster 2 right when facing table from camera side</td></tr>
+            <tr><td>Caster monitor return</td><td>RODECaster → ¼" TRS</td><td>Per-caster mix; producer talkback on 3rd fader, stream-excluded</td></tr>
+            <tr><td>Board ↔ DAW</td><td>USB (RODECaster ↔ Director PC)</td><td><span class="placeholder-field">[USB audio class, sample rate, bit depth]</span></td></tr>
+            <tr><td>DAW processing</td><td>vMix internal</td><td><span class="placeholder-field">[any processing — compression, EQ, gate settings]</span></td></tr>
+            <tr><td>Stream output</td><td><span class="placeholder-field">[e.g. AAC 320kbps]</span></td><td>Mixed with game audio at output stage</td></tr>
+          </table>
+
+          <h4>Casting TV Monitor Path</h4>
+          <table class="spec-table">
+            <tr><th>Hop</th><th>Interface</th><th>Notes</th></tr>
+            <tr><td>OBS projector output</td><td>OMT Source → laptop display output</td><td>Projected via OBS Source Projector function</td></tr>
+            <tr><td>Laptop → switcher</td><td>HDMI out → HDMI Switcher input</td><td><span class="placeholder-field">[output resolution]</span></td></tr>
+            <tr><td>Switcher → TVs</td><td>HDMI × 2 (direct)</td><td>Both TVs receive identical signal simultaneously</td></tr>
+          </table>
+        </div>
+
+        <!-- 3. NETWORK -->
+        <div class="specs-section" id="spec-network">
+          <h3>3 — Network Topology</h3>
+
+          <h4>Overview</h4>
+          <p><span class="placeholder-field">[Describe the broadcast network — is it a dedicated VLAN, shared campus network, managed switch infrastructure? Describe the physical path from casting set to studio and how OMT traffic flows between them.]</span></p>
+
+          <h4>Network Configuration</h4>
+          <table class="spec-table">
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Network type</td><td><span class="placeholder-field">[e.g. Gigabit Ethernet / dedicated broadcast VLAN]</span></td></tr>
+            <tr><td>IP assignment</td><td><span class="placeholder-field">[DHCP / static — note the vMix OMT source IP dependency]</span></td></tr>
+            <tr><td>Primary switch</td><td><span class="placeholder-field">[location, model if known]</span></td></tr>
+            <tr><td>Casting set connection</td><td>Wall port → USB-to-Ethernet adapter (built-in NIC avoided — unreliable)</td></tr>
+            <tr><td>Fallback path</td><td>Direct cable run to switch under OBS 1 in studio</td></tr>
+            <tr><td>OMT bandwidth per stream (camera)</td><td><span class="placeholder-field">[Mbps]</span></td></tr>
+            <tr><td>OMT bandwidth per stream (observer)</td><td><span class="placeholder-field">[Mbps]</span></td></tr>
+            <tr><td>Total peak OMT bandwidth</td><td><span class="placeholder-field">[sum of all active OMT streams]</span></td></tr>
+          </table>
+
+          <h4>Why the Built-in NIC is Avoided</h4>
+          <p><span class="placeholder-field">[Describe the specific failure mode of the Alienware m16's built-in ethernet — intermittent drops, driver issues, or hardware fault. Note the USB-to-Ethernet adapter as the reliable workaround and why the fallback direct cable path exists.]</span></p>
+        </div>
+
+        <!-- 4. HARDWARE SPECS -->
+        <div class="specs-section" id="spec-hardware">
+          <h3>4 — Hardware Specifications</h3>
+
+          <h4>Cameras</h4>
+          <div class="device-grid">
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">Blackmagic Micro Studio Camera 4K G2</div>
+                <div class="device-role">Cam 1 (Wide) · Cam 2 (Closeup) — Casting Set</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>Sensor</td><td><span class="placeholder-field">[sensor size / type]</span></td></tr>
+                <tr><td>Max resolution</td><td><span class="placeholder-field">[e.g. 4K DCI]</span></td></tr>
+                <tr><td>Output used</td><td>HDMI — <span class="placeholder-field">[resolution / fps / color space]</span></td></tr>
+                <tr><td>Lens (Cam 1)</td><td>Long adjustable zoom lens</td></tr>
+                <tr><td>Lens (Cam 2)</td><td>Stubby prime lens</td></tr>
+                <tr><td>Power</td><td><span class="placeholder-field">[power input / consumption]</span></td></tr>
+              </table>
+            </div>
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">Panasonic Lumix G</div>
+                <div class="device-role">Cam 3 (Closeup) — Casting Set</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>Sensor</td><td><span class="placeholder-field">[sensor size / type]</span></td></tr>
+                <tr><td>Max resolution</td><td><span class="placeholder-field">[e.g. 1080p60]</span></td></tr>
+                <tr><td>Output used</td><td>HDMI — <span class="placeholder-field">[resolution / fps]</span></td></tr>
+                <tr><td>Lens</td><td>Stubby prime lens</td></tr>
+                <tr><td>Power</td><td><span class="placeholder-field">[power input]</span></td></tr>
+              </table>
+            </div>
+          </div>
+
+          <h4>Capture & Ingest</h4>
+          <div class="device-grid">
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">Elgato Cam Link Pro</div>
+                <div class="device-role">4-channel capture card — inside Breakaway Box</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>Interface</td><td>PCIe (via Thunderbolt eGPU enclosure)</td></tr>
+                <tr><td>Inputs</td><td>4× HDMI (3 used)</td></tr>
+                <tr><td>Max capture per channel</td><td><span class="placeholder-field">[e.g. 1080p60 4:2:0]</span></td></tr>
+                <tr><td>Simultaneous capture</td><td>All 4 channels independent</td></tr>
+                <tr><td>Driver</td><td>Elgato 4K Capture Utility</td></tr>
+              </table>
+            </div>
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">Sonnet eGFX Breakaway Box</div>
+                <div class="device-role">Thunderbolt PCIe enclosure — Casting Set</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>Interface</td><td>Thunderbolt <span class="placeholder-field">[gen]</span></td></tr>
+                <tr><td>PCIe slots</td><td><span class="placeholder-field">[slot count / bandwidth]</span></td></tr>
+                <tr><td>Power supply</td><td><span class="placeholder-field">[wattage]</span></td></tr>
+                <tr><td>Host connection</td><td>Far rear USB-C port on Alienware m16 (specific port required)</td></tr>
+                <tr><td>Status indicator</td><td>Blue "S" LED — confirms Thunderbolt link on host boot</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <h4>Compute</h4>
+          <div class="device-grid">
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">Alienware m16 R1</div>
+                <div class="device-role">Casting / Ingest Laptop — Casting Set</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>CPU</td><td><span class="placeholder-field">[model]</span></td></tr>
+                <tr><td>GPU</td><td><span class="placeholder-field">[model]</span></td></tr>
+                <tr><td>RAM</td><td><span class="placeholder-field">[capacity / speed]</span></td></tr>
+                <tr><td>Storage</td><td><span class="placeholder-field">[NVMe spec]</span></td></tr>
+                <tr><td>Thunderbolt</td><td><span class="placeholder-field">[gen]</span> — rear ports only; far port preferred</td></tr>
+                <tr><td>Built-in NIC</td><td>Present but unreliable — USB adapter used instead</td></tr>
+                <tr><td>OS</td><td><span class="placeholder-field">[Windows version]</span></td></tr>
+              </table>
+            </div>
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">Alienware Aurora R16</div>
+                <div class="device-role">Director PC — Production Studio</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>CPU</td><td>Intel Core i9-14900KF</td></tr>
+                <tr><td>GPU</td><td>NVIDIA GeForce RTX 4090</td></tr>
+                <tr><td>RAM</td><td>32GB DDR5</td></tr>
+                <tr><td>Storage</td><td><span class="placeholder-field">[NVMe spec]</span></td></tr>
+                <tr><td>NIC</td><td><span class="placeholder-field">[Gigabit / 2.5G]</span></td></tr>
+                <tr><td>OS</td><td><span class="placeholder-field">[Windows version]</span></td></tr>
+              </table>
+            </div>
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">Alienware Aurora R16</div>
+                <div class="device-role">Observer 1 — Production Studio</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>CPU</td><td>Intel Core i7-13700F</td></tr>
+                <tr><td>GPU</td><td>NVIDIA GeForce RTX 4070</td></tr>
+                <tr><td>RAM</td><td>16GB DDR5</td></tr>
+                <tr><td>Storage</td><td><span class="placeholder-field">[NVMe spec]</span></td></tr>
+                <tr><td>NIC</td><td><span class="placeholder-field">[Gigabit / 2.5G]</span></td></tr>
+                <tr><td>OS</td><td><span class="placeholder-field">[Windows version]</span></td></tr>
+              </table>
+            </div>
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">Alienware m16 R1</div>
+                <div class="device-role">Observers 2 & 3 — Production Studio (× 2)</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>CPU</td><td><span class="placeholder-field">[model]</span></td></tr>
+                <tr><td>GPU</td><td><span class="placeholder-field">[model]</span></td></tr>
+                <tr><td>RAM</td><td><span class="placeholder-field">[capacity / speed]</span></td></tr>
+                <tr><td>NIC</td><td><span class="placeholder-field">[spec]</span></td></tr>
+                <tr><td>OS</td><td><span class="placeholder-field">[Windows version]</span></td></tr>
+              </table>
+            </div>
+            <div class="device-card">
+              <div class="device-card-header">
+                <div class="device-name">RODECaster Pro II</div>
+                <div class="device-role">Audio mixer / interface — Production Studio</div>
+              </div>
+              <table class="spec-table">
+                <tr><td>Mic inputs</td><td><span class="placeholder-field">[count — XLR]</span></td></tr>
+                <tr><td>Headphone outputs</td><td><span class="placeholder-field">[count / impedance]</span></td></tr>
+                <tr><td>USB audio</td><td><span class="placeholder-field">[USB class, channels, sample rate]</span></td></tr>
+                <tr><td>Sample rate / bit depth</td><td><span class="placeholder-field">[e.g. 48kHz / 32-bit float]</span></td></tr>
+                <tr><td>Integration</td><td>USB audio interface to Director PC → vMix</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <h4>Control Surfaces</h4>
+          <table class="spec-table">
+            <tr><th>Device</th><th>Location</th><th>Role</th><th>Connection</th></tr>
+            <tr><td>Elgato Stream Deck XL</td><td>Director PC — Studio</td><td>Observer overlay selection, vMix scene control</td><td><span class="placeholder-field">[USB / software]</span></td></tr>
+            <tr><td>Elgato Stream Deck Mini</td><td>Caster table — Casting Set</td><td>Caster-facing controls (M / TB buttons)</td><td>USB extension → casting laptop → Bitfocus Companion Satellite</td></tr>
+          </table>
+        </div>
+
+        <!-- 5. SOFTWARE STACK -->
+        <div class="specs-section" id="spec-software">
+          <h3>5 — Software Stack</h3>
+          <table class="spec-table">
+            <tr><th>Application</th><th>Version</th><th>Host</th><th>Role</th><th>Key Config</th></tr>
+            <tr><td>vMix</td><td><span class="placeholder-field">[version]</span></td><td>Director PC</td><td>Production switcher, OMT receiver, audio mix, stream output</td><td><span class="placeholder-field">[resolution, framerate, stream settings]</span></td></tr>
+            <tr><td>OBS Studio</td><td><span class="placeholder-field">[version]</span></td><td>Casting laptop + all Observers</td><td>Camera tiling + OMT output (casting); game capture + OMT output (observers)</td><td>Casting: <span class="placeholder-field">[4K canvas, encoder, OMT bitrate]</span> · Observers: <span class="placeholder-field">[1440p60, encoder]</span></td></tr>
+            <tr><td>Open Media Transport</td><td><span class="placeholder-field">[version / spec]</span></td><td>All PCs</td><td>Low-latency video transport over LAN</td><td><span class="placeholder-field">[protocol details, port, any config]</span></td></tr>
+            <tr><td>Elgato 4K Capture Utility</td><td><span class="placeholder-field">[version]</span></td><td>Casting laptop</td><td>Cam Link Pro driver + verification tool</td><td>Used to confirm Thunderbolt link and camera feeds before OBS</td></tr>
+            <tr><td>Bitfocus Companion Satellite</td><td><span class="placeholder-field">[version]</span></td><td>Casting laptop</td><td>Stream Deck Mini button layout push to remote deck</td><td>Satellite mode connecting to Companion on Director PC</td></tr>
+            <tr><td>Bitfocus Companion</td><td><span class="placeholder-field">[version]</span></td><td>Director PC</td><td>Stream Deck XL control surface mapping</td><td><span class="placeholder-field">[page / button layout notes]</span></td></tr>
+            <tr><td>Spectra Client</td><td><span class="placeholder-field">[version]</span></td><td>Observer 1</td><td>Valorant observer overlay, map ban session, score management</td><td>OMT session ID piped to vMix via MapBanSessionID.txt</td></tr>
+            <tr><td>Foobar2000</td><td><span class="placeholder-field">[version]</span></td><td>Director PC</td><td>Pre/post-show music playback routed to RODECaster MUSIC channel</td><td>Output device: <span class="placeholder-field">[RODECaster USB channel]</span></td></tr>
+            <tr><td>Chrome</td><td>—</td><td>Director PC</td><td>Twitch Live Manager, NECC match pages, Spectra map ban session</td><td>Bookmarks: Team Links folder, Twitch Live Manager, Stream Manager (OW)</td></tr>
+          </table>
+        </div>
+
+        <!-- 6. DESIGN RATIONALE -->
+        <div class="specs-section" id="spec-rationale">
+          <h3>6 — Design Decisions & Rationale</h3>
+          <p style="margin-bottom:16px;"><span class="placeholder-field">[Optional intro sentence — e.g. "This system was designed from scratch in [year] to solve the challenge of producing broadcast-quality esports content from a shared, non-dedicated space with a student staff."]</span></p>
+
+          <div class="rationale-card">
+            <h4>OMT over NDI or SDI</h4>
+            <table class="spec-table" style="margin:8px 0 10px;">
+              <tr><td>Cost</td><td>No licensing cost; SDI would have required dedicated cabling infrastructure that doesn't exist</td></tr>
+              <tr><td>Infrastructure</td><td>Runs over existing campus LAN — the only viable transport given zero dedicated broadcast cabling</td></tr>
+              <tr><td>Integration</td><td>Native vMix support</td></tr>
+            </table>
+            <p><span class="placeholder-field">[Your prose here]</span></p>
+          </div>
+
+          <div class="rationale-card">
+            <h4>4K Tiled Canvas for Camera Ingest</h4>
+            <table class="spec-table" style="margin:8px 0 10px;">
+              <tr><td>Bandwidth</td><td>1 OMT stream instead of 3 — critical given shared network with no QoS</td></tr>
+              <tr><td>Tradeoff</td><td>Each camera occupies one quadrant of the 4K canvas, reducing effective per-camera resolution</td></tr>
+              <tr><td>vMix handling</td><td>Single OMT source is split back into 3 individual camera inputs inside vMix using crop</td></tr>
+            </table>
+            <p><span class="placeholder-field">[Your prose here]</span></p>
+          </div>
+
+          <div class="rationale-card">
+            <h4>Thunderbolt eGPU Enclosure for Portable Capture</h4>
+            <table class="spec-table" style="margin:8px 0 10px;">
+              <tr><td>Why PCIe</td><td>Cam Link Pro requires PCIe bandwidth for 3-channel simultaneous capture — not achievable over USB</td></tr>
+              <tr><td>Why portable</td><td>No permanent install possible in the casting set room; must pack in and out every show</td></tr>
+              <tr><td>Known quirk</td><td>Thunderbolt link only reliable on the far rear USB-C port of the Alienware m16 — adjacent port insufficient</td></tr>
+              <tr><td>Budget note</td><td>Sonnet + Cam Link Pro was the most cost-effective path to 3-channel PCIe capture without a dedicated tower</td></tr>
+            </table>
+            <p><span class="placeholder-field">[Your prose here]</span></p>
+          </div>
+
+          <div class="rationale-card">
+            <h4>RODECaster Pro II as the Audio Hub</h4>
+            <table class="spec-table" style="margin:8px 0 10px;">
+              <tr><td>Eliminates</td><td>Separate audio interface — RODECaster handles mixing and USB I/O to vMix in one unit</td></tr>
+              <tr><td>Producer isolation</td><td>3rd fader configured to never go to stream — talkback to casters only</td></tr>
+              <tr><td>Startup dependency</td><td>Must power on before vMix or USB audio device will not initialize correctly</td></tr>
+            </table>
+            <p><span class="placeholder-field">[Your prose here]</span></p>
+          </div>
+
+          <div class="rationale-card">
+            <h4>Bitfocus Companion Satellite for Remote Stream Deck</h4>
+            <table class="spec-table" style="margin:8px 0 10px;">
+              <tr><td>Why Satellite</td><td>Casting set and studio are in separate rooms — direct USB to Director PC not possible</td></tr>
+              <tr><td>How</td><td>Satellite runs on casting laptop, connects over LAN to Companion on Director PC, pushes button layout to Stream Deck Mini</td></tr>
+            </table>
+            <p><span class="placeholder-field">[Your prose here]</span></p>
+          </div>
+
+          <div class="rationale-card">
+            <h4>What I'd Change / Future Improvements</h4>
+            <p><span class="placeholder-field">[Your prose here]</span></p>
+          </div>
+        </div>
+
+      </div><!-- end specs content -->
+    </div><!-- end specs-layout -->
+  </section>
+
+</main>
+
+<script>
+  function filterIssues(tag, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.issue-card').forEach(card => {
+      if (tag === 'all' || card.dataset.tag === tag) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function showGame(id, btn) {
+    document.querySelectorAll('.game-panel').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.game-tab').forEach(b => b.classList.remove('active'));
+    const defaultCard = document.getElementById('game-default');
+    if (defaultCard) defaultCard.style.display = 'none';
+    const panel = document.getElementById('game-' + id);
+    if (panel) panel.style.display = 'block';
+    btn.classList.add('active');
+  }
+
+  function showSection(id, link) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    link.classList.add('active');
+    return false;
+  }
+
+  function toggleIssue(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.chevron');
+    body.classList.toggle('open');
+    chevron.classList.toggle('open');
+  }
+
+  function resetChecklist() {
+    document.querySelectorAll('.checklist input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+      cb.closest('li').classList.remove('checked');
+    });
+  }
+
+  document.querySelectorAll('.checklist input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      cb.closest('li').classList.toggle('checked', cb.checked);
+    });
+  });
+</script>
+</body>
+</html>
