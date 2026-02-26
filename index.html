@@ -488,17 +488,18 @@
 <body>
 
 <header>
-  <h1>Purdue Esports — Broadcast Operations Guide</h1>
-  <p>Casting Set · vMix / OMT System · Internal Reference</p>
+  <h1>Purdue Esports — Broadcast Documentation</h1>
+  <p>OPERATIONS AND TECH SPECS</p>
 </header>
 
 <nav>
   <a href="#" class="active" onclick="showSection('overview', this)">Overview</a>
-  <a href="#" onclick="showSection('setup', this)">Setup Checklist</a>
   <a href="#" onclick="showSection('connections', this)">Connections</a>
+  <a href="#" onclick="showSection('setup', this)">Operations</a>
   <a href="#" onclick="showSection('games', this)">Game Setup</a>
-  <a href="#" onclick="showSection('troubleshooting', this)">Troubleshooting</a>
   <a href="#" onclick="showSection('events', this)">Event Setup</a>
+  <a href="#" onclick="showSection('teardown', this)">Teardown</a>
+  <a href="#" onclick="showSection('troubleshooting', this)">Troubleshooting</a>
   <a href="#" onclick="showSection('techspecs', this)" style="display:none">Tech Specs</a>
 </nav>
 
@@ -587,15 +588,15 @@
 
   <!-- SETUP CHECKLIST -->
   <section id="setup">
-    <h2>Setup Checklist</h2>
-    <p>The checklist is split into two halves: <strong style="color:#eee">Casting Set</strong> and <strong style="color:#eee">Studio</strong>. With multiple people, both halves can be done simultaneously — you just can't run final A/V verification until everything is connected at both ends. Complete each group within its half in order, as sequence matters.</p>
-    <button class="reset-btn" onclick="resetChecklist()">↺ Reset Checklist</button>
+    <h2>Operations</h2>
+    <p>This tab covers setup from start to go-live: <strong style="color:#eee">Casting Set</strong>, <strong style="color:#eee">Studio</strong>, and <strong style="color:#eee">Pre-Game</strong> steps. The casting set and studio halves can be run simultaneously with multiple people — you just can't complete A/V verification until both ends are connected. Within each half, run groups in order as sequence matters.</p>
+
+    <h3 id="setup-casting" style="margin-top:28px; color: var(--gold); font-size:0.95rem;">— CASTING SET —</h3>
 
     <div class="warn-note">
       <strong>⚠ Critical startup rule:</strong> Do NOT power on the casting laptop until ALL physical connections are made — power, Thunderbolt, ethernet, HDMI, and USB. If the laptop boots before the Thunderbolt box is connected, the Cam Link Pro will not be recognized and you'll need to fully shut down and restart.
     </div>
 
-    <h3 id="setup-casting" style="margin-top:28px; color: var(--gold); font-size:0.95rem;">— CASTING SET —</h3>
 
     <!-- STEP 1 -->
     <div class="check-group">
@@ -726,17 +727,15 @@
       </ul>
     </div>
 
-    <div class="ok-note">
+    <div class="ok-note" style="margin-top:20px;">
       <strong>✔ Ready to go:</strong> All 8 power plugs filled · Blue S lit on Breakaway Box · All 3 cameras live in OBS (bottom-right tile blank) · Stream Deck Mini showing M + TB buttons · Casting TVs showing program feed · vMix receiving all sources · Caster levels at −10 to −15 dB · Both ears confirmed on all headsets
     </div>
 
     <h3 id="setup-pregame" style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— PRE-GAME (ALL TITLES) —</h3>
     <p style="font-size:0.88rem; color:#999;">These steps apply before every match regardless of game. Complete before moving to game-specific setup.</p>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 20px;">
-      <div class="warn-note" style="margin:0">
-        <strong>📋 Stream permission:</strong> Before going live, let the opponent know that <strong>APGL# accounts are for production</strong> and that the match will be streamed. Almost nobody objects — it's a formality, but do it every time.
-      </div>
+    <div class="warn-note">
+      <strong>📋 Stream permission:</strong> Before going live, let the opponent know that <strong>APGL# accounts are for production</strong> and that the match will be streamed. Almost nobody objects — it's a formality, but do it every time.
     </div>
 
     <!-- STEP 11 -->
@@ -762,14 +761,24 @@
       </ul>
     </div>
 
-    <h3 id="setup-teardown" style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— TEARDOWN —</h3>
+    <div style="margin:20px 0 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <button class="reset-btn" onclick="resetChecklist()">&#x21BA; Reset Checklist</button>
+      <button onclick="showSection('games', document.querySelector('nav a[onclick*=\'games\']'))" style="background:var(--gold); color:#000; border:none; border-radius:6px; padding:10px 28px; font-size:0.9rem; font-weight:700; cursor:pointer; letter-spacing:0.03em;">&rarr; Continue to Game Setup</button>
+    </div>
+
+  </section>
+
+  <!-- TEARDOWN -->
+  <section id="teardown">
+    <h2>Teardown</h2>
+    <p>Run these steps after every show. The casting set is a shared multi-purpose space — it must be fully restored before you leave.</p>
 
     <div class="warn-note" style="margin-bottom:20px;">
       <strong>🏠 Leave it better than you found it.</strong> Everything must go back exactly where it came from — table and chairs back to the center of the room, all equipment back to the studio. The casting set area must stay available for console gaming between shows.
     </div>
 
     <div class="check-group">
-      <div class="check-group-header">T1 — Disconnect from Wall & Return Keys</div>
+      <div class="check-group-header">T1 — Disconnect from Wall &amp; Return Keys</div>
       <ul class="checklist">
         <li><input type="checkbox" id="t1"><label for="t1">Unplug power strip from wall outlet (inside concealed panel)</label></li>
         <li><input type="checkbox" id="t2"><label for="t2">Unplug network cable from wall port</label></li>
@@ -790,19 +799,24 @@
     </div>
 
     <div class="check-group">
-      <div class="check-group-header">T3 — Audio Loom & Furniture</div>
+      <div class="check-group-header">T3 — Audio Loom &amp; Furniture</div>
       <ul class="checklist">
         <li><input type="checkbox" id="t10"><label for="t10">Disconnect caster headsets. <strong>Wrap the audio cable loom</strong> and tuck it between the seating cube and the wall next to the cable ramp</label></li>
         <li><input type="checkbox" id="t11"><label for="t11">Move the <strong>table and chairs back to the center of the room</strong></label></li>
       </ul>
     </div>
 
+    <div style="margin:20px 0 0; text-align:left;">
+      <button class="reset-btn" onclick="resetChecklist()">&#x21BA; Reset Checklist</button>
+    </div>
+
   </section>
+
 
   <!-- GAME SETUP -->
   <section id="games">
     <h2>Game-Specific Setup</h2>
-    <p>Complete the <a href="#" onclick="showSection('setup', document.querySelector('nav a:nth-child(2)'));return false;" style="color:var(--gold)">Setup Checklist</a> including all pre-game steps before starting game-specific setup.</p>
+    <p>Complete the <a href="#" onclick="showSection('setup', document.querySelector('nav a[onclick*=\'setup\']'));return false;" style="color:var(--gold)">Operations checklist</a> including all pre-game steps before starting game-specific setup.</p>
 
     <!-- GAME TABS -->
     <div style="display:flex; gap:8px; flex-wrap:wrap; margin:20px 0 24px;">
@@ -892,10 +906,6 @@
     <div id="game-rivals" class="game-panel" style="display:none">
       <div class="ok-note"><strong>🎮 Observer overlay:</strong> Use <strong>OVL OFF</strong> on the Stream Deck XL overlay row — the in-game overlay is sufficient for Rivals.</div>
 
-      <div class="ok-note">
-        <strong>🟢 Low overhead:</strong> Marvel Rivals has minimal production setup. The in-game overlay is self-sufficient — use <strong>OVL OFF</strong> on the Stream Deck XL observer overlay row.
-      </div>
-
       <div class="check-group">
         <div class="check-group-header">Marvel Rivals — Lobby Setup</div>
         <ul class="checklist">
@@ -911,8 +921,8 @@
     <div id="game-rocket" class="game-panel" style="display:none">
       <div class="ok-note"><strong>🎮 Observer overlay:</strong> Select the <strong>Rocket League</strong> button on the Stream Deck XL overlay row.</div>
 
-      <div style="background:#2d1f0e; border:1px solid #7a4a10; border-radius:8px; padding:14px 18px; margin-bottom:20px;">
-        <p style="margin:0; font-size:0.88rem; color:#e8c49a;"><strong style="color:var(--warn);">⚠ Deprecation Notice:</strong> BARL is being deprecated in April due to Rocket League adding Easy Anti-Cheat. A replacement system is TBD. Verify this workflow is still valid before each match.</p>
+      <div class="warn-note">
+        <strong>⚠ Deprecation Notice:</strong> BARL is being deprecated in April due to Rocket League adding Easy Anti-Cheat. A replacement system is TBD. Verify this workflow is still valid before each match.
       </div>
 
       <div class="check-group">
@@ -1004,6 +1014,10 @@
 
     </div><!-- end #game-ow -->
 
+    <div style="margin:32px 0 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <button class="reset-btn" onclick="resetChecklist()">&#x21BA; Reset Checklist</button>
+      <button onclick="goToTeardown()" style="background:var(--gold); color:#000; border:none; border-radius:6px; padding:10px 28px; font-size:0.9rem; font-weight:700; cursor:pointer; letter-spacing:0.03em;">&rarr; Continue to Teardown</button>
+    </div>
 
   </section>
 
@@ -1011,28 +1025,24 @@
   <!-- EVENT SETUP -->
   <section id="events">
     <h2>Event Setup</h2>
-    <p style="color:#999; font-size:0.9rem; margin-bottom:24px;">Workflows for special events that operate outside normal NECC match operations. Each event type is documented as a reusable template.</p>
+    <p>Workflows for special events that operate outside normal NECC match operations. Each event type is documented as a reusable template.</p>
 
     <!-- EVENT TABS -->
     <div style="display:flex; gap:8px; flex-wrap:wrap; margin:0 0 24px;">
-      <button class="game-tab" onclick="showEvent('fgc', this)">🥊 FGC Tournament</button>
+      <button class="game-tab active" onclick="showEvent('fgc', this)">🥊 FGC Tournament</button>
     </div>
 
     <!-- DEFAULT STATE -->
-    <div id="event-default" style="display:block; background:var(--mid); border:1px solid var(--border); border-radius:8px; padding:32px; text-align:center; color:#666;">
+    <div id="event-default" style="display:none; background:var(--mid); border:1px solid var(--border); border-radius:8px; padding:32px; text-align:center; color:#666;">
       <div style="font-size:2rem; margin-bottom:12px;">📋</div>
       <div style="font-size:0.95rem;">Select an event type above</div>
     </div>
 
     <!-- FGC TOURNAMENT -->
-    <div id="event-fgc" style="display:none">
+    <div id="event-fgc" style="display:block">
 
       <div class="warn-note">
         <strong>⚠ Different workflow:</strong> FGC events run two simultaneous streams and do not follow standard NECC match operations. No observer overlays. TSH handles player info and scoreboard data for both streams.
-      </div>
-
-      <div class="ok-note">
-        <strong>ℹ️ About Tournament Stream Helper (TSH):</strong> TSH is an open-source FGC streaming tool that connects to a start.gg tournament, pulls player names and character assets automatically, and serves HTML overlays consumed as browser sources. You update match info in TSH and all overlays update live across both streams simultaneously.
       </div>
 
       <!-- SCHEDULE -->
@@ -1056,8 +1066,12 @@
           </tr>
           <tr style="border-bottom:1px solid #2a2a2a;">
             <td style="padding:9px 16px; color:#aaa;">3:00 PM</td>
-            <td style="padding:9px 16px; color:#ccc;">Street Fighter 6 <span style="color:#666; font-size:0.75rem;">commentator dependent</span></td>
-            <td style="padding:9px 16px;"><span style="background:#1a1a2e; color:#7a8adc; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅐</span></td>
+            <td style="padding:9px 16px; color:#ccc;">Street Fighter 6 <span style="color:#666; font-size:0.75rem;">if commentators: shares A stream with Strive — otherwise B only</span></td>
+            <td style="padding:9px 16px;">
+              <span style="background:#1a1a2e; color:#7a8adc; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅐</span>
+              <span style="color:#555; font-size:0.75rem;">/</span>
+              <span style="background:#1a2a1a; color:#6aac6a; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅑</span>
+            </td>
           </tr>
           <tr style="border-bottom:1px solid #2a2a2a;">
             <td style="padding:9px 16px; color:#aaa;">5:00 PM</td>
@@ -1231,7 +1245,7 @@
         <ul class="checklist">
           <li><input type="checkbox" id="fgc12"><label for="fgc12">To change which lab setup is featured on either stream: go to <strong>R3PC1</strong>, change the OMT input in the appropriate OBS instance (left = A stream, right = B stream). No changes needed in vMix or Observer 1</label></li>
         </ul>
-        <div style="padding:0 16px 14px; font-size:0.83rem; color:#888; line-height:1.6;">From this point the FGC admins run both streams as they would at any of their own events. TSH handles all scoreboard updates &mdash; bracket, player names, characters, round labels, and scores.</div>
+        <div style="padding:0 16px 14px; font-size:0.83rem; color:#888; line-height:1.6;">From this point the FGC admins run both streams as they would at any of their own events. <strong style="color:#aaa;">TSH</strong> (Tournament Stream Helper) connects to the start.gg bracket and handles all scoreboard updates live — player names, characters, round labels, and scores — pushing to both stream overlays simultaneously. Broadcast staff do not need to operate TSH.</div>
       </div>
 
       <div class="check-group">
@@ -1243,6 +1257,11 @@
         </ul>
       </div>
 
+      <div style="margin:20px 0 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <button class="reset-btn" onclick="resetChecklist()">&#x21BA; Reset Checklist</button>
+        <button onclick="goToTeardown()" style="background:var(--gold); color:#000; border:none; border-radius:6px; padding:10px 28px; font-size:0.9rem; font-weight:700; cursor:pointer; letter-spacing:0.03em;">&rarr; Continue to Teardown</button>
+      </div>
+
     </div><!-- end #event-fgc -->
 
   </section>
@@ -1250,6 +1269,7 @@
   <!-- CONNECTIONS REFERENCE -->
   <section id="connections">
     <h2>Connection Reference</h2>
+    <p>Physical wiring reference for the casting set. Use this to verify connections during setup or trace a signal problem.</p>
 
     <h3>Camera → Capture Card</h3>
     <table>
@@ -1312,6 +1332,8 @@
     </div>
 
     <div class="issue-card" data-tag="tag-cam">
+      <div class="issue-header" onclick="toggleIssue(this)">
+        <span class="issue-title">📷 Cameras not appearing in OBS</span>
         <div style="display:flex;gap:8px;align-items:center">
           <span class="issue-tag tag-cam">Camera</span>
           <span class="chevron">▼</span>
@@ -2019,16 +2041,11 @@
 </main>
 
 <script>
-  function setHash(hash) {
-    try { history.replaceState(null, '', '#' + hash); } catch(e) {}
-  }
-
   function showSection(id, link) {
     document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     if (link) link.classList.add('active');
-    setHash(id);
     return false;
   }
 
@@ -2040,7 +2057,6 @@
     const panel = document.getElementById('game-' + id);
     if (panel) panel.style.display = 'block';
     if (btn) btn.classList.add('active');
-    setHash('games/' + id);
   }
 
   function showEvent(id, btn) {
@@ -2051,71 +2067,20 @@
     const panel = document.getElementById('event-' + id);
     if (panel) panel.style.display = 'block';
     if (btn) btn.classList.add('active');
-    setHash('events/' + id);
+    btn.setAttribute('data-event', id);
   }
 
   function navToSetup(anchor, link) {
     showSection('setup', link);
-    setHash('setup/' + anchor);
     const el = document.getElementById('setup-' + anchor);
     if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     return false;
   }
 
-  function navigateToHash(hash) {
-    const h = (hash || '').replace('#', '');
-    if (!h) { activateSection('overview'); return; }
-    const parts = h.split('/');
-    if (parts[0] === 'setup') {
-      activateSection('setup');
-      if (parts[1]) {
-        const el = document.getElementById('setup-' + parts[1]);
-        if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-      }
-    } else if (parts[0] === 'games') {
-      activateSection('games');
-      if (parts[1]) {
-        const tab = document.querySelector(`.game-tab[data-game="${parts[1]}"]`);
-        showGame(parts[1], tab);
-      }
-    } else if (parts[0] === 'events') {
-      activateSection('events');
-      if (parts[1]) {
-        const tab = document.querySelector(`.game-tab[data-event="${parts[1]}"]`);
-        showEvent(parts[1], tab);
-      }
-    } else {
-      activateSection(parts[0]) || activateSection('overview');
-    }
+  function goToTeardown() {
+    const link = document.querySelector('nav a[onclick*="teardown"]');
+    showSection('teardown', link);
   }
-
-  function activateSection(id) {
-    const el = document.getElementById(id);
-    if (!el) return false;
-    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-    el.classList.add('active');
-    const link = document.querySelector(`nav a[data-section="${id}"]`);
-    if (link) link.classList.add('active');
-    return true;
-  }
-
-  window.addEventListener('load', () => {
-    // Tag nav links and game tabs with data attributes for lookup
-    document.querySelectorAll('nav a').forEach(a => {
-      const m = (a.getAttribute('onclick') || '').match(/showSection\('(\w+)'/);
-      if (m) a.setAttribute('data-section', m[1]);
-    });
-    document.querySelectorAll('.game-tab').forEach(btn => {
-      const mg = (btn.getAttribute('onclick') || '').match(/showGame\('(\w+)'/);
-      if (mg) btn.setAttribute('data-game', mg[1]);
-      const me = (btn.getAttribute('onclick') || '').match(/showEvent\('(\w+)'/);
-      if (me) btn.setAttribute('data-event', me[1]);
-    });
-    navigateToHash(window.location.hash);
-  });
-
-  window.addEventListener('hashchange', () => navigateToHash(window.location.hash));
 
   function filterIssues(tag, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
