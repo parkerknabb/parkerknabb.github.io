@@ -498,6 +498,7 @@
   <a href="#" onclick="showSection('connections', this)">Connections</a>
   <a href="#" onclick="showSection('games', this)">Game Setup</a>
   <a href="#" onclick="showSection('troubleshooting', this)">Troubleshooting</a>
+  <a href="#" onclick="showSection('events', this)">Event Setup</a>
   <a href="#" onclick="showSection('techspecs', this)" style="display:none">Tech Specs</a>
 </nav>
 
@@ -594,7 +595,7 @@
       <strong>⚠ Critical startup rule:</strong> Do NOT power on the casting laptop until ALL physical connections are made — power, Thunderbolt, ethernet, HDMI, and USB. If the laptop boots before the Thunderbolt box is connected, the Cam Link Pro will not be recognized and you'll need to fully shut down and restart.
     </div>
 
-    <h3 style="margin-top:28px; color: var(--gold); font-size:0.95rem;">— CASTING SET —</h3>
+    <h3 id="setup-casting" style="margin-top:28px; color: var(--gold); font-size:0.95rem;">— CASTING SET —</h3>
 
     <!-- STEP 1 -->
     <div class="check-group">
@@ -677,7 +678,7 @@
       </ul>
     </div>
 
-    <h3 style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— PRODUCTION STUDIO —</h3>
+    <h3 id="setup-studio" style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— PRODUCTION STUDIO —</h3>
 
     <!-- STEP 7 -->
     <div class="check-group">
@@ -729,15 +730,12 @@
       <strong>✔ Ready to go:</strong> All 8 power plugs filled · Blue S lit on Breakaway Box · All 3 cameras live in OBS (bottom-right tile blank) · Stream Deck Mini showing M + TB buttons · Casting TVs showing program feed · vMix receiving all sources · Caster levels at −10 to −15 dB · Both ears confirmed on all headsets
     </div>
 
-    <h3 style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— PRE-GAME (ALL TITLES) —</h3>
+    <h3 id="setup-pregame" style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— PRE-GAME (ALL TITLES) —</h3>
     <p style="font-size:0.88rem; color:#999;">These steps apply before every match regardless of game. Complete before moving to game-specific setup.</p>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 20px;">
       <div class="warn-note" style="margin:0">
         <strong>📋 Stream permission:</strong> Before going live, let the opponent know that <strong>APGL# accounts are for production</strong> and that the match will be streamed. Almost nobody objects — it's a formality, but do it every time.
-      </div>
-      <div class="ok-note" style="margin:0">
-        <strong>🎮 Observer overlay (Stream Deck XL):</strong> There is a row of buttons for observer overlay selection. Set the correct one for today's title. All games except Marvel Rivals have a dedicated button — <strong>for Rivals, use OVL OFF</strong> (the in-game overlay is sufficient).
       </div>
     </div>
 
@@ -763,6 +761,42 @@
         <li><input type="checkbox" id="cg7"><label for="cg7">Set the <strong>game category</strong> on Twitch to match today's title</label></li>
       </ul>
     </div>
+
+    <h3 id="setup-teardown" style="margin-top:36px; color: var(--gold); font-size:0.95rem;">— TEARDOWN —</h3>
+
+    <div class="warn-note" style="margin-bottom:20px;">
+      <strong>🏠 Leave it better than you found it.</strong> Everything must go back exactly where it came from — table and chairs back to the center of the room, all equipment back to the studio. The casting set area must stay available for console gaming between shows.
+    </div>
+
+    <div class="check-group">
+      <div class="check-group-header">T1 — Disconnect from Wall & Return Keys</div>
+      <ul class="checklist">
+        <li><input type="checkbox" id="t1"><label for="t1">Unplug power strip from wall outlet (inside concealed panel)</label></li>
+        <li><input type="checkbox" id="t2"><label for="t2">Unplug network cable from wall port</label></li>
+        <li><input type="checkbox" id="t3"><label for="t3">Replace and lock the concealed panel</label></li>
+        <li><input type="checkbox" id="t4"><label for="t4">Return keys to desk worker and ask them to change lighting back to normal</label></li>
+      </ul>
+    </div>
+
+    <div class="check-group">
+      <div class="check-group-header">T2 — Unplug Receiving Ends Only</div>
+      <ul class="checklist">
+        <li><input type="checkbox" id="t5"><label for="t5"><strong>Cameras</strong> — unplug HDMI and power at the <strong>capture card / power strip end</strong>. Leave cables attached to cameras and let them hang from the tripod</label></li>
+        <li><input type="checkbox" id="t6"><label for="t6"><strong>Lights</strong> — unplug power at the <strong>power strip end</strong>. Leave cables attached to GVM lights and let them hang from the light stand</label></li>
+        <li><input type="checkbox" id="t7"><label for="t7"><strong>HDMI Switcher</strong> — unplug HDMI and power at the <strong>laptop / wall end</strong>. Leave cables connected to the switcher itself</label></li>
+        <li><input type="checkbox" id="t8"><label for="t8"><strong>Casting laptop</strong> — unplug USB ethernet adapter, USB extension cable, and power adapter. Leave the <strong>Thunderbolt cable connected on both ends</strong> — the laptop sits on top of the Breakaway Box for storage</label></li>
+        <li><input type="checkbox" id="t9"><label for="t9"><strong>Stream Deck Mini</strong> — unplug from USB extension cable at the caster table end</label></li>
+      </ul>
+    </div>
+
+    <div class="check-group">
+      <div class="check-group-header">T3 — Audio Loom & Furniture</div>
+      <ul class="checklist">
+        <li><input type="checkbox" id="t10"><label for="t10">Disconnect caster headsets. <strong>Wrap the audio cable loom</strong> and tuck it between the seating cube and the wall next to the cable ramp</label></li>
+        <li><input type="checkbox" id="t11"><label for="t11">Move the <strong>table and chairs back to the center of the room</strong></label></li>
+      </ul>
+    </div>
+
   </section>
 
   <!-- GAME SETUP -->
@@ -787,6 +821,7 @@
 
     <!-- VALORANT -->
     <div id="game-valorant" class="game-panel" style="display:none">
+      <div class="ok-note"><strong>🎮 Observer overlay:</strong> Select the <strong>Valorant</strong> button on the Stream Deck XL overlay row.</div>
 
       <div class="check-group">
         <div class="check-group-header">Valorant — Spectra Client Setup</div>
@@ -855,6 +890,7 @@
 
     <!-- MARVEL RIVALS -->
     <div id="game-rivals" class="game-panel" style="display:none">
+      <div class="ok-note"><strong>🎮 Observer overlay:</strong> Use <strong>OVL OFF</strong> on the Stream Deck XL overlay row — the in-game overlay is sufficient for Rivals.</div>
 
       <div class="ok-note">
         <strong>🟢 Low overhead:</strong> Marvel Rivals has minimal production setup. The in-game overlay is self-sufficient — use <strong>OVL OFF</strong> on the Stream Deck XL observer overlay row.
@@ -873,6 +909,7 @@
 
     <!-- ROCKET LEAGUE -->
     <div id="game-rocket" class="game-panel" style="display:none">
+      <div class="ok-note"><strong>🎮 Observer overlay:</strong> Select the <strong>Rocket League</strong> button on the Stream Deck XL overlay row.</div>
 
       <div style="background:#2d1f0e; border:1px solid #7a4a10; border-radius:8px; padding:14px 18px; margin-bottom:20px;">
         <p style="margin:0; font-size:0.88rem; color:#e8c49a;"><strong style="color:var(--warn);">⚠ Deprecation Notice:</strong> BARL is being deprecated in April due to Rocket League adding Easy Anti-Cheat. A replacement system is TBD. Verify this workflow is still valid before each match.</p>
@@ -909,6 +946,7 @@
 
     <!-- LEAGUE OF LEGENDS -->
     <div id="game-lol" class="game-panel" style="display:none">
+      <div class="ok-note"><strong>🎮 Observer overlay:</strong> Select the <strong>League of Legends</strong> button on the Stream Deck XL overlay row.</div>
 
       <div class="check-group">
         <div class="check-group-header">League of Legends — League Broadcast Setup</div>
@@ -933,6 +971,7 @@
 
     <!-- OVERWATCH -->
     <div id="game-ow" class="game-panel" style="display:none">
+      <div class="ok-note"><strong>🎮 Observer overlay:</strong> Select the <strong>Overwatch</strong> button on the Stream Deck XL overlay row.</div>
 
       <div class="check-group">
         <div class="check-group-header">Overwatch — Stream Manager Setup</div>
@@ -964,6 +1003,247 @@
       </div>
 
     </div><!-- end #game-ow -->
+
+
+  </section>
+
+
+  <!-- EVENT SETUP -->
+  <section id="events">
+    <h2>Event Setup</h2>
+    <p style="color:#999; font-size:0.9rem; margin-bottom:24px;">Workflows for special events that operate outside normal NECC match operations. Each event type is documented as a reusable template.</p>
+
+    <!-- EVENT TABS -->
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:0 0 24px;">
+      <button class="game-tab" onclick="showEvent('fgc', this)">🥊 FGC Tournament</button>
+    </div>
+
+    <!-- DEFAULT STATE -->
+    <div id="event-default" style="display:block; background:var(--mid); border:1px solid var(--border); border-radius:8px; padding:32px; text-align:center; color:#666;">
+      <div style="font-size:2rem; margin-bottom:12px;">📋</div>
+      <div style="font-size:0.95rem;">Select an event type above</div>
+    </div>
+
+    <!-- FGC TOURNAMENT -->
+    <div id="event-fgc" style="display:none">
+
+      <div class="warn-note">
+        <strong>⚠ Different workflow:</strong> FGC events run two simultaneous streams and do not follow standard NECC match operations. No observer overlays. TSH handles player info and scoreboard data for both streams.
+      </div>
+
+      <div class="ok-note">
+        <strong>ℹ️ About Tournament Stream Helper (TSH):</strong> TSH is an open-source FGC streaming tool that connects to a start.gg tournament, pulls player names and character assets automatically, and serves HTML overlays consumed as browser sources. You update match info in TSH and all overlays update live across both streams simultaneously.
+      </div>
+
+      <!-- SCHEDULE -->
+      <div style="background:var(--mid); border:1px solid var(--border); border-radius:8px; margin-bottom:24px; overflow:hidden;">
+        <div style="background:#222; padding:10px 16px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--gold); font-weight:700;">Event Schedule</div>
+        <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+          <tr>
+            <th style="background:#111; color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; padding:7px 16px; text-align:left; font-weight:600; width:90px;">Time</th>
+            <th style="background:#111; color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; padding:7px 16px; text-align:left; font-weight:600;">Game</th>
+            <th style="background:#111; color:#888; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; padding:7px 16px; text-align:left; font-weight:600; width:120px;">Stream</th>
+          </tr>
+          <tr style="border-bottom:1px solid #333; background:#1a1a1a;">
+            <td style="padding:9px 16px; color:#eee; font-weight:600;">2:00 PM</td>
+            <td style="padding:9px 16px; color:#eee; font-weight:600;">🚪 Doors Open</td>
+            <td style="padding:9px 16px;"></td>
+          </tr>
+          <tr style="border-bottom:1px solid #2a2a2a;">
+            <td style="padding:9px 16px; color:#aaa;">3:00 PM</td>
+            <td style="padding:9px 16px; color:#ccc;">Guilty Gear Strive <span style="color:#6aac6a; font-size:0.75rem; font-weight:600;">✓ guaranteed</span></td>
+            <td style="padding:9px 16px;"><span style="background:#1a1a2e; color:#7a8adc; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅐</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #2a2a2a;">
+            <td style="padding:9px 16px; color:#aaa;">3:00 PM</td>
+            <td style="padding:9px 16px; color:#ccc;">Street Fighter 6 <span style="color:#666; font-size:0.75rem;">commentator dependent</span></td>
+            <td style="padding:9px 16px;"><span style="background:#1a1a2e; color:#7a8adc; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅐</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #2a2a2a;">
+            <td style="padding:9px 16px; color:#aaa;">5:00 PM</td>
+            <td style="padding:9px 16px; color:#ccc;">Tekken 8 <span style="color:#6aac6a; font-size:0.75rem; font-weight:600;">✓ guaranteed</span></td>
+            <td style="padding:9px 16px;"><span style="background:#1a1a2e; color:#7a8adc; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅐</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #2a2a2a;">
+            <td style="padding:9px 16px; color:#aaa;">5:00 PM</td>
+            <td style="padding:9px 16px; color:#ccc;">Street Fighter III: 3rd Strike</td>
+            <td style="padding:9px 16px;"><span style="background:#1a2a1a; color:#6aac6a; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅑</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #2a2a2a;">
+            <td style="padding:9px 16px; color:#aaa;">6:30 PM</td>
+            <td style="padding:9px 16px; color:#ccc;">2XKO <span style="color:#666; font-size:0.75rem;">commentator dependent, unlikely</span></td>
+            <td style="padding:9px 16px;"><span style="background:#1a1a2e; color:#7a8adc; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅐</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #2a2a2a;">
+            <td style="padding:9px 16px; color:#aaa;">6:30 PM</td>
+            <td style="padding:9px 16px; color:#ccc;">Skullgirls: 2nd Encore</td>
+            <td style="padding:9px 16px;"><span style="background:#1a2a1a; color:#6aac6a; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅑</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #333; background:#1c1800;">
+            <td style="padding:9px 16px; color:#c8a040; font-weight:600;">~8:00 PM</td>
+            <td style="padding:9px 16px; color:#c8a040; font-weight:600;">Casting set teardown — broadcast staff leave, FGC admins take over fully</td>
+            <td style="padding:9px 16px;"><span style="background:#1a2a1a; color:#6aac6a; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅑 ×2</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #2a2a2a;">
+            <td style="padding:9px 16px; color:#aaa;">8:00 PM</td>
+            <td style="padding:9px 16px; color:#ccc;">Fatal Fury: City of the Wolves <span style="color:#666; font-size:0.8rem;">*</span></td>
+            <td style="padding:9px 16px;"><span style="background:#1a2a1a; color:#6aac6a; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅑</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #2a2a2a;">
+            <td style="padding:9px 16px; color:#aaa;">8:00 PM</td>
+            <td style="padding:9px 16px; color:#ccc;">Them&#39;s Fightin&#39; Herds <span style="color:#666; font-size:0.8rem;">*</span></td>
+            <td style="padding:9px 16px;"><span style="background:#1a2a1a; color:#6aac6a; border-radius:3px; padding:2px 8px; font-size:0.75rem; font-weight:700;">🅑</span></td>
+          </tr>
+          <tr style="background:#1a1a1a;">
+            <td style="padding:9px 16px; color:#eee; font-weight:600;">10:00 PM</td>
+            <td style="padding:9px 16px; color:#eee; font-weight:600;">🚪 Doors Close</td>
+            <td style="padding:9px 16px;"></td>
+          </tr>
+        </table>
+        <div style="padding:6px 16px 10px; font-size:0.75rem; color:#555;">* Tentative</div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:0 0 24px;">
+        <div style="background:#1a1a2e; border:1px solid #3a3a6e; border-radius:8px; padding:14px 16px;">
+          <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:#7a8adc; margin-bottom:8px; font-weight:700;">&#x24B6; Stream &mdash; Broadcast Staff</div>
+          <div style="font-size:0.85rem; color:#ccc; line-height:1.7;">
+            With commentators on casting set when available<br>
+            <strong>Tool:</strong> vMix on Director PC + TSH<br>
+            <strong>Video in:</strong> Casting desk cameras + R3PC1 &ldquo;To A Stream&rdquo; OMT<br>
+            <strong>Twitch:</strong> <a href="https://twitch.tv/PurdueEsports" target="_blank" style="color:#7a8adc;">ttv/PurdueEsports</a> &amp; <a href="https://youtube.com/@PurdueEsports" target="_blank" style="color:#7a8adc;">YouTube</a><br>
+            <strong>Guaranteed:</strong> Strive, Tekken 8<br>
+            <strong>If commentators available:</strong> others TBD<br>
+            <span style="color:#c8a040; font-size:0.82rem; font-weight:600;">Broadcast staff leave after casting set teardown ~8PM</span>
+          </div>
+        </div>
+        <div style="background:#1a2a1a; border:1px solid #3a5e3a; border-radius:8px; padding:14px 16px;">
+          <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:#6aac6a; margin-bottom:8px; font-weight:700;">&#x24B7; Stream &mdash; FGC Admins</div>
+          <div style="font-size:0.85rem; color:#ccc; line-height:1.7;">
+            Same stream, no casting set — FGC admins run this independently<br>
+            <strong>Tool:</strong> OBS on Observer 1 + TSH<br>
+            <strong>Video in:</strong> R3PC1 &ldquo;To B Stream&rdquo; OMT<br>
+            <strong>Twitch:</strong> <a href="https://twitch.tv/purdue_fgc" target="_blank" style="color:#6aac6a;">ttv/purdue_fgc</a><br>
+            <strong>Stream key:</strong> Get from FGC admins before event<br>
+            <span style="color:#888; font-size:0.82rem;">FGC admins run this stream &mdash; know TSH, not our prod setup</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEO ROUTING ARCHITECTURE -->
+      <div style="background:var(--mid); border:1px solid var(--border); border-radius:8px; margin-bottom:24px; padding:16px 18px;">
+        <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--gold); font-weight:700; margin-bottom:12px;">Video Routing Architecture</div>
+        <p style="font-size:0.85rem; color:#bbb; margin:0 0 14px; line-height:1.6;">The system can pull video from <strong>any of the 14 PCs in the main lab</strong> and route it to either stream. <strong>R3PC1</strong> (front-right corner of the lab) is the video router. It has two network adapters: one on the lab network and one with a cable running around the corner to the broadcast network &mdash; bridging an otherwise segmented gap.</p>
+        <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:center; margin-bottom:12px;">
+          <div style="background:#111; border:1px solid #2a2a2a; border-radius:6px; padding:10px 14px; font-size:0.82rem; color:#ccc; line-height:1.7;">
+            <div style="color:#666; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:5px;">14 Lab PCs</div>
+            OBS running on each<br>
+            OMT output enabled + audio on<br>
+            Identified by <strong>hostname</strong><br>
+            &darr; lab network
+          </div>
+          <div style="text-align:center; padding:0 12px; color:#444; font-size:1.2rem;">&rarr;</div>
+          <div style="background:#111; border:1px solid #444; border-radius:6px; padding:10px 14px; font-size:0.82rem; color:#ccc; line-height:1.7;">
+            <div style="color:var(--gold); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:5px;">R3PC1 &mdash; Video Router</div>
+            2 OBS instances, side-by-side<br>
+            Left &rarr; <strong>OMT &ldquo;To A Stream&rdquo;</strong><br>
+            Right &rarr; <strong>OMT &ldquo;To B Stream&rdquo;</strong><br>
+            USB ethernet &rarr; broadcast network
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.82rem;">
+          <div style="background:#1a1a2e; border:1px solid #3a3a6e; border-radius:5px; padding:8px 12px; color:#aaa; line-height:1.5;">
+            &ldquo;To A Stream&rdquo; &rarr; vMix on Director PC
+          </div>
+          <div style="background:#1a2a1a; border:1px solid #3a5e3a; border-radius:5px; padding:8px 12px; color:#aaa; line-height:1.5;">
+            &ldquo;To B Stream&rdquo; &rarr; OBS on Observer 1
+          </div>
+        </div>
+        <div style="margin-top:10px; font-size:0.83rem; color:#aaa; background:#1a1a1a; border-left:3px solid var(--gold); border-radius:0 5px 5px 0; padding:9px 13px;">
+          <strong style="color:#eee;">To switch which setup is on stream:</strong> Go to R3PC1, change the OMT input in the appropriate OBS instance. No changes needed in vMix or on Observer 1.
+        </div>
+      </div>
+
+      <!-- FIRST TIME SETUP (collapsed by default, for reference only) -->
+      <div style="background:#111; border:1px solid #333; border-radius:8px; margin-bottom:20px; overflow:hidden;">
+        <div onclick="this.nextElementSibling.classList.toggle('open'); this.querySelector('.chevron').classList.toggle('open')"
+             style="padding:12px 16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:#666; font-weight:700;">&#x1F527; First-Time Setup &mdash; For Reference Only (done by broadcast engineer)</span>
+          <span class="chevron" style="color:#555; font-size:0.8rem;">&#x25BC;</span>
+        </div>
+        <div class="issue-body" style="border-top:1px solid #222;">
+          <p style="color:#777; font-size:0.85rem; margin-bottom:14px;">One-time implementation steps. Staff do not need to perform these.</p>
+
+          <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:8px;">TSH Installation &amp; Tournament Config</p>
+          <ol class="steps">
+            <li>Download and install <strong>Tournament Stream Helper</strong> on the Director PC from <a href="https://github.com/joaorb64/TournamentStreamHelper" target="_blank" style="color:var(--gold)">github.com/joaorb64/TournamentStreamHelper</a></li>
+            <li>Launch TSH, click <strong>Set Tournament</strong>, paste the start.gg event URL (must include <code>/event/</code> in the path)</li>
+            <li>Verify the correct game is selected in TSH settings &mdash; right character roster and overlay assets</li>
+          </ol>
+
+          <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">R3PC1 &mdash; Video Router Setup</p>
+          <ol class="steps">
+            <li>Install OBS on R3PC1 if not already present. Verify both network adapters are active: one on the lab network, one connected via USB ethernet to the broadcast network with the cable running around the corner</li>
+            <li>Configure two OBS instances to launch side-by-side. In each: Tools &rarr; OMT Output Settings. Name left instance <strong>"To A Stream"</strong>, right instance <strong>"To B Stream"</strong></li>
+            <li>In each OBS instance, add OMT sources for each lab PC &mdash; they appear by hostname. Ensure audio is enabled on each source</li>
+            <li>Verify R3PC1 OMT outputs appear as sources in vMix (A stream) and Observer 1 OBS (B stream) on the broadcast network</li>
+          </ol>
+
+          <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">&#x24B6; Stream &mdash; vMix Browser Sources</p>
+          <ol class="steps">
+            <li>Create the event vMix file as a copy of the NECC file &mdash; update scenes and layouts for FGC format</li>
+            <li>Add the R3PC1 "To A Stream" OMT as a source in vMix alongside casting desk cameras</li>
+            <li>For each TSH overlay (scoreboard, commentator bar, VS screen, etc.), add a <strong>Web Browser input</strong> in vMix: <code>file:///</code> path &rarr; TSH install folder &rarr; <code>layout\</code> &rarr; subfolder &rarr; HTML file. Resolution: <strong>1920&times;1080</strong></li>
+            <li>Configure vMix to stream to Twitch (ttv/PurdueEsports) and YouTube (@PurdueEsports) simultaneously</li>
+          </ol>
+
+          <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">&#x24B7; Stream &mdash; OBS on Observer 1</p>
+          <ol class="steps">
+            <li>On Observer 1: open OBS, add the R3PC1 "To B Stream" OMT as a source</li>
+            <li>Add TSH overlay browser sources &mdash; same <code>layout\</code> path structure as A stream. Resolution: <strong>1920&times;1080</strong></li>
+            <li>Configure OBS stream output to <strong>ttv/purdue_fgc</strong> using the stream key from FGC admins</li>
+            <li>Test that B stream goes live independently of A stream</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- OPERATIONS (the main audience) -->
+      <h3 style="font-size:0.85rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.05em; margin:0 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border);">— Event Day Operations —</h3>
+
+      <div class="check-group">
+        <div class="check-group-header">Pre-Event Setup</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="fgc1"><label for="fgc1">Have the <strong>esports admin put all PCs in admin mode</strong> before you begin setup</label></li>
+          <li><input type="checkbox" id="fgc2"><label for="fgc2">Confirm the <strong>B stream key</strong> is saved in OBS on Observer 1 &mdash; get from FGC admins if not</label></li>
+          <li><input type="checkbox" id="fgc3"><label for="fgc3">On <strong>R3PC1</strong>: confirm the USB ethernet adapter and cable running to the broadcast network are plugged in</label></li>
+          <li><input type="checkbox" id="fgc4"><label for="fgc4">On <strong>R3PC1</strong>: run two OBS instances side-by-side. In each: Tools &rarr; OMT Output Settings. Verify left instance is named <strong>"To A Stream"</strong> and right is <strong>"To B Stream"</strong></label></li>
+          <li><input type="checkbox" id="fgc5"><label for="fgc5">On <strong>all 14 lab PCs</strong>: run OBS and confirm OMT output is enabled with audio transmitting. Names don&rsquo;t matter &mdash; they&rsquo;re identified by hostname</label></li>
+          <li><input type="checkbox" id="fgc6"><label for="fgc6">On <strong>R3PC1</strong>: open the OMT source properties in each OBS instance and verify all 14 lab PCs appear in the source list. If any are missing, close the Properties dialog and re-open to refresh the list</label></li>
+          <li><input type="checkbox" id="fgc7"><label for="fgc7">On <strong>Director PC</strong>: open the event vMix file &mdash; confirm R3PC1 "To A Stream" OMT and all TSH browser sources are loading</label></li>
+          <li><input type="checkbox" id="fgc8"><label for="fgc8">On <strong>Observer 1</strong>: open OBS and confirm R3PC1 "To B Stream" OMT is coming in correctly</label></li>
+          <li><input type="checkbox" id="fgc9"><label for="fgc9">On <strong>Director PC</strong>: launch <strong>TSH</strong> and confirm bracket data is loaded for today&rsquo;s event</label></li>
+          <li><input type="checkbox" id="fgc10"><label for="fgc10"><strong>Brief the FGC admins</strong> on the R3PC1 video routing and Observer 1 OBS workflow &mdash; they know TSH well but not our production setup</label></li>
+          <li><input type="checkbox" id="fgc11"><label for="fgc11">Go live &mdash; confirm A stream on <strong>ttv/PurdueEsports + YouTube</strong>, B stream on <strong>ttv/purdue_fgc</strong></label></li>
+        </ul>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">During the Event &mdash; Switching Setups</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="fgc12"><label for="fgc12">To change which lab setup is featured on either stream: go to <strong>R3PC1</strong>, change the OMT input in the appropriate OBS instance (left = A stream, right = B stream). No changes needed in vMix or Observer 1</label></li>
+        </ul>
+        <div style="padding:0 16px 14px; font-size:0.83rem; color:#888; line-height:1.6;">From this point the FGC admins run both streams as they would at any of their own events. TSH handles all scoreboard updates &mdash; bracket, player names, characters, round labels, and scores.</div>
+      </div>
+
+      <div class="check-group">
+        <div class="check-group-header">~8:00 PM &mdash; Casting Set Teardown &amp; Handoff</div>
+        <ul class="checklist">
+          <li><input type="checkbox" id="fgc13"><label for="fgc13">Run the standard <strong>casting set teardown checklist</strong> — the stream stays live throughout, the casting set simply stops being used</label></li>
+          <li><input type="checkbox" id="fgc14"><label for="fgc14">Confirm FGC admins have everything they need and both streams are stable before broadcast staff leave</label></li>
+          <li><input type="checkbox" id="fgc15"><label for="fgc15">Broadcast staff are clear to leave — FGC admins run the event independently through 10:00 PM close</label></li>
+        </ul>
+      </div>
+
+    </div><!-- end #event-fgc -->
 
   </section>
 
@@ -1291,6 +1571,7 @@
         <a href="#spec-hardware">Hardware</a>
         <a href="#spec-software">Software</a>
         <a href="#spec-rationale">Design Rationale</a>
+        <a href="#spec-event-routing">Event Video Routing</a>
       </nav>
 
       <!-- MAIN CONTENT -->
@@ -1673,22 +1954,82 @@
         </div>
 
       </div><!-- end specs content -->
+
+        <!-- 7. EVENT VIDEO ROUTING -->
+        <div class="specs-section" id="spec-event-routing">
+          <h3>7 — Event Video Routing ("Poor Man's VideoHub")</h3>
+          <p style="color:#bbb; font-size:0.9rem; line-height:1.6; margin-bottom:20px;">For large events using the main esports lab, a software-defined video routing layer allows any of the 14 lab PCs to be fed to either broadcast stream on demand — without dedicated routing hardware. It's a functional approximation of a hardware video router (like a Blackmagic VideoHub) built entirely from OBS, OMT, and a dual-NIC bridge machine.</p>
+
+          <h4>The Problem</h4>
+          <p><span class="placeholder-field">[Your prose here — the core challenge: the lab network and broadcast network are segmented, hardware routing doesn't exist, but we need to pull game captures from arbitrary lab stations into a live production without rewiring anything.]</span></p>
+
+          <h4>System Design</h4>
+          <table class="spec-table">
+            <tr><th>Component</th><th>Role</th><th>Detail</th></tr>
+            <tr><td>14 lab PCs</td><td>Video sources</td><td>OBS running on each with OMT output enabled and audio active. Identified in the router by hostname — no manual labeling required</td></tr>
+            <tr><td>R3PC1</td><td>Video router / bridge</td><td>Front-right corner of lab. Dual NIC: one adapter on the lab network (sees all 14 PCs), one USB ethernet adapter with a cable running around the corner to the broadcast network. Two OBS instances run side-by-side, each with an OMT output named "To A Stream" and "To B Stream"</td></tr>
+            <tr><td>Director PC (vMix)</td><td>A stream destination</td><td>Receives R3PC1 "To A Stream" OMT over broadcast network. Mixed alongside casting desk cameras in vMix</td></tr>
+            <tr><td>Observer 1 (OBS)</td><td>B stream destination</td><td>Receives R3PC1 "To B Stream" OMT over broadcast network. Mixed with TSH overlays and streamed to ttv/purdue_fgc</td></tr>
+          </table>
+
+          <h4>Signal Flow</h4>
+          <div class="signal-flow" style="margin:16px 0;">
+            <div class="sf-box"><div class="label">Sources</div><div class="name">14 Lab PCs<br><small style="color:#777;">OBS + OMT out</small></div></div>
+            <div class="sf-arrow">→</div>
+            <div class="sf-box" style="border-color:var(--gold);"><div class="label" style="color:var(--gold);">Router</div><div class="name">R3PC1<br><small style="color:#777;">dual NIC bridge</small></div></div>
+            <div class="sf-arrow">→</div>
+            <div class="sf-box" style="border-color:#7a8adc;"><div class="label" style="color:#7a8adc;">A Stream</div><div class="name">vMix<br><small style="color:#777;">"To A Stream"</small></div></div>
+          </div>
+          <div class="signal-flow" style="margin:0 0 20px; padding-left: calc(2 * (120px + 40px + 16px));">
+            <div class="sf-arrow" style="transform:rotate(90deg); margin:0 8px;">↓</div>
+            <div class="sf-box" style="border-color:#6aac6a;"><div class="label" style="color:#6aac6a;">B Stream</div><div class="name">OBS Obs. 1<br><small style="color:#777;">"To B Stream"</small></div></div>
+          </div>
+
+          <h4>Switching Sources</h4>
+          <p style="color:#bbb; font-size:0.88rem; line-height:1.6; margin-bottom:16px;">To change which station is featured on either stream, an operator goes to R3PC1 and changes the OMT input in the appropriate OBS instance. The left OBS feeds A stream, the right feeds B stream. No changes are needed in vMix, Observer 1, or TSH — the router is the only point of control.</p>
+
+          <h4>Network Topology</h4>
+          <table class="spec-table">
+            <tr><th>Segment</th><th>Devices</th><th>Transport</th></tr>
+            <tr><td>Lab network</td><td>14 lab PCs → R3PC1 (lab NIC)</td><td>OMT over LAN</td></tr>
+            <tr><td>Broadcast network</td><td>R3PC1 (USB NIC) → Director PC, Observer 1</td><td>OMT over LAN</td></tr>
+            <tr><td>Bridge</td><td>R3PC1 internal</td><td>Two OBS instances; lab-side receives, broadcast-side transmits</td></tr>
+          </table>
+
+          <h4>Constraints &amp; Tradeoffs</h4>
+          <table class="spec-table">
+            <tr><th>Constraint</th><th>Notes</th></tr>
+            <tr><td>No true non-blocking routing</td><td>Only one source can be active per stream at a time — no simultaneous multiview or matrix switching</td></tr>
+            <tr><td>OMT latency</td><td>Two OMT hops (source → R3PC1 → destination) add latency relative to direct capture; acceptable for this use case</td></tr>
+            <tr><td>R3PC1 as single point of failure</td><td>If R3PC1 goes down, both streams lose their lab video feed. Mitigation: ensure PC is in admin mode and stable before going live</td></tr>
+            <tr><td>Bandwidth</td><td>Each OMT stream consumes LAN bandwidth; 14 simultaneous source transmissions require a capable switch. Tested on existing lab infrastructure</td></tr>
+            <tr><td>Admin mode dependency</td><td>All lab PCs must be in admin mode for OBS to run and OMT to transmit — coordinate with esports admin before event day</td></tr>
+          </table>
+
+          <div class="rationale-card" style="margin-top:20px;">
+            <h4>Why Not a Real VideoHub?</h4>
+            <p><span class="placeholder-field">[Your prose here — cost, infrastructure, flexibility. A Blackmagic VideoHub or similar SDI router would require cabling every station, a permanent install, and significant budget. This approach costs nothing beyond existing hardware and is reconfigurable without any physical changes.]</span></p>
+          </div>
+        </div>
+
+
     </div><!-- end specs-layout -->
   </section>
 
 </main>
 
 <script>
-  function filterIssues(tag, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.issue-card').forEach(card => {
-      if (tag === 'all' || card.dataset.tag === tag) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
-    });
+  function setHash(hash) {
+    try { history.replaceState(null, '', '#' + hash); } catch(e) {}
+  }
+
+  function showSection(id, link) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (link) link.classList.add('active');
+    setHash(id);
+    return false;
   }
 
   function showGame(id, btn) {
@@ -1698,15 +2039,90 @@
     if (defaultCard) defaultCard.style.display = 'none';
     const panel = document.getElementById('game-' + id);
     if (panel) panel.style.display = 'block';
-    btn.classList.add('active');
+    if (btn) btn.classList.add('active');
+    setHash('games/' + id);
   }
 
-  function showSection(id, link) {
+  function showEvent(id, btn) {
+    document.querySelectorAll('[id^="event-"]:not(#event-default)').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.game-tab[data-event]').forEach(b => b.classList.remove('active'));
+    const defaultCard = document.getElementById('event-default');
+    if (defaultCard) defaultCard.style.display = 'none';
+    const panel = document.getElementById('event-' + id);
+    if (panel) panel.style.display = 'block';
+    if (btn) btn.classList.add('active');
+    setHash('events/' + id);
+  }
+
+  function navToSetup(anchor, link) {
+    showSection('setup', link);
+    setHash('setup/' + anchor);
+    const el = document.getElementById('setup-' + anchor);
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    return false;
+  }
+
+  function navigateToHash(hash) {
+    const h = (hash || '').replace('#', '');
+    if (!h) { activateSection('overview'); return; }
+    const parts = h.split('/');
+    if (parts[0] === 'setup') {
+      activateSection('setup');
+      if (parts[1]) {
+        const el = document.getElementById('setup-' + parts[1]);
+        if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+      }
+    } else if (parts[0] === 'games') {
+      activateSection('games');
+      if (parts[1]) {
+        const tab = document.querySelector(`.game-tab[data-game="${parts[1]}"]`);
+        showGame(parts[1], tab);
+      }
+    } else if (parts[0] === 'events') {
+      activateSection('events');
+      if (parts[1]) {
+        const tab = document.querySelector(`.game-tab[data-event="${parts[1]}"]`);
+        showEvent(parts[1], tab);
+      }
+    } else {
+      activateSection(parts[0]) || activateSection('overview');
+    }
+  }
+
+  function activateSection(id) {
+    const el = document.getElementById(id);
+    if (!el) return false;
     document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    link.classList.add('active');
-    return false;
+    el.classList.add('active');
+    const link = document.querySelector(`nav a[data-section="${id}"]`);
+    if (link) link.classList.add('active');
+    return true;
+  }
+
+  window.addEventListener('load', () => {
+    // Tag nav links and game tabs with data attributes for lookup
+    document.querySelectorAll('nav a').forEach(a => {
+      const m = (a.getAttribute('onclick') || '').match(/showSection\('(\w+)'/);
+      if (m) a.setAttribute('data-section', m[1]);
+    });
+    document.querySelectorAll('.game-tab').forEach(btn => {
+      const mg = (btn.getAttribute('onclick') || '').match(/showGame\('(\w+)'/);
+      if (mg) btn.setAttribute('data-game', mg[1]);
+      const me = (btn.getAttribute('onclick') || '').match(/showEvent\('(\w+)'/);
+      if (me) btn.setAttribute('data-event', me[1]);
+    });
+    navigateToHash(window.location.hash);
+  });
+
+  window.addEventListener('hashchange', () => navigateToHash(window.location.hash));
+
+  function filterIssues(tag, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.issue-card').forEach(card => {
+      card.style.display = (tag === 'all' || card.dataset.tag === tag) ? '' : 'none';
+    });
   }
 
   function toggleIssue(header) {
@@ -1723,9 +2139,11 @@
     });
   }
 
-  document.querySelectorAll('.checklist input[type="checkbox"]').forEach(cb => {
-    cb.addEventListener('change', () => {
-      cb.closest('li').classList.toggle('checked', cb.checked);
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.checklist input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        cb.closest('li').classList.toggle('checked', cb.checked);
+      });
     });
   });
 </script>
