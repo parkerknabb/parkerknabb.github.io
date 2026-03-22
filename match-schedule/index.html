@@ -457,6 +457,38 @@
       color: var(--gold) !important;
     }
 
+    /* Warnings */
+    .match-warnings {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .warning-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      width: fit-content;
+    }
+
+    .warning-chip.late {
+      background: rgba(224, 92, 92, 0.12);
+      border: 1px solid rgba(224, 92, 92, 0.35);
+      color: #e05c5c;
+    }
+
+    .warning-chip.offnight {
+      background: rgba(250, 140, 0, 0.10);
+      border: 1px solid rgba(250, 140, 0, 0.35);
+      color: #f5a623;
+    }
+
     @media (max-width: 640px) {
       header, .controls, main { padding-left: 20px; padding-right: 20px; }
       .match-card { grid-template-columns: 60px 1fr; }
@@ -519,12 +551,40 @@ const PROXIES = [
   u => `https://cors-anywhere.herokuapp.com/${u}`,
 ];
 
-// Teams to show (case-insensitive includes check)
-const VARSITY_TERMS = ['purdue gold', 'purdue varsity gold'];
+// Per-game team rules — which Purdue team name is varsity for each game
+const GAME_TEAM_RULES = {
+  'overwatch':         'purdue varsity',       // must match "Purdue Varsity" but NOT "Purdue Varsity Gold"
+  'marvel rivals':     'purdue varsity gold',
+  'rivals':            'purdue varsity gold',
+  // all others → 'purdue gold' (but not 'purdue varsity gold')
+};
 
+// Generic Purdue team check — any of our teams
+function isPurdueTeam(text) {
+  return (text || '').toLowerCase().includes('purdue');
+}
+
+// Check if a specific attendee CN is the correct varsity team for a given game
+function isCorrectVarsityTeam(cn, gameTitle) {
+  const lower = (cn || '').toLowerCase();
+  const game  = (gameTitle || '').toLowerCase();
+
+  for (const [key, team] of Object.entries(GAME_TEAM_RULES)) {
+    if (game.includes(key)) {
+      if (key === 'overwatch') {
+        // Must be "Purdue Varsity" but explicitly NOT "Purdue Varsity Gold"
+        return lower.includes('purdue varsity') && !lower.includes('purdue varsity gold');
+      }
+      return lower.includes(team);
+    }
+  }
+  // Default: Purdue Gold (includes "purdue gold" but not "purdue varsity gold")
+  return lower.includes('purdue gold') && !lower.includes('purdue varsity gold');
+}
+
+// Legacy helper used in a few places — checks if any Purdue varsity team is present
 function isVarsity(text) {
-  const lower = (text || '').toLowerCase();
-  return VARSITY_TERMS.some(t => lower.includes(t));
+  return isPurdueTeam(text);
 }
 
 // --- ICS parser ---
@@ -561,11 +621,18 @@ function parseICS(raw) {
     const attendeeMatches = [...block.matchAll(/ATTENDEE[^:]*;CN="([^"]+)"/g)];
     const attendees = attendeeMatches.map(m => m[1].trim());
 
-    // Opponent = attendee that isn't a Purdue varsity team
-    const opponent = attendees.find(a => !isVarsity(a)) || '';
+    // Game title needed early for team rule lookup
+    const gameTitleEarly = summary.includes(':') ? summary.split(':')[0].trim() : summary;
+
+    // Find the correct Purdue varsity team for this game
+    const purdueTeam = attendees.find(a => isCorrectVarsityTeam(a, gameTitleEarly));
+
+    // Opponent = the other attendee
+    const opponent = attendees.find(a => !isCorrectVarsityTeam(a, gameTitleEarly)) || '';
 
     if (!summary || !dtstart) continue;
-    if (!isVarsity(summary) && !attendees.some(a => isVarsity(a))) continue;
+    // Skip if the correct Purdue varsity team isn't in this match
+    if (!purdueTeam) continue;
 
     // Only include games we care about
     const SUPPORTED_GAMES = ['valorant', 'marvel rivals', 'rivals', 'rocket league', 'league of legends', 'overwatch'];
@@ -639,6 +706,45 @@ function gameColors(gameTitle) {
     if (lower.includes(key)) return val;
   }
   return null;
+}
+
+// --- Broadcast warnings ---
+// 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
+const USUAL_GAMEDAYS = {
+  'valorant':          1, // Monday
+  'marvel rivals':     2, // Tuesday
+  'rivals':            2,
+  'rocket league':     3, // Wednesday
+  'league of legends': 4, // Thursday
+  'overwatch':         5, // Friday
+};
+
+function getWarnings(match) {
+  const warnings = [];
+  const h   = match.start.getHours();
+  const day = match.start.getDay();
+  const isFriSat = day === 5 || day === 6;
+
+  // Late night warning
+  const lateThreshold = isFriSat ? 21 : 22; // 9pm Fri/Sat, 10pm weeknights
+  if (h >= lateThreshold) {
+    const label = isFriSat ? 'Late start (9 PM+)' : 'Late start (10 PM+)';
+    warnings.push({ type: 'late', icon: '🔴', text: label });
+  }
+
+  // Off-night warning
+  const game = (match.gameTitle || '').toLowerCase();
+  for (const [key, usualDay] of Object.entries(USUAL_GAMEDAYS)) {
+    if (game.includes(key)) {
+      if (day !== usualDay) {
+        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        warnings.push({ type: 'offnight', icon: '⚠️', text: `Off-night — usually ${days[usualDay]}` });
+      }
+      break;
+    }
+  }
+
+  return warnings;
 }
 
 // --- Format helpers ---
@@ -759,6 +865,13 @@ function render() {
                 LeagueOS
               </span>` : ''}
             </div>
+            ${(()=>{
+              const w = getWarnings(m);
+              if (!w.length) return '';
+              return '<div class="match-warnings">' +
+                w.map(x => `<span class="warning-chip ${x.type}">${x.icon} ${x.text}</span>`).join('') +
+                '</div>';
+            })()}
           </div>
           <div class="match-right">
             <span class="time-str">${timeStr}</span>
