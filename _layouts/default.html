@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title | default: site.title }}</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+
+<!-- Open Graph -->
+<meta property="og:title" content="{{ page.title | default: site.title }}">
+<meta property="og:description" content="{{ page.description | default: site.description }}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta property="og:type" content="website">
+<meta property="og:image" content="{{ site.url }}{{ site.og_image }}">
+
+<!-- Twitter/X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title | default: site.title }}">
+<meta name="twitter:description" content="{{ page.description | default: site.description }}">
+<meta name="twitter:image" content="{{ site.url }}{{ site.og_image }}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-name">parker_knabb</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Experience</a></li>
+    <li><a href="#credits">Credits</a></li>
+    <li><a href="#signal">Skills</a></li>
+    <li><a href="#timeline">Story</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <span class="ti" id="themeIcon">☀️</span>
+    <span id="themeLabel">Light</span>
+  </button>
+</nav>
+
+{{ content }}
+
+<!-- FOOTER -->
+<footer>
+  <span>© {% assign yr = 'now' | date: "%Y" %}{{ yr }} {{ site.author.name }}</span>
+  <div class="footer-links">
+    <a href="https://parkerknabb.com/esports" target="_blank">Esports Ops Doc</a>
+    <a href="{{ site.author.linkedin }}" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  // ── THEME TOGGLE ──
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var forcedTheme = null;
+
+  function applyTheme(dark) {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    var icon = document.getElementById('themeIcon');
+    var label = document.getElementById('themeLabel');
+    if (icon) icon.textContent = dark ? '☀️' : '🌙';
+    if (label) label.textContent = dark ? 'Light' : 'Dark';
+  }
+
+  function toggleTheme() {
+    var currentlyDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    forcedTheme = !currentlyDark;
+    applyTheme(forcedTheme);
+  }
+
+  applyTheme(prefersDark.matches);
+  prefersDark.addEventListener('change', function(e) {
+    if (forcedTheme === null) applyTheme(e.matches);
+  });
+
+  // ── SMOOTH NAV SCROLL ──
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // ── NAV ACTIVE HIGHLIGHT ──
+  window.addEventListener('scroll', function() {
+    var current = '';
+    document.querySelectorAll('section[id], div[id]').forEach(function(s) {
+      if (window.scrollY >= s.offsetTop - 140) current = s.id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(function(a) {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+    });
+  });
+
+  // ── PHOTO GALLERIES ──
+  document.querySelectorAll('.tl-gallery').forEach(function(gallery) {
+    var photos = JSON.parse(gallery.dataset.photos || '[]');
+    if (!photos.length) return;
+
+    var currentIndex = 0;
+    var autoplayTimer = null;
+
+    var mainDiv = document.createElement('div');
+    mainDiv.className = 'gallery-main';
+    var mainImg = document.createElement('img');
+    mainImg.src = photos[0];
+    mainImg.alt = 'Gallery photo';
+    mainDiv.appendChild(mainImg);
+    gallery.appendChild(mainDiv);
+
+    var thumbsDiv = document.createElement('div');
+    thumbsDiv.className = 'gallery-thumbs';
+
+    function goTo(index) {
+      currentIndex = (index + photos.length) % photos.length;
+      mainImg.style.opacity = '0';
+      setTimeout(function() {
+        mainImg.src = photos[currentIndex];
+        mainImg.style.opacity = '1';
+      }, 150);
+      thumbsDiv.querySelectorAll('.gallery-thumb').forEach(function(th, i) {
+        th.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    photos.forEach(function(src, i) {
+      var thumb = document.createElement('div');
+      thumb.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      thumb.appendChild(img);
+      thumb.addEventListener('click', function() {
+        goTo(i);
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = setInterval(function() { goTo(currentIndex + 1); }, 2000);
+        }
+      });
+      thumbsDiv.appendChild(thumb);
+    });
+
+    gallery.appendChild(thumbsDiv);
+
+    gallery.addEventListener('mouseenter', function() {
+      autoplayTimer = setInterval(function() { goTo(currentIndex + 1); }, 2000);
+    });
+    gallery.addEventListener('mouseleave', function() {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    });
+  });
+</script>
+
+</body>
+</html>

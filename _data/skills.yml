@@ -1,0 +1,35 @@
+# Each group has a heading and a list of items.
+# Add or remove items freely — the grid handles layout automatically.
+
+- heading: AV over IP
+  items:
+    - Dante / AES67
+    - NDI
+    - OMT
+    - AES50
+    - SRT
+
+- heading: Production Software
+  items:
+    - vMix
+    - OBS Studio
+    - Bitfocus Companion
+    - ProPresenter
+    - Dante Virtual Soundcard
+
+- heading: Hardware
+  items:
+    - Ross / Blackmagic switchers
+    - Broadcast cameras
+    - RODECaster Pro II
+    - X32 / Yamaha consoles
+    - NovaStar LED processors
+    - Firefly / Coleder / PixelFLEX
+
+- heading: Infrastructure
+  items:
+    - VLAN architecture
+    - Network segmentation
+    - PXE boot environments
+    - Linux / Windows Server
+    - Python / PowerShell

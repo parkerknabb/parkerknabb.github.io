@@ -1,0 +1,27 @@
+# ── Site Config ──────────────────────────────────────────────
+title: "Parker Knabb — AV Infrastructure & Broadcast Engineering"
+description: "Computer Engineering student at Purdue. I design, build, and operate IP-based AV and broadcast infrastructure — from university esports arenas to professional production facilities."
+url: "https://parkerknabb.com"
+baseurl: ""
+
+# ── Author ────────────────────────────────────────────────────
+author:
+  name: Parker Knabb
+  email: parker@parkerknabb.com
+  linkedin: https://linkedin.com/in/parker-knabb
+  
+headshot: true
+
+# ── Open Graph / Social ───────────────────────────────────────
+og_image: /images/headshot.jpg
+twitter_handle: ""
+
+# ── Build ─────────────────────────────────────────────────────
+markdown: kramdown
+permalink: pretty
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - node_modules
+  - vendor

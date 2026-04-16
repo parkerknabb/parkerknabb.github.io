@@ -1,0 +1,47 @@
+# To add a new job: copy one block and fill in the fields.
+# upcoming: true adds a dashed border to the card.
+# link/link_label are optional — remove those lines if not needed.
+
+- icon: 📡
+  org: Purdue Esports / RecWell
+  org_url: https://esports.purdue.edu
+  dates: 2024–Present
+  title: Broadcast Production & Engineering Coordinator
+  desc: Designs and operates the broadcast infrastructure for Purdue varsity esports. Manages a team of four broadcast specialists and handles IT administration for the Alienware Gaming Lounge.
+  tags: [vMix, OBS, OMT, Bitfocus Companion, PXE Boot]
+  link: https://parkerknabb.com/esports
+  link_label: View ops documentation
+
+- icon: 🎵
+  org: Purdue Hall of Music Productions
+  org_url: https://purdue.edu/hallofmusic
+  dates: 2023–Present
+  title: Production Staff
+  desc: Part of the production crew at one of the largest university performing arts facilities in the country. Camera operator for the Purdue Grand Prix 2025 — one of the only full multicam live productions HoM undertakes each year.
+  tags: [Multicam, Live Events, Camera Op]
+
+- icon: 🍔
+  org: GoTo Foods
+  org_url: https://gotofoods.com
+  dates: Summer 2025
+  title: Enterprise IT Infrastructure Intern
+  desc: Network deployments, PowerShell and Python automation for cloud FinOps and distribution list management, and infrastructure lifecycle reporting to leadership at a multi-brand food franchise company.
+  tags: [PowerShell, Python, Azure, Enterprise Networking]
+
+- icon: 💳
+  org: NCR Corporation
+  org_url: https://en.wikipedia.org/wiki/NCR_Corporation
+  dates: Summer 2022
+  title: IT Intern
+  desc: My first exposure to enterprise IT at a Fortune 500. Built an unsolicited batch file automation tool that streamlined a repetitive internal process — still in use in more advanced PowerShell form years later.
+  tags: [Batch / PowerShell, Enterprise IT]
+
+- icon: 🌩️
+  org: IBHS
+  org_url: https://ibhs.org
+  dates: Summer 2026
+  title: Broadcast & AV Infrastructure Intern
+  desc: IFB implementation and VTR integration for large-scale weather test chamber broadcasts. Studio and remote production support for a nationally recognized insurance research organization.
+  tags: [IFB, VTR, Studio Ops, Remote Broadcast]
+  upcoming: true
+  upcoming_label: "↳ Upcoming — Summer 2026"

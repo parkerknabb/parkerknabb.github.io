@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Purdue Varsity Esports — Match Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #CFB991;
+      --gold-bright: #F5D580;
+      --gold-dim: #8a7a5a;
+      --black: #0a0a0a;
+      --surface: #111111;
+      --surface2: #181818;
+      --surface3: #222222;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --text-dim: #888;
+      --text-muted: #555;
+      --win: #4caf7d;
+      --upcoming: #5b8fd4;
+      --red: #e05c5c;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    header {
+      position: relative;
+      padding: 56px 48px 40px;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    header::after {
+      content: 'ESPORTS';
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(80px, 14vw, 180px);
+      color: var(--gold);
+      opacity: 0.04;
+      pointer-events: none;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .wordmark {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .wordmark-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .wordmark-main {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1;
+      letter-spacing: 0.03em;
+      color: var(--text);
+    }
+
+    .wordmark-main span {
+      color: var(--gold);
+    }
+
+    .header-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      border: 1px solid transparent;
+    }
+
+    .status-pill.loading { border-color: var(--gold-dim); color: var(--gold); background: rgba(207,185,145,0.06); }
+    .status-pill.ok      { border-color: #4caf7d55; color: var(--win); background: rgba(76,175,125,0.08); }
+    .status-pill.error   { border-color: #e05c5c55; color: var(--red); background: rgba(224,92,92,0.08); }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status-dot.pulse {
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .last-fetched {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Filters */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+    .filter-btn.active { border-color: var(--gold); background: rgba(207,185,145,0.1); color: var(--gold); }
+
+    .count-badge {
+      margin-left: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Main content */
+    main {
+      padding: 32px 48px 80px;
+      max-width: 1200px;
+    }
+
+    /* Month group */
+    .month-group { margin-bottom: 48px; }
+
+    .month-heading {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .month-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.25em;
+      color: var(--gold-dim);
+    }
+
+    .month-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Match card */
+    .match-card {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: border-color 0.15s, transform 0.15s;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .match-card:hover {
+      border-color: var(--gold-dim);
+      transform: translateX(3px);
+    }
+
+    /* Date column */
+    .match-date-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 8px;
+      background: var(--surface2);
+      border-right: 1px solid var(--border);
+      min-width: 80px;
+    }
+
+    .match-day-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30px;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .match-day-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Body column */
+    .match-body {
+      padding: 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .match-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .match-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .meta-chip svg { opacity: 0.5; flex-shrink: 0; }
+
+    .game-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Right column */
+    .match-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 14px 18px;
+      gap: 6px;
+    }
+
+    .time-str {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .match-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    .match-status.upcoming {
+      color: var(--upcoming);
+      background: rgba(91,143,212,0.1);
+      border: 1px solid rgba(91,143,212,0.25);
+    }
+
+    .match-status.past {
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid var(--border);
+    }
+
+    .match-status.today {
+      color: var(--gold);
+      background: rgba(207,185,145,0.1);
+      border: 1px solid rgba(207,185,145,0.3);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0px rgba(207,185,145,0); }
+      50% { box-shadow: 0 0 8px rgba(207,185,145,0.3); }
+    }
+
+    /* States */
+    .state-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+      gap: 16px;
+      color: var(--text-muted);
+    }
+
+    .state-icon {
+      font-size: 40px;
+      opacity: 0.3;
+    }
+
+    .state-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    .state-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      text-align: center;
+      max-width: 380px;
+      line-height: 1.7;
+    }
+
+    .retry-btn {
+      padding: 8px 20px;
+      border-radius: 4px;
+      border: 1px solid var(--gold-dim);
+      background: rgba(207,185,145,0.06);
+      color: var(--gold);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .retry-btn:hover { background: rgba(207,185,145,0.14); }
+
+    /* Today divider */
+    .today-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0 12px;
+    }
+
+    .today-divider-line { flex: 1; height: 1px; background: var(--gold-dim); opacity: 0.3; }
+    .today-divider-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .match-card--link {
+      text-decoration: none;
+      color: inherit;
+      display: grid;
+      cursor: pointer;
+    }
+
+    .match-card--link:hover {
+      border-color: var(--gold);
+    }
+
+    .match-card--link:hover .match-title {
+      color: var(--gold);
+    }
+
+    .link-hint {
+      color: var(--gold-dim) !important;
+      transition: color 0.15s;
+    }
+
+    .match-card--link:hover .link-hint {
+      color: var(--gold) !important;
+    }
+
+    /* Warnings */
+    .match-warnings {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .warning-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      width: fit-content;
+    }
+
+    .warning-chip.late {
+      background: rgba(224, 92, 92, 0.12);
+      border: 1px solid rgba(224, 92, 92, 0.35);
+      color: #e05c5c;
+    }
+
+    .warning-chip.offnight {
+      background: rgba(250, 140, 0, 0.10);
+      border: 1px solid rgba(250, 140, 0, 0.35);
+      color: #f5a623;
+    }
+
+    @media (max-width: 640px) {
+      header, .controls, main { padding-left: 20px; padding-right: 20px; }
+      .match-card { grid-template-columns: 60px 1fr; }
+      .match-right { display: none; }
+      .match-date-col { min-width: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="wordmark">
+      <span class="wordmark-sub">Purdue University · NECC Varsity</span>
+      <h1 class="wordmark-main">Match <span>Schedule</span></h1>
+    </div>
+    <div class="header-meta">
+      <div class="status-pill loading" id="statusPill">
+        <div class="status-dot pulse" id="statusDot"></div>
+        <span id="statusText">Fetching calendar...</span>
+      </div>
+      <div class="last-fetched" id="lastFetched"></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <span class="filter-label">Show</span>
+  <button class="filter-btn" data-filter="week">This Week</button>
+  <button class="filter-btn" data-filter="nextweek">Next Week</button>
+  <button class="filter-btn active" data-filter="upcoming">Upcoming</button>
+  <button class="filter-btn" data-filter="past">Past</button>
+  <button class="filter-btn" data-filter="all">All</button>
+  <span class="count-badge" id="countBadge"></span>
+</div>
+
+<main id="main">
+  <div class="state-container" id="stateContainer">
+    <div class="state-icon">⚡</div>
+    <div class="state-title">Loading Matches</div>
+    <div class="state-desc">Fetching the NECC calendar feed and filtering for Purdue Gold / Purdue Varsity Gold...</div>
+  </div>
+</main>
+
+<script>
+const ICS_URL = 'webcal://api.leagueos.gg/league/ics/b1q6j3ea75j6zgk1s4i79dlw7/g/aqcat5fy908uu7q1xvahe9es4/matches.ics'
+  .replace(/^webcal:/i, 'https:');
+
+// ─────────────────────────────────────────────────────────────
+// Set WORKER_URL after deploying the Cloudflare Worker relay.
+// e.g. 'https://ics-relay.YOUR-SUBDOMAIN.workers.dev'
+// Leave as '' to skip it and fall through to public proxies.
+// ─────────────────────────────────────────────────────────────
+const WORKER_URL = 'https://misty-unit-0ea4.parker-4f6.workers.dev';
+
+const PROXIES = [
+  ...(WORKER_URL ? [u => `${WORKER_URL}?url=${encodeURIComponent(u)}`] : []),
+  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u => `https://cors-anywhere.herokuapp.com/${u}`,
+];
+
+// Per-game team rules — which Purdue team name is varsity for each game
+const GAME_TEAM_RULES = {
+  'overwatch':         'purdue varsity',       // must match "Purdue Varsity" but NOT "Purdue Varsity Gold"
+  'marvel rivals':     'purdue varsity gold',
+  'rivals':            'purdue varsity gold',
+  // all others → 'purdue gold' (but not 'purdue varsity gold')
+};
+
+// Generic Purdue team check — any of our teams
+function isPurdueTeam(text) {
+  return (text || '').toLowerCase().includes('purdue');
+}
+
+// Check if a specific attendee CN is the correct varsity team for a given game
+function isCorrectVarsityTeam(cn, gameTitle) {
+  const lower = (cn || '').toLowerCase();
+  const game  = (gameTitle || '').toLowerCase();
+
+  for (const [key, team] of Object.entries(GAME_TEAM_RULES)) {
+    if (game.includes(key)) {
+      if (key === 'overwatch') {
+        // Must be "Purdue Varsity" but explicitly NOT "Purdue Varsity Gold"
+        return lower.includes('purdue varsity') && !lower.includes('purdue varsity gold');
+      }
+      return lower.includes(team);
+    }
+  }
+  // Default: Purdue Gold (includes "purdue gold" but not "purdue varsity gold")
+  return lower.includes('purdue gold') && !lower.includes('purdue varsity gold');
+}
+
+// Legacy helper used in a few places — checks if any Purdue varsity team is present
+function isVarsity(text) {
+  return isPurdueTeam(text);
+}
+
+// --- ICS parser ---
+// ICS lines can be folded (continuation lines start with a space/tab)
+function unfold(raw) {
+  return raw.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '');
+}
+
+function parseICS(raw) {
+  const unfolded = unfold(raw);
+  const events = [];
+  const blocks = unfolded.split('BEGIN:VEVENT');
+  for (let i = 1; i < blocks.length; i++) {
+    const block = blocks[i];
+
+    const get = (key) => {
+      const m = block.match(new RegExp(`${key}[^:\r\n]*:([^\r\n]+)`));
+      return m ? m[1].trim() : '';
+    };
+
+    const summary = get('SUMMARY');
+    const dtstart = get('DTSTART');
+    const dtend   = get('DTEND');
+    const uid     = get('UID');
+
+    // Extract URL and rewrite domain
+    let matchUrl = get('URL(?:;VALUE=URI)?');
+    if (!matchUrl) matchUrl = get('URL');
+    if (matchUrl) {
+      matchUrl = matchUrl.replace('necc.leagueos.gg', 'necc.v1.leagueos.gg');
+    }
+
+    // Extract all ATTENDEE CN= values
+    const attendeeMatches = [...block.matchAll(/ATTENDEE[^:]*;CN="([^"]+)"/g)];
+    const attendees = attendeeMatches.map(m => m[1].trim());
+
+    // Game title needed early for team rule lookup
+    const gameTitleEarly = summary.includes(':') ? summary.split(':')[0].trim() : summary;
+
+    // Find the correct Purdue varsity team for this game
+    const purdueTeam = attendees.find(a => isCorrectVarsityTeam(a, gameTitleEarly));
+
+    // Opponent = the other attendee
+    const opponent = attendees.find(a => !isCorrectVarsityTeam(a, gameTitleEarly)) || '';
+
+    if (!summary || !dtstart) continue;
+    // Skip if the correct Purdue varsity team isn't in this match
+    if (!purdueTeam) continue;
+
+    // Only include games we care about
+    const SUPPORTED_GAMES = ['valorant', 'marvel rivals', 'rivals', 'rocket league', 'league of legends', 'overwatch'];
+    const summaryLower = summary.toLowerCase();
+    if (!SUPPORTED_GAMES.some(g => summaryLower.includes(g))) continue;
+
+    // Game title: part before the colon in SUMMARY
+    const gameTitle = summary.includes(':') ? summary.split(':')[0].trim() : extractGame(summary);
+
+    events.push({
+      summary,
+      gameTitle,
+      opponent,
+      start: parseICSDate(dtstart),
+      end:   parseICSDate(dtend),
+      matchUrl,
+      uid,
+    });
+  }
+  return events.sort((a, b) => a.start - b.start);
+}
+
+function parseICSDate(str) {
+  if (!str) return new Date(0);
+  // Handle TZID= param prefix: DTSTART;TZID=America/New_York:20250301T190000
+  const clean = str.replace(/.*:/, '');
+  // Format: 20250301T190000Z or 20250301T190000
+  const m = clean.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)$/);
+  if (m) {
+    const [,yr,mo,dy,hr,mn,sc,z] = m;
+    if (z === 'Z') return new Date(`${yr}-${mo}-${dy}T${hr}:${mn}:${sc}Z`);
+    return new Date(`${yr}-${mo}-${dy}T${hr}:${mn}:${sc}`);
+  }
+  // DATE only: 20250301
+  const d = clean.match(/^(\d{4})(\d{2})(\d{2})$/);
+  if (d) return new Date(`${d[1]}-${d[2]}-${d[3]}`);
+  return new Date(str);
+}
+
+// --- Derive game name from summary ---
+function extractGame(summary) {
+  // Pattern: "Game Name — Team A vs Team B" or "Game Name: ..."
+  // Try to strip team names
+  const knownGames = [
+    'Valorant','League of Legends','Overwatch','Rocket League',
+    'CS2','CS:GO','Apex Legends','Rainbow Six','R6 Siege',
+    'Hearthstone','Teamfight Tactics','TFT','Super Smash Bros',
+    'Smash','Street Fighter','Chess','Splatoon','Pokemon','Call of Duty',
+  ];
+  for (const g of knownGames) {
+    if (summary.toLowerCase().includes(g.toLowerCase())) return g;
+  }
+  // Fallback: take first segment before "vs", "-", "—", ":"
+  const seg = summary.split(/\s+vs\.?\s+|\s+[-—:]\s+/)[0].trim();
+  return seg.length < 40 ? seg : '';
+}
+
+const GAME_COLORS = {
+  'valorant':           { bg: 'rgba(255, 70, 85, 0.10)',  accent: 'rgba(255, 70, 85, 0.55)' },
+  'marvel rivals':      { bg: 'rgba(255, 210, 0, 0.09)',  accent: 'rgba(255, 210, 0, 0.50)' },
+  'rivals':             { bg: 'rgba(255, 210, 0, 0.09)',  accent: 'rgba(255, 210, 0, 0.50)' },
+  'rocket league':      { bg: 'rgba(0, 210, 200, 0.09)',  accent: 'rgba(0, 210, 200, 0.50)' },
+  'league of legends':  { bg: 'rgba(160, 90, 220, 0.10)', accent: 'rgba(160, 90, 220, 0.55)' },
+  'overwatch':          { bg: 'rgba(250, 140, 0, 0.10)',  accent: 'rgba(250, 140, 0, 0.55)' },
+};
+
+function gameColors(gameTitle) {
+  if (!gameTitle) return null;
+  const lower = gameTitle.toLowerCase();
+  for (const [key, val] of Object.entries(GAME_COLORS)) {
+    if (lower.includes(key)) return val;
+  }
+  return null;
+}
+
+// --- Broadcast warnings ---
+// 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
+const USUAL_GAMEDAYS = {
+  'valorant':          1, // Monday
+  'marvel rivals':     2, // Tuesday
+  'rivals':            2,
+  'rocket league':     3, // Wednesday
+  'league of legends': 4, // Thursday
+  'overwatch':         5, // Friday
+};
+
+function getWarnings(match) {
+  const warnings = [];
+  const h   = match.start.getHours();
+  const day = match.start.getDay();
+  const isFriSat = day === 5 || day === 6;
+
+  // Late night warning
+  const lateThreshold = isFriSat ? 21 : 22; // 9pm Fri/Sat, 10pm weeknights
+  if (h >= lateThreshold) {
+    const label = isFriSat ? 'Late start (9 PM+)' : 'Late start (10 PM+)';
+    warnings.push({ type: 'late', icon: '🔴', text: label });
+  }
+
+  // Off-night warning
+  const game = (match.gameTitle || '').toLowerCase();
+  for (const [key, usualDay] of Object.entries(USUAL_GAMEDAYS)) {
+    if (game.includes(key)) {
+      if (day !== usualDay) {
+        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        warnings.push({ type: 'offnight', icon: '⚠️', text: `Off-night — usually ${days[usualDay]}` });
+      }
+      break;
+    }
+  }
+
+  return warnings;
+}
+
+// --- Format helpers ---
+const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function formatTime(date) {
+  if (isNaN(date)) return '—';
+  let h = date.getHours(), m = date.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+function monthKey(date) {
+  return `${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// --- Render ---
+let allMatches = [];
+let currentFilter = 'upcoming';
+
+function render() {
+  const now    = new Date();
+  const todayS = now.toDateString();
+  const main   = document.getElementById('main');
+
+  // Compute Monday–Sunday bounds for current calendar week
+  const weekStart = new Date(now);
+  const day = weekStart.getDay(); // 0=Sun
+  const diffToMon = (day === 0) ? -6 : 1 - day;
+  weekStart.setDate(weekStart.getDate() + diffToMon);
+  weekStart.setHours(0, 0, 0, 0);
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekEnd.getDate() + 7);
+
+  let matches = allMatches;
+  if (currentFilter === 'upcoming') matches = allMatches.filter(m => m.start >= now);
+  if (currentFilter === 'past')     matches = allMatches.filter(m => m.start <  now);
+  if (currentFilter === 'week')     matches = allMatches.filter(m => m.start >= weekStart && m.start < weekEnd);
+  if (currentFilter === 'nextweek') {
+    const nextStart = new Date(weekEnd);
+    const nextEnd   = new Date(weekEnd);
+    nextEnd.setDate(nextEnd.getDate() + 7);
+    matches = allMatches.filter(m => m.start >= nextStart && m.start < nextEnd);
+  }
+
+  document.getElementById('countBadge').textContent = `${matches.length} match${matches.length !== 1 ? 'es' : ''}`;
+
+  if (!matches.length) {
+    main.innerHTML = `
+      <div class="state-container">
+        <div class="state-icon">🎮</div>
+        <div class="state-title">No Matches Found</div>
+        <div class="state-desc">No ${currentFilter !== 'all' ? currentFilter + ' ' : ''}matches found for Purdue Gold or Purdue Varsity Gold.</div>
+      </div>`;
+    return;
+  }
+
+  // Group by month
+  const groups = {};
+  const groupOrder = [];
+  for (const m of matches) {
+    const key = monthKey(m.start);
+    if (!groups[key]) { groups[key] = []; groupOrder.push(key); }
+    groups[key].push(m);
+  }
+
+  let html = '';
+  for (const gKey of groupOrder) {
+    html += `<div class="month-group">
+      <div class="month-heading">
+        <span class="month-label">${gKey}</span>
+        <div class="month-line"></div>
+      </div>`;
+
+    for (const m of groups[gKey]) {
+      const isToday  = m.start.toDateString() === todayS;
+      const isPast   = m.start < now && !isToday;
+      const statusCls = isToday ? 'today' : isPast ? 'past' : 'upcoming';
+      const statusLbl = isToday ? 'Today' : isPast ? 'Completed' : 'Upcoming';
+
+      const game     = extractGame(m.summary);
+      const dayNum   = m.start.getDate();
+      const dayName  = DAYS[m.start.getDay()];
+      const timeStr  = formatTime(m.start);
+
+      const opponent  = m.opponent || m.summary;
+      const gameLabel = m.gameTitle || game;
+      const cardTag   = m.matchUrl ? 'a' : 'div';
+      const cardAttrs = m.matchUrl
+        ? `href="${escHtml(m.matchUrl)}" target="_blank" rel="noopener"`
+        : '';
+      const colors    = gameColors(gameLabel);
+      const cardStyle = colors
+        ? `animation-delay:${groups[gKey].indexOf(m) * 40}ms; background:${colors.bg}; border-left: 3px solid ${colors.accent};`
+        : `animation-delay:${groups[gKey].indexOf(m) * 40}ms;`;
+      const dateColStyle = colors
+        ? `background: ${colors.bg}; border-right-color: ${colors.accent};`
+        : '';
+
+      html += `
+        <${cardTag} ${cardAttrs} class="match-card${m.matchUrl ? ' match-card--link' : ''}" style="${cardStyle}">
+          <div class="match-date-col" style="${dateColStyle}">
+            <div class="match-day-num">${dayNum}</div>
+            <div class="match-day-name">${dayName}</div>
+          </div>
+          <div class="match-body">
+            <div class="match-title">${escHtml(opponent || m.summary)}</div>
+            <div class="match-meta-row">
+              <span class="meta-chip">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                ${timeStr}
+              </span>
+              ${gameLabel ? `<span class="game-tag">${escHtml(gameLabel)}</span>` : ''}
+              ${m.matchUrl ? `<span class="meta-chip link-hint">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                LeagueOS
+              </span>` : ''}
+            </div>
+            ${(()=>{
+              const w = getWarnings(m);
+              if (!w.length) return '';
+              return '<div class="match-warnings">' +
+                w.map(x => `<span class="warning-chip ${x.type}">${x.icon} ${x.text}</span>`).join('') +
+                '</div>';
+            })()}
+          </div>
+          <div class="match-right">
+            <span class="time-str">${timeStr}</span>
+            <span class="match-status ${statusCls}">${statusLbl}</span>
+          </div>
+        </${cardTag}>`;
+    }
+
+    html += '</div>';
+  }
+
+  main.innerHTML = html;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function setStatus(type, text) {
+  const pill = document.getElementById('statusPill');
+  const dot  = document.getElementById('statusDot');
+  const txt  = document.getElementById('statusText');
+  pill.className = `status-pill ${type}`;
+  dot.className  = `status-dot${type === 'loading' ? ' pulse' : ''}`;
+  txt.textContent = text;
+}
+
+async function fetchICS() {
+  setStatus('loading', 'Fetching calendar...');
+  console.group('%c📅 fetchICS()', 'font-weight:bold;color:#CFB991');
+  console.log('ICS_URL (after webcal→https):', ICS_URL);
+
+  for (const proxyFn of PROXIES) {
+    const url = proxyFn(ICS_URL);
+    console.group(`%c🔗 Proxy: ${url}`, 'color:#5b8fd4');
+    try {
+      console.time('  fetch duration');
+      const resp = await fetch(url, { signal: AbortSignal.timeout(12000) });
+      console.timeEnd('  fetch duration');
+      console.log('  HTTP status:', resp.status, resp.statusText);
+      console.log('  Headers:', Object.fromEntries(resp.headers.entries()));
+
+      if (!resp.ok) {
+        console.warn('  ✗ Non-OK status — skipping');
+        console.groupEnd();
+        continue;
+      }
+
+      const text = await resp.text();
+      console.log('  Body length (chars):', text.length);
+      console.log('  First 600 chars:\n', text.slice(0, 600));
+      console.log('  Contains BEGIN:VCALENDAR:', text.includes('BEGIN:VCALENDAR'));
+
+      const totalEvents = (text.match(/BEGIN:VEVENT/g) || []).length;
+      console.log('  Total VEVENT blocks:', totalEvents);
+
+      if (!text.includes('BEGIN:VCALENDAR')) {
+        console.warn('  ✗ Not valid ICS — skipping');
+        console.groupEnd();
+        continue;
+      }
+
+      // Dump all summaries before filtering
+      const allSummaries = [...text.matchAll(/SUMMARY[^:]*:([^\r\n]+)/g)].map(m => m[1].trim());
+      console.log('  All SUMMARY values (%d total):', allSummaries.length);
+      console.table(allSummaries.map(s => ({ SUMMARY: s, matchesFilter: isVarsity(s) })));
+
+      allMatches = parseICS(text);
+      console.log('  ✓ Varsity matches after filter:', allMatches.length);
+      if (allMatches.length > 0) console.table(allMatches.map(m => ({ summary: m.summary, start: m.start.toISOString() })));
+
+      console.groupEnd();
+      console.groupEnd();
+
+      setStatus('ok', `${allMatches.length} varsity match${allMatches.length !== 1 ? 'es' : ''} loaded`);
+      document.getElementById('lastFetched').textContent =
+        `Last fetched ${new Date().toLocaleTimeString()}`;
+      render();
+      return;
+    } catch (e) {
+      console.timeEnd('  fetch duration');
+      console.error('  ✗ Exception:', e.name, '—', e.message);
+      console.error('  Full error:', e);
+      console.groupEnd();
+    }
+  }
+
+  console.error('%c✗ All proxies exhausted.', 'color:red;font-weight:bold');
+  console.groupEnd();
+
+  // All proxies failed — show error state
+  setStatus('error', 'Failed to load calendar');
+  document.getElementById('main').innerHTML = `
+    <div class="state-container">
+      <div class="state-icon">⚠️</div>
+      <div class="state-title">Could Not Load Feed</div>
+      <div class="state-desc">All CORS proxies failed to reach the LeagueOS calendar endpoint.
+      This can happen if the feed is temporarily unavailable or blocked.
+      Try again in a moment.</div>
+      <button class="retry-btn" onclick="fetchICS()">↺ Retry</button>
+    </div>`;
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    if (allMatches.length) render();
+  });
+});
+
+fetchICS();
+</script>
+</body>
+</html>

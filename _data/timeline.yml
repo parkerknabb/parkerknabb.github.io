@@ -1,0 +1,87 @@
+# Timeline entries, newest first.
+# photos is optional — remove those lines if there are no gallery images.
+# org_url is optional.
+# docs_link/docs_label are optional — for linking to external documentation.
+
+- year: "2026"
+  org: IBHS — Richburg, SC
+  org_url: https://ibhs.org
+  title: Broadcast & AV Infrastructure Intern
+  desc: I'm looking forward to 
+
+- year: "2024–"
+  org: Purdue Esports
+  org_url: https://esports.purdue.edu
+  title: Broadcast Production & Engineering Coordinator
+  desc: My first role where I was fully responsible for both building the system and keeping it running. The constraints were real — no budget, no infrastructure, no precedent. I had to think my way through every decision. Managing a team while the system is live every match week is a different kind of pressure from building it in the first place.
+  docs_link: https://parkerknabb.com/esports
+  docs_label: Full engineering documentation
+  photos:
+    - /images/timeline/esports/01.jpg
+    - /images/timeline/esports/02.jpg
+
+- year: "2026"
+  org: LEAP — Purdue Hall of Music
+  org_url: https://boilerlink.purdue.edu/organization/leap-purdue
+  title: LED Tech — Arena EDM Show
+  desc: Six hours of self-teaching a system I'd never touched, on a rig I'd never seen, for a show that very night. When I explained my work to the full-time staff, they said I probably knew this better than they did.
+  photos:
+    - /images/timeline/leap/01.jpg
+    - /images/timeline/leap/02.jpg
+    - /images/timeline/leap/03.jpg
+    - /images/timeline/leap/04.jpg
+
+- year: "2025"
+  org: GoTo Foods
+  org_url: https://gotofoods.com
+  title: Enterprise IT Infrastructure Intern
+  desc: This role taught me a lot about how infrastructure decisions get made at scale — and how slowly. I came in wanting to move fast and learned that large organizations move deliberately for reasons that aren't always obvious from the outside. Useful perspective, even if it confirmed what I don't want my day-to-day to look like.
+  photos:
+    - /images/timeline/gtf/01.jpg
+
+- year: 2022–23
+  org: GeorgiaFIRST Robotics
+  org_url: https://gafirst.org
+  title: Technical Director & Producer · Peachtree Live
+  desc: Being approached to build something from scratch by an organization I'd just been volunteering for is a specific kind of validation. I was 17 and they handed me two multi-day tournaments with 2,000+ spectators. I didn't fully appreciate how unusual that was until later.
+  photos:
+    - /images/timeline/georgiafirst/01.jpg
+    - /images/timeline/georgiafirst/02.jpg
+    - /images/timeline/georgiafirst/03.jpg
+    - /images/timeline/georgiafirst/04.jpg
+
+- year: "2022"
+  org: DreamHack Atlanta
+  org_url: https://dreamhack.com/atlanta
+  title: Creator Hub · Panel Stage Operator
+  desc: My first paid production gig. Four days in a professional live event environment at a scale I hadn't experienced before. I was thrown in and figured it out. That turned out to be the template for most of what followed.
+  photos:
+    - /images/timeline/dreamhack/01.jpg
+    - /images/timeline/dreamhack/02.jpg
+    - /images/timeline/dreamhack/03.jpg
+    - /images/timeline/dreamhack/04.jpg
+    
+- year: "2022"
+  org: NCR Corporation
+  org_url: https://en.wikipedia.org/wiki/NCR_Corporation
+  title: IT Intern
+  desc: Three weeks at a Fortune 500, never on the same thing twice. I built a tool nobody asked for because I saw a problem and solved it. That script is apparently still running in some form. I liked that feeling more than I expected to.
+  photos:
+    - /images/timeline/ncr/01.jpg
+    - /images/timeline/ncr/02.jpg
+
+- year: 2021–23
+  org: Johnson Ferry Baptist Church
+  org_url: https://johnsonferry.org
+  title: Camera Operator & Video Director
+  desc: The place where I learned that live means live. No second takes, full congregation, every Sunday. Starting on cameras before I had any real training taught me to trust my instincts under pressure — which has turned out to be more useful than any formal credential.
+  photos:
+    - /images/timeline/church/01.jpg
+    - /images/timeline/church/02.jpg
+    - /images/timeline/church/03.jpg
+    - /images/timeline/church/04.jpg
+
+- year: ""
+  org: Before all of this
+  title: Origins
+  desc: Took apart a PC with my dad in 1st grade. Ran the computer lab before school through 5th grade. Went back to my elementary school on Tuesdays and Thursdays in 6th grade just to keep helping — called it "Tech on the T's." Choir from elementary school through Purdue Varsity Glee Club. FLL, FTC, and FRC robotics through senior year. A morning broadcast in middle school, edited in iMovie, played back every day. None of it was a plan. It was just what I did.
