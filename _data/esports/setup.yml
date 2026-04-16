@@ -1,0 +1,163 @@
+# Operations checklists. Three sections: casting, studio, pregame.
+# Each section has groups. Each group has a header and a list of items.
+# item fields:
+#   text: the label text (HTML is supported for <strong>, <code>, <small>, <kbd>)
+#   id:   unique checkbox id — must be unique across ALL groups in the whole page
+#   warn: optional — adds an orange warning note above this group (string)
+#   ok:   optional — adds a green ok note above this group (string)
+
+casting:
+  warn: "<strong>⚠ Critical startup rule:</strong> Do NOT power on the casting laptop until ALL physical connections are made — power, Thunderbolt, ethernet, HDMI, and USB. If the laptop boots before the Thunderbolt box is connected, the Cam Link Pro will not be recognized and you'll need to fully shut down and restart."
+
+  groups:
+    - header: "1 — Access & Power Run"
+      items:
+        - id: c1
+          text: Retrieve keys from desk worker to unlock the concealed wall panel
+        - id: c1b
+          text: Ask the desk worker to change the <strong>room lighting scene</strong> to the appropriate game
+        - id: c2
+          text: Run power strip cable from wall outlet (inside concealed panel) to casting set
+        - id: c3
+          text: Run network cable from wall port (inside concealed panel) to casting set
+
+    - header: "2 — Power Up All Devices (Laptop Last)"
+      items:
+        - id: c4
+          text: Plug in <strong>Sonnet Breakaway Box</strong> power — verify unit has power before proceeding
+        - id: c5
+          text: Plug in <strong>Camera 1</strong> power (Blackmagic wide — long adjustable lens)
+        - id: c6
+          text: Plug in <strong>Camera 2</strong> power (Blackmagic close — stubby prime lens)
+        - id: c7
+          text: Plug in <strong>Camera 3</strong> power (Panasonic Lumix G — stubby prime lens)
+        - id: c8
+          text: Plug in <strong>GVM Light 1</strong> power and power on — adjust for scene
+        - id: c9
+          text: Plug in <strong>GVM Light 2</strong> power and power on — adjust for scene
+        - id: c10
+          text: Plug in <strong>HDMI Switcher</strong> power
+        - id: c11
+          text: Plug in <strong>casting laptop</strong> power adapter
+        - id: c_verify_power
+          text: "Verify all 8 power strip slots are occupied — <strong>no free plugs</strong><br><small style='color:#888'>Breakaway Box · Cam 1 · Cam 2 · Cam 3 · Light 1 · Light 2 · HDMI Switcher · Laptop</small>"
+
+    - header: "3 — Run All Video Cables"
+      items:
+        - id: c12
+          text: "<strong>Camera 1</strong> (Blackmagic wide — long adjustable lens) HDMI → Cam Link Pro <strong>HDMI 1</strong>"
+        - id: c13
+          text: "<strong>Camera 2</strong> (Blackmagic close — stubby prime lens) HDMI → Cam Link Pro <strong>HDMI 2</strong>"
+        - id: c14
+          text: "<strong>Camera 3</strong> (Panasonic Lumix G) HDMI → Cam Link Pro <strong>HDMI 3</strong>"
+        - id: c15
+          text: "Laptop <strong>HDMI out</strong> → HDMI Switcher <strong>input</strong> port"
+        - id: c16
+          text: "HDMI Switcher <strong>output 1</strong> → Casting TV 1 (direct HDMI)"
+        - id: c17
+          text: "HDMI Switcher <strong>output 2</strong> → Casting TV 2 (direct HDMI)"
+        - id: c18
+          text: Power on all 3 cameras and confirm each has a live output signal
+
+    - header: "4 — Connect Laptop Peripherals (Before Booting)"
+      items:
+        - id: c19
+          text: "Connect <strong>ethernet</strong>: wall cable → USB-to-Ethernet adapter → laptop. <strong>Do not use the laptop's built-in ethernet port</strong> — it is unreliable"
+        - id: c20
+          text: "Connect <strong>Thunderbolt USB-C</strong>: Breakaway Box → the USB-C port at the <strong>far end of the rear IO</strong> (furthest from the power adapter). Ensure fully seated on both ends.<br><small style='color:#888'>The port closest to the power adapter is less reliable for Thunderbolt — always use the far one.</small>"
+        - id: c21
+          text: "Connect <strong>USB extension cable</strong> → laptop, run to caster table → plug in <strong>Stream Deck Mini</strong>"
+
+    - header: "5 — Run Audio Loom & Headset Connections"
+      items:
+        - id: c22
+          text: Unravel the audio cable loom from behind the seating cubes and route it to the caster table
+        - id: c23
+          text: "Connect <strong>Caster 1</strong> (left seat, when facing table from camera side): XLR mic cable + ¼\" return to broadcast headset"
+        - id: c24
+          text: "Connect <strong>Caster 2</strong> (right seat, when facing table from camera side): XLR mic cable + ¼\" return to broadcast headset"
+
+    - header: "6 — Boot Casting Laptop & Verify Capture"
+      items:
+        - id: c25
+          text: Confirm all cables from steps 2–5 are connected before powering on
+        - id: c26
+          text: "Power on the Alienware m16 — watch for the <strong>blue \"S\" indicator to light up on the Breakaway Box</strong> during boot. This confirms Thunderbolt is recognized"
+        - id: c27
+          text: "Open <strong>Elgato Capture Utility</strong> — confirm live feeds are visible for all 3 cameras. If not, do not proceed — see Troubleshooting → Cameras"
+        - id: c28
+          text: "Open <strong>OBS</strong> — confirm all 3 camera sources are showing live feeds. The bottom-right quarter of the 4K tile should be <strong>blank</strong> (3 cameras fill 3 of 4 quadrants)"
+        - id: c29
+          text: "Open <strong>Bitfocus Companion Satellite</strong> — confirm the caster Stream Deck Mini shows <strong>M</strong> and <strong>TB</strong> buttons on each side"
+        - id: c30
+          text: Confirm OMT output is active in OBS and transmitting to the studio network
+        - id: c31
+          text: "Verify program feed is visible on both casting TVs. If not: in OBS, right-click <strong>OMT Source</strong> → <em>Open Source Projector</em> → select TV monitor (not laptop display). Press <kbd>ESC</kbd> if you accidentally select the laptop screen"
+
+studio:
+  groups:
+    - header: "7 — Audio Board First"
+      items:
+        - id: c32
+          text: "<strong>Power on the RODECaster Pro II before anything else</strong> — at minimum, it must be on before vMix is opened"
+        - id: c33
+          text: "Confirm the <strong>MUSIC</strong> channel is playing — if not, verify <strong>Foobar2000</strong> is running on the Director PC and routing to the board"
+
+    - header: "8 — Boot Director PC & Open vMix"
+      items:
+        - id: c34
+          text: "Boot the Director PC (Alienware Aurora R16) and open <strong>vMix</strong>"
+        - id: c35
+          text: Confirm vMix is receiving all 3 cameras from the casting set OMT feed
+        - id: c36
+          text: "Test <strong>Caster 1</strong> headset (left seat) and <strong>Caster 2</strong> headset (right seat) — confirm correct left/right assignment. This matters for managing individual levels during the show"
+        - id: c37
+          text: "Check your <strong>producer headset</strong> — it is the <strong>3rd fader</strong> on the RODECaster. It is configured to <strong>never go to stream</strong>, only to casters. <strong>Mute it when you are not actively talking to casters</strong>"
+        - id: c38
+          text: "Ask casters to speak in their shoutcasting voice as if action is happening. Adjust levels so caster audio peaks at <strong>−10 to −15 dB</strong> on the meter"
+        - id: c39
+          text: Confirm casters can hear your talkback mic and music when the channel is unmuted
+        - id: c_solo
+          text: "Check that no channels are accidentally <strong>solo'd</strong> on the RODECaster — a solo'd channel will cause you to not hear other sources in your headset"
+
+    - header: "9 — Observer PCs & Game Setup"
+      items:
+        - id: c40
+          text: Boot all Observer PCs and open OBS on each
+        - id: c41
+          text: Open the appropriate game on each Observer PC and set game capture to the correct game
+        - id: c42
+          text: Verify each Observer is transmitting video and audio via OMT to vMix
+        - id: c43
+          text: "Put each Observer feed on program one at a time — confirm you <strong>and the casters</strong> can hear game audio from that feed"
+
+    - header: "10 — Audio Quirk Check"
+      items:
+        - id: c44
+          text: "Ask each caster to confirm they can hear in <strong>both ears</strong>. If one ear is missing: twist the ¼\" headset connection gently until stereo is restored. Unplug and replug if needed — the ¼\" cable can be finicky"
+
+  ok: "✔ <strong>Ready to go:</strong> All 8 power plugs filled · Blue S lit on Breakaway Box · All 3 cameras live in OBS (bottom-right tile blank) · Stream Deck Mini showing M + TB buttons · Casting TVs showing program feed · vMix receiving all sources · Caster levels at −10 to −15 dB · Both ears confirmed on all headsets"
+
+pregame:
+  warn: "<strong>📋 Stream permission:</strong> Before going live, let the opponent know that <strong>APGL# accounts are for production</strong> and that the match will be streamed. Almost nobody objects — it's a formality, but do it every time."
+
+  groups:
+    - header: "11 — Update Opponent Logo"
+      items:
+        - id: cg1
+          text: "In Chrome on the Director PC, open the <strong>Team Links</strong> bookmarks folder and navigate to the bookmark for today's game"
+        - id: cg2
+          text: "Go to the <strong>Schedule</strong> tab and find today's match"
+        - id: cg3
+          text: "On the right side, twirl down <strong>Resources</strong> and open the opponent team's logo in a new tab (share icon → open in new tab)"
+        - id: cg4
+          text: "Download the logo and overwrite <code>opponent.webp</code> in <strong>Documents &gt; Assets</strong>"
+
+    - header: "12 — Update Stream Title & Category"
+      items:
+        - id: cg5
+          text: "Open <strong>Twitch Live Manager</strong> (bookmarked in Chrome) on the Director PC"
+        - id: cg6
+          text: "Set stream title using the format:<br><code>PUR v [Opponent Abbreviation] - NECC [Game] Week [Number]</code><br><small style='color:#888'>Example: <em>PUR v NWU - NECC Valorant Week 4</em></small>"
+        - id: cg7
+          text: "Set the <strong>game category</strong> on Twitch to match today's title"

@@ -1,0 +1,155 @@
+# Game-specific setup panels.
+# Each game has:
+#   id:      used for the tab button onclick and panel id (e.g. "valorant")
+#   label:   button label with emoji (e.g. "🎯 Valorant")
+#   overlay: text for the green ok-note at the top of the panel
+#   warn:    optional orange warning note (string)
+#   groups:  checklist groups, same structure as setup.yml
+#
+# To add a new game: copy a block, give it a unique id, fill in the fields.
+# Order here controls the order of the tab buttons.
+
+- id: valorant
+  label: "🎯 Valorant"
+  overlay: "Observer overlay: Select the <strong>Valorant</strong> button on the Stream Deck XL overlay row."
+  groups:
+    - header: "Valorant — Spectra Client Setup"
+      items:
+        - id: v1
+          text: "Open <strong>Spectra Client</strong> on Observer 1"
+        - id: v2
+          text: "Fill in opponent team details and the <strong>opponent logo URL</strong> — use the same logo just downloaded on the Director PC for vMix"
+        - id: v3
+          text: "<strong>Reset series score</strong> to 0–0"
+        - id: v4
+          text: "Verify <strong>home vs. away</strong> assignment. Home team must be on the <strong>left side</strong> for correct pick/ban order"
+
+    - header: "Valorant — Map Ban Session"
+      items:
+        - id: v5
+          text: "In Spectra Client, next to the Connect button: <strong>Extras → Start Map Ban Session</strong>"
+        - id: v6
+          text: "In the browser tab that opens: set the <strong>game style</strong> (Bo3 is standard; Bo5 for playoffs/finals) and the current <strong>map pool</strong>"
+        - id: v7
+          text: "Open each team's individual pick/ban URL, place them <strong>side by side</strong>, and wait for confirmation from the competing teams before proceeding"
+        - id: v8
+          text: "Find the <strong>Map Ban Session ID</strong> from the URL — typically the value of <code>&amp;sessionID=XXXXXXXX</code>"
+        - id: v9
+          text: "Paste the session ID into <code>MapBanSessionID.txt</code> in vMix, then <strong>reboot vMix</strong>. This updates all vMix sources with the correct session data"
+
+    - header: "Valorant — Ticker & Map Setup"
+      items:
+        - id: v10
+          text: "Once pick/ban is complete, add the 3 maps to the <strong>ticker setup</strong>:<br><small style='color:#aaa; display:block; margin-top:4px; line-height:1.6'><strong style='color:#ddd'>Left slot</strong> — Current map: map name (title is automatic) + who picked it<br><strong style='color:#ddd'>Middle slot</strong> — Future map: map name + who picked it<br><strong style='color:#ddd'>Right slot</strong> — Future map: map name + who picked it</small>"
+
+    - header: "Valorant — Connect & Match Start"
+      items:
+        - id: v11
+          text: "<span style='display:flex; flex-direction:column; gap:4px;'><span>Before hitting <strong>Connect</strong>: verify the correct team is set as <strong>Start as Attack</strong></span><span style='background:#3d1010; border:1px solid #7a2020; border-radius:4px; padding:6px 10px; font-size:0.82rem; color:#f5a0a0;'>⛔ <strong>CRITICAL:</strong> Getting this wrong will cause the entire overlay to display incorrect side/economy information for the whole map. Double-check with team comms before connecting.</span></span>"
+        - id: v12
+          text: "Hit <strong>Connect</strong> in Spectra Client"
+
+    - header: "Valorant — During & Between Maps"
+      items:
+        - id: v13
+          text: "After each map ends: update the <strong>series score</strong> in Spectra Client"
+        - id: v14
+          text: "Update the <strong>map ban dashboard</strong> to reflect the completed map result"
+        - id: v15
+          text: Keep both Spectra Client and the map ban dashboard visible on screen simultaneously for quick access between maps
+
+- id: rivals
+  label: "⚔️ Marvel Rivals"
+  overlay: "Observer overlay: Use <strong>OVL OFF</strong> on the Stream Deck XL overlay row — the in-game overlay is sufficient for Rivals."
+  groups:
+    - header: "Marvel Rivals — Lobby Setup"
+      items:
+        - id: mr1
+          text: Get all observers into the match lobby
+        - id: mr2
+          text: "Ask the <strong>lobby leader</strong> to apply the correct <strong>team names and abbreviations</strong> in lobby settings"
+
+- id: rocket
+  label: "🚀 Rocket League"
+  overlay: "Observer overlay: Select the <strong>Rocket League</strong> button on the Stream Deck XL overlay row."
+  warn: "<strong>⚠ Deprecation Notice:</strong> BARL is being deprecated in April due to Rocket League adding Easy Anti-Cheat. A replacement system is TBD. Verify this workflow is still valid before each match."
+  groups:
+    - header: "Rocket League — Observer Setup"
+      items:
+        - id: rl1
+          text: "Launch <strong>BakkesMod</strong> on Observer 1 first — it must be running before the game launches"
+        - id: rl2
+          text: "Launch <strong>Rocket League</strong> on Observer 1"
+
+    - header: "Rocket League — BARL & Websocket Proxy"
+      items:
+        - id: rl3
+          text: "Open <strong>BARL</strong> on the Director PC"
+        - id: rl4
+          text: "Confirm the <strong>websocket proxy</strong> is running — check the Command Prompt window and verify it shows the correct IP address of Observer 1.<br><small style='color:#888'>If the IP is wrong: edit <code>Documents &gt; Assets &gt; Scripts &gt; BARL Proxy &gt; config.json</code> and restart the proxy.</small>"
+        - id: rl5
+          text: "Add <strong>opponent name, abbreviation, and logo</strong> in BARL — same process as Valorant (logo downloaded from NECC match page)"
+        - id: rl6
+          text: "<strong>Reset series score</strong> to 0–0"
+
+    - header: "Rocket League — Verification"
+      items:
+        - id: rl7
+          text: "Verify the full pipeline in a <strong>private lobby with AI players</strong> before going live"
+        - id: rl8
+          text: "In game on Observer 1: confirm <strong>Director mode</strong> is selected"
+        - id: rl9
+          text: "Hide the in-game UI by pressing <kbd>H</kbd>"
+
+- id: lol
+  label: "🧙 League of Legends"
+  overlay: "Observer overlay: Select the <strong>League of Legends</strong> button on the Stream Deck XL overlay row."
+  groups:
+    - header: "League of Legends — League Broadcast Setup"
+      items:
+        - id: lol1
+          text: "Open <strong>League Broadcast</strong> on Observer 1"
+        - id: lol2
+          text: "Go to the <strong>Teams</strong> tab — add the opponent team if not already present"
+        - id: lol3
+          text: Download and import the opponent logo from the NECC match page (same process as other titles — Resources → share icon)
+        - id: lol4
+          text: "On the NECC match page, find the opponent's <strong>primary and secondary colors</strong> and apply them in League Broadcast"
+        - id: lol5
+          text: "<strong>Fill in name, abbreviation, logo, and colors only</strong> — leave all other fields blank"
+
+    - header: "League of Legends — Overlay Verification"
+      items:
+        - id: lol6
+          text: "Go to the <strong>In-Game</strong> tab in League Broadcast"
+        - id: lol7
+          text: "Hit the <strong>test tube icon</strong> to load mock data — the overlay should appear in vMix exactly as it would during a live game"
+
+- id: ow
+  label: "🤖 Overwatch"
+  overlay: "Observer overlay: Select the <strong>Overwatch</strong> button on the Stream Deck XL overlay row."
+  groups:
+    - header: "Overwatch — Stream Manager Setup"
+      items:
+        - id: ow1
+          text: "In Chrome, open the <strong>Stream Manager</strong> bookmark on the Director PC"
+        - id: ow2
+          text: "Update opponent details — get the opponent logo URL from the NECC match page (same process as Valorant: Schedule → match → Resources → share icon) and paste into Stream Manager"
+        - id: ow3
+          text: "On the NECC match page, open the <strong>Colors</strong> menu (same area as Images). Find the <strong>opponent's color code</strong> and apply it in Stream Manager"
+
+    - header: "Overwatch — Overlay & Dashboard Verification"
+      items:
+        - id: ow4
+          text: "Adjust the score in Stream Manager and confirm the <strong>overlay responds correctly</strong>"
+        - id: ow5
+          text: "Verify <strong>maps and hero bans graphics</strong> are working correctly in the overlay"
+        - id: ow6
+          text: "<strong>Clear</strong> any existing map picks and hero bans in the dashboard — start fresh"
+        - id: ow7
+          text: "<strong>Reset the score</strong> to 0–0"
+
+    - header: "Overwatch — Lobby & Side Assignment"
+      items:
+        - id: ow8
+          text: "Once the lobby is set up and team sides are assigned, verify that <strong>teams are on the correct side of the screen</strong> in the overlay — left/right must match the in-game layout"

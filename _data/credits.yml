@@ -1,24 +1,24 @@
 # Each group has a label and a list of productions.
 # url is optional — remove that line if there's no link.
 
-- group: Contracted / Paid
+- group: Professional
   productions:
-    - show: Disney Lorcana Challenge
+    - show: Disney Lorcana Challenge Indianapolis
       url: https://disneylorcana.com/en-US/play/lorcana-challenge
-      role: Production Assistant · Stream Crew
+      role: Production Assistant
       date: Jun 2026 ↗
       location: Indianapolis, IN
 
     - show: DreamHack Atlanta
       url: https://dreamhack.com/atlanta
-      role: Creator Hub
-      date: Nov 2022 · May 2026
+      role: Creator Hub Staff
+      date: Nov 2022 · May 2026 ↗
       location: Atlanta, GA
 
     - show: Purdue Grand Prix
       url: https://purduegrandprix.org
       role: Camera Operator
-      date: Apr 2025 · Apr 2026
+      date: Apr 2025 · Apr 2026 ↗
       location: West Lafayette, IN
 
 - group: Volunteer / Student

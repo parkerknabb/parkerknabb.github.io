@@ -1,0 +1,24 @@
+# Equipment inventory shown on the Overview tab.
+# Each group has a heading (with optional emoji) and a list of items.
+
+- heading: "🎥 Casting Set"
+  items:
+    - Alienware m16 R1 — casting/ingest laptop
+    - Sonnet eGFX Breakaway Box (Thunderbolt)
+    - Elgato Cam Link Pro (inside Breakaway Box)
+    - Blackmagic Micro Studio 4K G2 × 2 (Cam 1, 2)
+    - Panasonic Lumix G (Cam 3)
+    - GVM LED Studio Lights × 2
+    - HDMI Switcher → Casting TVs × 2
+    - Elgato Stream Deck Mini (caster table)
+    - USB extension cable (Stream Deck to laptop)
+    - Power strip (wall outlet behind panel)
+    - Network cable (wall port behind panel)
+
+- heading: "🖥️ Production Studio"
+  items:
+    - Alienware Aurora R16 × 2 (vMix Director + Observer 1)
+    - Alienware m16 R1 × 2 (Observers 2–3)
+    - RODECaster Pro II audio board
+    - Elgato Stream Deck XL (Director PC)
+    - XLR × 2, ¼" × 2 — broadcast headsets (across hall)

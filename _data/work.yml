@@ -2,6 +2,16 @@
 # upcoming: true adds a dashed border to the card.
 # link/link_label are optional — remove those lines if not needed.
 
+- icon: 🌩️
+  org: IBHS
+  org_url: https://ibhs.org
+  dates: Summer 2026
+  title: Broadcast & AV Infrastructure Intern
+  desc: IFB implementation and VTR integration for large-scale weather test chamber systems. Studio and remote production support for a nationally recognized insurance research organization.
+  tags: [IFB, VTR, Studio Ops, Remote Broadcast]
+  upcoming: true
+  upcoming_label: "↳ Upcoming — Summer 2026"
+
 - icon: 📡
   org: Purdue Esports / RecWell
   org_url: https://esports.purdue.edu
@@ -10,7 +20,7 @@
   desc: Designs and operates the broadcast infrastructure for Purdue varsity esports. Manages a team of four broadcast specialists and handles IT administration for the Alienware Gaming Lounge.
   tags: [vMix, OBS, OMT, Bitfocus Companion, PXE Boot]
   link: https://parkerknabb.com/esports
-  link_label: View ops documentation
+  link_label: View documentation
 
 - icon: 🎵
   org: Purdue Hall of Music Productions
@@ -33,15 +43,5 @@
   org_url: https://en.wikipedia.org/wiki/NCR_Corporation
   dates: Summer 2022
   title: IT Intern
-  desc: My first exposure to enterprise IT at a Fortune 500. Built an unsolicited batch file automation tool that streamlined a repetitive internal process — still in use in more advanced PowerShell form years later.
+  desc: My first exposure to enterprise IT at a Fortune 500. Built an unsolicited batch file automation tool that streamlined a repetitive internal process — still in use in more advanced PowerShell form today.
   tags: [Batch / PowerShell, Enterprise IT]
-
-- icon: 🌩️
-  org: IBHS
-  org_url: https://ibhs.org
-  dates: Summer 2026
-  title: Broadcast & AV Infrastructure Intern
-  desc: IFB implementation and VTR integration for large-scale weather test chamber broadcasts. Studio and remote production support for a nationally recognized insurance research organization.
-  tags: [IFB, VTR, Studio Ops, Remote Broadcast]
-  upcoming: true
-  upcoming_label: "↳ Upcoming — Summer 2026"

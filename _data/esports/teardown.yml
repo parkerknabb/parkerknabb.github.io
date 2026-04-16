@@ -1,0 +1,36 @@
+# Teardown checklist groups.
+# Same structure as setup.yml groups.
+
+warn: "<strong>🏠 Leave it better than you found it.</strong> Everything must go back exactly where it came from — table and chairs back to the center of the room, all equipment back to the studio. The casting set area must stay available for console gaming between shows."
+
+groups:
+  - header: "T1 — Disconnect from Wall & Return Keys"
+    items:
+      - id: t1
+        text: Unplug power strip from wall outlet (inside concealed panel)
+      - id: t2
+        text: Unplug network cable from wall port
+      - id: t3
+        text: Replace and lock the concealed panel
+      - id: t4
+        text: Return keys to desk worker and ask them to change lighting back to normal
+
+  - header: "T2 — Unplug Receiving Ends Only"
+    items:
+      - id: t5
+        text: "<strong>Cameras</strong> — unplug HDMI and power at the <strong>capture card / power strip end</strong>. Leave cables attached to cameras and let them hang from the tripod"
+      - id: t6
+        text: "<strong>Lights</strong> — unplug power at the <strong>power strip end</strong>. Leave cables attached to GVM lights and let them hang from the light stand"
+      - id: t7
+        text: "<strong>HDMI Switcher</strong> — unplug HDMI and power at the <strong>laptop / wall end</strong>. Leave cables connected to the switcher itself"
+      - id: t8
+        text: "<strong>Casting laptop</strong> — unplug USB ethernet adapter, USB extension cable, and power adapter. Leave the <strong>Thunderbolt cable connected on both ends</strong> — the laptop sits on top of the Breakaway Box for storage"
+      - id: t9
+        text: "<strong>Stream Deck Mini</strong> — unplug from USB extension cable at the caster table end"
+
+  - header: "T3 — Audio Loom & Furniture"
+    items:
+      - id: t10
+        text: "Disconnect caster headsets. <strong>Wrap the audio cable loom</strong> and tuck it between the seating cube and the wall next to the cable ramp"
+      - id: t11
+        text: "Move the <strong>table and chairs back to the center of the room</strong>"

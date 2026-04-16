@@ -1,0 +1,112 @@
+# Troubleshooting issue cards.
+# Each issue has:
+#   title: shown in the collapsed header
+#   tag:   one of: cam, net, display, audio, hw
+#   steps: list of step strings (HTML supported)
+#   note:  optional plain-text note shown above steps (HTML supported)
+#
+# To add a new issue: copy a block, fill in the fields, place in logical order.
+
+- title: "📷 Cameras not appearing in Elgato Capture Utility or OBS"
+  tag: cam
+  steps:
+    - "Confirm the <strong>Sonnet Breakaway Box</strong> was powered on before the laptop booted. If the laptop was booted first, fully shut it down, verify the Breakaway Box has power, then boot the laptop again."
+    - "Check for the <strong>blue \"S\" LED on the Breakaway Box</strong> during boot — if it doesn't light, Thunderbolt was not recognized. Full shutdown and retry."
+    - "Verify the Thunderbolt cable is in the <strong>far rear USB-C port</strong> on the Alienware m16 (furthest from the power adapter), not the adjacent port."
+    - "Confirm all 3 camera HDMI cables are seated at both the camera and Cam Link Pro ends."
+    - "Open the <strong>Elgato 4K Capture Utility</strong> first to confirm the card is visible before opening OBS. If the card doesn't appear in Capture Utility, the Thunderbolt link is the problem — not OBS."
+
+- title: "📡 NDI/OMT feed stuttering or dropping from casting set"
+  tag: net
+  steps:
+    - "Check for a valid IP on the broadcast network — open a browser and confirm connectivity."
+    - "Try <strong>unplugging and replugging the USB-to-Ethernet adapter</strong>. The adapter occasionally needs a reconnect to re-establish a stable link."
+    - "If the issue persists, run a direct cable from the casting set directly to the switch under OBS 1 in the studio — this bypasses the wall port entirely."
+    - "Confirm nothing else is saturating the broadcast network — check if any other PCs are doing large file transfers."
+    - "In OBS on the casting laptop, verify the OMT output is still active (not just open but transmitting)."
+
+- title: "🎙 Audio not reaching vMix / caster levels missing"
+  tag: audio
+  steps:
+    - "Confirm the RODECaster Pro II was powered on <strong>before</strong> vMix was opened. If vMix launched first, close vMix, power cycle the RODECaster, then reopen vMix."
+    - "In vMix, verify the audio input device is set to the RODECaster USB interface."
+    - "Check XLR mic cables and ¼\" return cables running through the loom — trace for any disconnected ends at the headset or board end."
+    - "On the RODECaster, confirm the caster channel faders are up and not muted."
+    - "If the RODECaster USB disconnects mid-show: unplug and replug the USB cable, then re-select the device in vMix audio settings."
+    - "Check that no channels are accidentally <strong>solo'd</strong> on the board — a solo'd channel will prevent you from hearing other sources in your producer headset."
+
+- title: "🎧 Caster only hearing audio in one ear"
+  tag: audio
+  note: "This is almost always the ¼\" headset return cable being slightly unseated — a known quirk of this connector type."
+  steps:
+    - "Gently twist the ¼\" cable at the headset connection point while the caster listens — rotate slowly until stereo is restored."
+    - "If twisting doesn't resolve it, fully unplug and firmly reseat the ¼\" connector."
+    - "If the issue persists on one specific caster, try swapping their ¼\" cable with the spare if available, to rule out a damaged cable."
+
+- title: "🔇 Can't hear something you should in producer headset"
+  tag: audio
+  steps:
+    - "Check the RODECaster for any <strong>solo'd channels</strong> — when a channel is soloed, you only hear that channel. Unsolo everything and check again."
+    - "Confirm the channel for the source you're not hearing (casters, game audio, music) has its fader up and is not muted."
+    - "Verify game audio from Observer PCs is routing through vMix and being sent to the RODECaster mix."
+    - "Remember: the <strong>producer headset (3rd fader)</strong> is configured to never go to stream — if something is not on stream but you can hear it, that's expected behavior."
+
+- title: "🖥 vMix not receiving OMT from casting set"
+  tag: net
+  steps:
+    - "Confirm OBS is running on the casting laptop and the OMT output is active (not just OBS being open)."
+    - "Verify the casting laptop's network connection is live — check for a valid IP on the broadcast network."
+    - "On the Director PC in vMix, confirm the OMT input source IP/address matches the casting laptop's current IP."
+    - "If the IP has changed (e.g., DHCP reassignment), update the OMT source address in vMix accordingly."
+    - "If feed is present but degraded, follow network troubleshooting steps above (run cable to switch under OBS 1)."
+
+- title: "🔌 A device has no power / power strip has a free plug"
+  tag: hw
+  note: "All 8 power strip slots must be filled before booting. A free plug means something is unpowered."
+  steps:
+    - "Identify what is missing by checking against the full list: Breakaway Box · Cam 1 · Cam 2 · Cam 3 · GVM Light 1 · GVM Light 2 · HDMI Switcher · Casting Laptop."
+    - "Trace the missing device's power cable — it may have been forgotten during setup or come loose."
+    - "If the power strip itself appears dead, check that it is firmly plugged into the wall outlet inside the concealed panel and that the panel outlet has power."
+    - "Do not boot the laptop until all 8 slots are confirmed filled and all devices have power."
+
+- title: "🎛 Stream Deck Mini not showing M / TB buttons in Companion Satellite"
+  tag: display
+  steps:
+    - "Confirm the USB extension cable is firmly seated at both the laptop and the Stream Deck Mini ends."
+    - "Check that <strong>Bitfocus Companion Satellite</strong> is running on the casting laptop — it must be open for the deck to receive its button layout."
+    - "If Companion Satellite is open but the deck is blank or showing wrong buttons, try closing and reopening Companion Satellite."
+    - "If the deck is still unresponsive, unplug the USB extension from the laptop, wait a few seconds, and replug. Companion Satellite should re-detect the device automatically."
+    - "If the issue persists, try plugging the Stream Deck Mini directly into a laptop USB port (bypassing the extension cable) to rule out a faulty extension."
+
+- title: "🎵 Music not playing on the MUSIC channel / Foobar2000 not routing"
+  tag: audio
+  steps:
+    - "Check that <strong>Foobar2000</strong> is open and playing on the Director PC — it may not have been launched yet or may have stopped."
+    - "In Foobar2000, verify the output device is set to route to the RODECaster (check Preferences → Playback → Output)."
+    - "On the RODECaster, confirm the <strong>MUSIC</strong> channel fader is up and not muted."
+    - "If Foobar2000 is running and routing correctly but the board shows no signal, power cycle the RODECaster and reopen vMix after it restarts."
+
+- title: "🎮 Game audio from Observer PCs not heard by casters or on stream"
+  tag: audio
+  steps:
+    - "In OBS on the affected Observer PC, confirm the game capture source has audio enabled and is not muted in the OBS audio mixer."
+    - "Verify the Observer PC is transmitting OMT to vMix — if the video feed is also missing, resolve that first (see OMT troubleshooting)."
+    - "In vMix on the Director PC, check the audio settings for that Observer's OMT input — confirm audio is enabled and its level is not zeroed."
+    - "Put that Observer feed on program and check the RODECaster for signal on the game audio channel. If vMix is sending it but the board isn't receiving it, check the USB connection between the Director PC and the RODECaster."
+    - "Confirm no solo button is engaged on the board that would mask the game audio channel in your monitor mix."
+
+- title: "⏱ Game audio is delayed (often exactly 1 second)"
+  tag: audio
+  note: "A consistent 1-second delay is a known OBS sync issue on observer PCs — a full reboot of OBS resolves it reliably."
+  steps:
+    - Identify which observer's feed has the delayed audio.
+    - Fully close OBS on that observer PC and reopen it.
+    - Confirm game capture and audio are transmitting again via OMT before putting that feed back on program.
+
+- title: "🔁 Game audio is echoing or doubled"
+  tag: audio
+  note: "This happens when both <strong>Desktop Audio</strong> and <strong>Game Capture</strong> are passing audio simultaneously in OBS — two slightly offset copies of the same source."
+  steps:
+    - On the affected observer PC, open the OBS audio mixer.
+    - "Find the <strong>Desktop Audio</strong> channel and mute it — only <strong>Game Capture</strong> audio should be active."
+    - Confirm the echo is gone before returning that feed to program.
