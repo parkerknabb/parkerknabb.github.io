@@ -19,6 +19,25 @@
   --font-display: 'DM Serif Display', Georgia, serif;
   --font-body: 'Outfit', sans-serif;
   --font-mono: 'DM Mono', monospace;
+
+  --max-width: 1100px;
+  --pad-x: 48px;
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --max-width: 1400px;
+    --pad-x: 64px;
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 2000px) {
+  :root {
+    --max-width: 1700px;
+    --pad-x: 80px;
+    font-size: 20px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -81,7 +100,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 48px;
+  padding: 18px var(--pad-x);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   background: rgba(247,249,252,0.75);
@@ -139,7 +158,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 120px 48px 80px;
+  padding: 120px var(--pad-x) 80px;
   overflow: hidden;
 }
 .hero-grid-bg {
@@ -163,7 +182,7 @@ nav {
   pointer-events: none;
 }
 .hero-inner {
-  max-width: 1100px;
+  max-width: var(--max-width);
   width: 100%;
   margin: 0 auto;
   display: grid;
@@ -283,7 +302,7 @@ h1 em {
 .scroll-hint {
   position: absolute;
   bottom: 40px;
-  left: 48px;
+  left: var(--pad-x);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -386,9 +405,9 @@ h2 em { font-style: italic; color: var(--accent); }
 
 /* ── ABOUT ── */
 section {
-  max-width: 1100px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 100px 48px;
+  padding: 100px var(--pad-x);
 }
 #about .about-grid {
   display: grid;
@@ -433,7 +452,7 @@ section {
 }
 
 /* ── WORK CARDS ── */
-#work { max-width: 1100px; }
+#work { max-width: var(--max-width); }
 .work-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -514,9 +533,9 @@ section {
 
 /* ── TIMELINE ── */
 #timeline {
-  max-width: 1100px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 100px 48px;
+  padding: 100px var(--pad-x);
 }
 .tl-intro {
   max-width: 560px;
@@ -696,9 +715,9 @@ a.org-link:hover {
 
 /* ── SKILLS ── */
 #signal {
-  max-width: 1100px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 100px 48px;
+  padding: 100px var(--pad-x);
 }
 #signal .inner {
   width: 100%;
@@ -793,7 +812,7 @@ a.org-link:hover {
 /* ── CONTACT ── */
 #contact {
   text-align: center;
-  padding: 120px 48px;
+  padding: 120px var(--pad-x);
 }
 #contact h2 { margin-bottom: 16px; }
 #contact p {
@@ -814,7 +833,7 @@ a.org-link:hover {
 /* ── FOOTER ── */
 footer {
   border-top: 1px solid var(--border);
-  padding: 24px 48px;
+  padding: 24px var(--pad-x);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -855,4 +874,14 @@ footer {
 @media (max-width: 600px) {
   .credit-row { flex-direction: column; gap: 6px; }
   .credit-meta { align-items: flex-start; }
+}
+
+/* ── LARGE SCREEN ── */
+@media (min-width: 1600px) {
+  .hero-inner { grid-template-columns: 1fr 440px; }
+  .work-cards { grid-template-columns: repeat(3, 1fr) !important; }
+  .skills-grid { grid-template-columns: repeat(4, 1fr); }
+  .tl-entry { grid-template-columns: 80px 1fr; gap: 0 64px; }
+  .tl-entry::before { left: 96px; }
+  .tl-dot { left: 90px; }
 }
