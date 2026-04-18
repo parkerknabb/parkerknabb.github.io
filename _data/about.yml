@@ -1,0 +1,27 @@
+# About / Background section content.
+# 
+# paragraphs: the three text blocks in the left column.
+#   HTML is supported (<strong>, etc.)
+#   Each paragraph is a separate entry.
+#
+# stats: the four stat cards in the right column.
+#   num:   the large display number/value
+#   label: the description below it
+
+paragraphs:
+  - "It started with a Windows PC teardown with my dad. That spark turned into an <strong>insatiable drive to learn everything K–12 wouldn't teach</strong>: networking, AV systems, broadcast production, infrastructure design."
+  - "Now that I'm studying Computer Engineering and have real clarity on what I want to do, the focus has shifted to something my degree will never cover: <strong>practical systems design and broadcast operations</strong>. Purdue doesn't have a broadcast engineering program. There's no career fair track for this field, no professor pointing the way. Everything in this portfolio came from finding the opportunities myself."
+  - "A tour of The Weather Channel's broadcast facility: a server room spanning half a floor, thin-client control surfaces, centralized processing at scale, made the destination clear. <strong>This is the work I want to do.</strong>"
+
+stats:
+  - num: "4+"
+    label: Years operating broadcast & AV systems
+
+  - num: "4"
+    label: Person broadcast team managed at Purdue Esports
+
+  - num: "41h"
+    label: Airtime produced in a single NECC season month
+
+  - num: "A+"
+    label: CompTIA certified · ACSP certified

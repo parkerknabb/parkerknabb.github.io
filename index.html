@@ -50,12 +50,12 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
   <h2>Self-taught since<br>first grade.</h2>
   <div class="about-grid">
     <div class="about-text">
-      <p>It started with a Windows PC teardown with my dad. That spark turned into an <strong>insatiable drive to learn everything K–12 wouldn't teach</strong> — networking, AV systems, broadcast production, infrastructure design.</p>
-      <p>Now that I'm studying Computer Engineering and have real clarity on what I want to do, the focus has shifted to something my degree will never cover: <strong>practical systems design and broadcast operations</strong>. Purdue doesn't have a broadcast engineering program. There's no career fair track for this field, no professor pointing the way. Everything in this portfolio came from finding the opportunities myself.</p>
-      <p>A tour of The Weather Channel's broadcast facility — a server room spanning half a floor, thin-client control surfaces, centralized processing at scale — made the destination clear. <strong>This is the work I want to do.</strong></p>
+      {% for paragraph in site.data.about.paragraphs %}
+      <p>{{ paragraph }}</p>
+      {% endfor %}
     </div>
     <div class="about-stats">
-      {% for stat in site.data.stats %}
+      {% for stat in site.data.about.stats %}
       <div class="stat-card">
         <div class="stat-num">{{ stat.num }}</div>
         <div class="stat-label">{{ stat.label }}</div>

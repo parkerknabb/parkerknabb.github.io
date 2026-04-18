@@ -9,11 +9,17 @@
   title: Broadcast & AV Infrastructure Intern
   desc: "I'm looking forward to working on new projects in IFB and VTR systems this summer."
 
+- year: "2026-27"
+  org: Purdue Varsity Glee Club
+  org_url: https://www.purdue.edu/pmo/ensembles/purdue-varsity-glee-club.php
+  title: Audio Engineer
+  desc: "Three years on stage with PVGC gave me a performer's perspective on what a system needs to do. Taking over as audio engineer for 2026-27, where I will commission a new rig: Behringer Wing, Shure ULX-D wireless, StageConnect P24 monitoring. Getting to put together the system I'll then operate on tour is the best possible introduction to a new discipline."
+
 - year: "2025–"
   org: Purdue Esports
   org_url: https://esports.purdue.edu
   title: Broadcast Production & Engineering Coordinator
-  desc: "My first role where I was fully responsible for both building the system and keeping it running. The constraints were real: small budget, no infrastructure, no precedent. I had to think my way through every decision. Managing a team while the system is live every match week is a different kind of pressure from building it in the first place."
+  desc: "My first role where I was fully responsible for both building the system from scratch and keeping it running. The constraints were real: small budget, no infrastructure, no precedent. I had to think my way through every decision. Managing a team while the system is live every match week is a different kind of pressure from building it in the first place."
   docs_link: https://parkerknabb.com/esports
   docs_label: System and ops documentation
   photos:
@@ -24,7 +30,7 @@
   org: LEAP — Purdue Hall of Music
   org_url: https://boilerlink.purdue.edu/organization/leap-purdue
   title: LED Tech — Arena EDM Show
-  desc: Six hours of self-teaching a system I'd never touched, on a rig I'd never seen, for a show that same night. When I explained my work to the full-time staff, they said I probably knew this better than they did.
+  desc: "I taught myself a crash course in NovaLCT LED configuration in six hours to get the 3 different LED panel types on stage and in the air working before showtime. When I explained my work to the full-time staff, they said they probably knew this better than they did."
   photos:
     - /images/timeline/leap/01.jpg
     - /images/timeline/leap/02.jpg
@@ -82,4 +88,4 @@
 - year: ""
   org: Before all of this
   title: Origins
-  desc: Took apart a PC with my dad in 1st grade. Ran the computer lab before school through 5th grade. Went back to my elementary school on Tuesdays and Thursdays in 6th grade just to keep helping — called it "Tech on the T's." Choir from elementary school through Purdue Varsity Glee Club. FLL, FTC, and FRC robotics through senior year. A morning broadcast in middle school, edited in iMovie, played back every day. None of it was a plan.
+  desc: Took apart a PC with my dad in 1st grade. Ran the computer lab before school through 5th grade. Went back to my elementary school on Tuesdays and Thursdays in 6th grade just to keep helping through "Tech on the T's." Choir from elementary school through Purdue Varsity Glee Club. FLL, FTC, and FRC robotics through senior year. A morning broadcast in middle school, edited in iMovie, played back every day. None of it was a plan.
