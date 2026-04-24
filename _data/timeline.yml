@@ -23,8 +23,8 @@
   docs_link: https://parkerknabb.com/esports
   docs_label: System and ops documentation
   photos:
-    - /images/timeline/esports/01.jpg
-    - /images/timeline/esports/02.jpg
+    - /images/timeline/esports/01.webp
+    - /images/timeline/esports/02.webp
 
 - year: "2026"
   org: LEAP — Purdue Hall of Music
@@ -32,10 +32,10 @@
   title: LED Tech — Arena EDM Show
   desc: "I taught myself a crash course in NovaLCT LED configuration in six hours to get the 3 different LED panel types on stage and in the air working before showtime. When I explained my work to the full-time staff, they said they probably knew this better than they did."
   photos:
-    - /images/timeline/leap/01.jpg
-    - /images/timeline/leap/02.jpg
-    - /images/timeline/leap/03.jpg
-    - /images/timeline/leap/04.jpg
+    - /images/timeline/leap/01.webp
+    - /images/timeline/leap/02.webp
+    - /images/timeline/leap/03.webp
+    - /images/timeline/leap/04.webp
 
 - year: "2025"
   org: GoTo Foods
@@ -43,7 +43,7 @@
   title: Enterprise IT Infrastructure Intern
   desc: This role taught me a lot about how infrastructure decisions get made at scale — and how slowly. I came in wanting to move fast and learned that large organizations move deliberately for reasons that aren't always obvious from the outside. Valuable perspective, even if it confirmed what I don't want my day-to-day to look like.
   photos:
-    - /images/timeline/gtf/01.jpg
+    - /images/timeline/gtf/01.webp
 
 - year: 2022–23
   org: GeorgiaFIRST Robotics
@@ -51,10 +51,10 @@
   title: Technical Director & Producer · Peachtree Live
   desc: Being approached to build something from scratch by an organization I'd just been volunteering for is a specific kind of validation. I was 17 and they handed me two multi-day tournaments with 2,000+ spectators. I didn't fully appreciate how unusual that was until later.
   photos:
-    - /images/timeline/georgiafirst/01.jpg
-    - /images/timeline/georgiafirst/02.jpg
-    - /images/timeline/georgiafirst/03.jpg
-    - /images/timeline/georgiafirst/04.jpg
+    - /images/timeline/georgiafirst/01.webp
+    - /images/timeline/georgiafirst/02.webp
+    - /images/timeline/georgiafirst/03.webp
+    - /images/timeline/georgiafirst/04.webp
 
 - year: "2022"
   org: DreamHack Atlanta
@@ -62,10 +62,10 @@
   title: Creator Hub · Panel Stage Manager
   desc: My first paid production gig. Four days in a professional live event environment at a scale I hadn't experienced before. I was thrown in and figured it out, which turned out to be the template for most of what followed. I'm looking forward to returning for the 2026 event in May!
   photos:
-    - /images/timeline/dreamhack/01.jpg
-    - /images/timeline/dreamhack/02.jpg
-    - /images/timeline/dreamhack/03.jpg
-    - /images/timeline/dreamhack/04.jpg
+    - /images/timeline/dreamhack/01.webp
+    - /images/timeline/dreamhack/02.webp
+    - /images/timeline/dreamhack/03.webp
+    - /images/timeline/dreamhack/04.webp
     
 - year: "2022"
   org: NCR Corporation
@@ -73,8 +73,8 @@
   title: IT Intern
   desc: Three weeks at a Fortune 500, never on the same thing twice. I built a tool nobody asked for because I saw a problem and solved it. That script's foundation is still powering the TechKnow Bar today.
   photos:
-    - /images/timeline/ncr/01.jpg
-    - /images/timeline/ncr/02.jpg
+    - /images/timeline/ncr/01.webp
+    - /images/timeline/ncr/02.webp
 
 - year: 2021–23
   org: Johnson Ferry Baptist Church
@@ -82,8 +82,8 @@
   title: Camera Operator & Video Director
   desc: The place where I learned that live means live. No do-overs, no second chances. Starting on camera before I had any real training taught me to trust my instincts under pressure, which has turned out to be more useful than any formal credential.
   photos:
-    - /images/timeline/church/01.jpg
-    - /images/timeline/church/02.jpg
+    - /images/timeline/church/01.webp
+    - /images/timeline/church/02.webp
 
 - year: ""
   org: Before all of this

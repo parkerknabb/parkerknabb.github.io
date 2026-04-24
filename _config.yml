@@ -11,9 +11,10 @@ author:
   linkedin: https://linkedin.com/in/parker-knabb
   
 headshot: true
+headshot_ext: webp
 
 # ── Open Graph / Social ───────────────────────────────────────
-og_image: /images/headshot.jpg
+og_image: /images/headshot.webp
 twitter_handle: ""
 
 # ── Build ─────────────────────────────────────────────────────
