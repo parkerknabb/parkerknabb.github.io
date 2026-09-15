@@ -6,8 +6,22 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
 
 <!-- HERO -->
 <div id="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-glow"></div>
+  <div class="hero-frame" aria-hidden="true">
+    <span class="hf-corner hf-tl"></span>
+    <span class="hf-corner hf-tr"></span>
+    <span class="hf-corner hf-bl"></span>
+    <span class="hf-corner hf-br"></span>
+
+    <span class="hf-safe hf-safe-tl"></span>
+    <span class="hf-safe hf-safe-tr"></span>
+    <span class="hf-safe hf-safe-bl"></span>
+    <span class="hf-safe hf-safe-br"></span>
+
+    <span class="hf-ticks hf-ticks-top"></span>
+    <span class="hf-ticks hf-ticks-bottom"></span>
+
+    <span class="hf-on-air"><span class="hf-dot"></span><span class="hf-label">ON AIR</span></span>
+  </div>
 
   <div class="hero-inner">
     <div class="hero-text">
@@ -68,8 +82,8 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
 <!-- WORK -->
 <section id="work">
   <p class="section-label">Experience</p>
-  <h2>Where I've worked.</h2>
-  <div class="work-cards" style="grid-template-columns: repeat(2, 1fr);">
+  <h2>Then people started paying me for it.</h2>
+  <div class="work-cards">
     {% for job in site.data.work %}
     <div class="work-card{% if job.upcoming %} upcoming{% endif %}">
       <div class="work-card-icon">{{ job.icon }}</div>
@@ -100,7 +114,7 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
 <!-- CREDITS -->
 <section id="credits">
   <p class="section-label">Credits</p>
-  <h2>Productions I've worked.</h2>
+  <h2>Shows, not just jobs.</h2>
   <p style="color:var(--text-mid);font-size:1rem;font-weight:300;line-height:1.7;max-width:560px;margin-bottom:56px;">The productions — separate from the employer relationships listed above.</p>
 
   {% for group in site.data.credits %}
@@ -130,7 +144,7 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
 <div id="signal">
   <div class="inner">
     <p class="section-label">Technical</p>
-    <h2>Tools &amp; protocols.</h2>
+    <h2>What's actually in the signal chain.</h2>
     <div class="skills-grid">
       {% for group in site.data.skills %}
       <div class="skill-group">
@@ -149,7 +163,7 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
 <!-- TIMELINE -->
 <section id="timeline">
   <p class="section-label">Background</p>
-  <h2>How I got here.</h2>
+  <h2>The long way here.</h2>
   <p class="tl-intro">The moments behind the résumé.</p>
 
   {% for entry in site.data.timeline %}
@@ -179,7 +193,7 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
 <!-- CONTACT -->
 <section id="contact" style="padding-top:60px;">
   <p class="section-label">Contact</p>
-  <h2>Let's work together.</h2>
+  <h2>The next system I want to build.</h2>
   <p style="color:var(--text-mid);font-size:1rem;font-weight:300;line-height:1.7;max-width:480px;margin:0 auto 40px;">I'm currently seeking full-time roles in AV infrastructure, broadcast engineering, and systems integration starting May 2027. Open to internships, freelance, and conversations.</p>
   <div class="contact-links">
     <a href="mailto:{{ site.author.email }}" class="btn btn-primary">{{ site.author.email }}</a>

@@ -20,6 +20,11 @@ twitter_handle: ""
 # ── Build ─────────────────────────────────────────────────────
 markdown: kramdown
 permalink: pretty
+
+# force_polling works around filesystems (WSL, some network/overlay mounts)
+# where the default inotify-based file watcher misses changes.
+force_polling: true
+
 exclude:
   - Gemfile
   - Gemfile.lock

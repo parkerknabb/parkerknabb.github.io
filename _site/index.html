@@ -9,18 +9,18 @@
 <!-- Open Graph -->
 <meta property="og:title" content="Parker Knabb — AV Infrastructure & Broadcast Engineering">
 <meta property="og:description" content="Computer Engineering student at Purdue. I design, build, and operate IP-based AV and broadcast infrastructure — from university esports arenas to professional production facilities.">
-<meta property="og:url" content="http://localhost:4000/">
+<meta property="og:url" content="http://0.0.0.0:4000/">
 <meta property="og:type" content="website">
-<meta property="og:image" content="http://localhost:4000/images/headshot.webp">
+<meta property="og:image" content="http://0.0.0.0:4000/images/headshot.webp">
 
 <!-- Twitter/X Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Parker Knabb — AV Infrastructure & Broadcast Engineering">
 <meta name="twitter:description" content="Computer Engineering student at Purdue. I design, build, and operate IP-based AV and broadcast infrastructure — from university esports arenas to professional production facilities.">
-<meta name="twitter:image" content="http://localhost:4000/images/headshot.webp">
+<meta name="twitter:image" content="http://0.0.0.0:4000/images/headshot.webp">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
@@ -44,8 +44,22 @@
 
 <!-- HERO -->
 <div id="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-glow"></div>
+  <div class="hero-frame" aria-hidden="true">
+    <span class="hf-corner hf-tl"></span>
+    <span class="hf-corner hf-tr"></span>
+    <span class="hf-corner hf-bl"></span>
+    <span class="hf-corner hf-br"></span>
+
+    <span class="hf-safe hf-safe-tl"></span>
+    <span class="hf-safe hf-safe-tr"></span>
+    <span class="hf-safe hf-safe-bl"></span>
+    <span class="hf-safe hf-safe-br"></span>
+
+    <span class="hf-ticks hf-ticks-top"></span>
+    <span class="hf-ticks hf-ticks-bottom"></span>
+
+    <span class="hf-on-air"><span class="hf-dot"></span><span class="hf-label">ON AIR</span></span>
+  </div>
 
   <div class="hero-inner">
     <div class="hero-text">
@@ -120,8 +134,8 @@
 <!-- WORK -->
 <section id="work">
   <p class="section-label">Experience</p>
-  <h2>Where I've worked.</h2>
-  <div class="work-cards" style="grid-template-columns: repeat(2, 1fr);">
+  <h2>Then people started paying me for it.</h2>
+  <div class="work-cards">
     
     <div class="work-card upcoming">
       <div class="work-card-icon">🌩️</div>
@@ -228,7 +242,7 @@
 <!-- CREDITS -->
 <section id="credits">
   <p class="section-label">Credits</p>
-  <h2>Productions I've worked.</h2>
+  <h2>Shows, not just jobs.</h2>
   <p style="color:var(--text-mid);font-size:1rem;font-weight:300;line-height:1.7;max-width:560px;margin-bottom:56px;">The productions — separate from the employer relationships listed above.</p>
 
   
@@ -317,7 +331,7 @@
 <div id="signal">
   <div class="inner">
     <p class="section-label">Technical</p>
-    <h2>Tools &amp; protocols.</h2>
+    <h2>What's actually in the signal chain.</h2>
     <div class="skills-grid">
       
       <div class="skill-group">
@@ -397,7 +411,7 @@
 <!-- TIMELINE -->
 <section id="timeline">
   <p class="section-label">Background</p>
-  <h2>How I got here.</h2>
+  <h2>The long way here.</h2>
   <p class="tl-intro">The moments behind the résumé.</p>
 
   
@@ -565,7 +579,7 @@
 <!-- CONTACT -->
 <section id="contact" style="padding-top:60px;">
   <p class="section-label">Contact</p>
-  <h2>Let's work together.</h2>
+  <h2>The next system I want to build.</h2>
   <p style="color:var(--text-mid);font-size:1rem;font-weight:300;line-height:1.7;max-width:480px;margin:0 auto 40px;">I'm currently seeking full-time roles in AV infrastructure, broadcast engineering, and systems integration starting May 2027. Open to internships, freelance, and conversations.</p>
   <div class="contact-links">
     <a href="mailto:parker@parkerknabb.com" class="btn btn-primary">parker@parkerknabb.com</a>
