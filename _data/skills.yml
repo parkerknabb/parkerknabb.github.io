@@ -22,9 +22,15 @@
     - Ross / Blackmagic switchers
     - Broadcast cameras
     - RODECaster Pro II
-    - X32 / Yamaha consoles
+    - X32 / M32 / Yamaha consoles
     - NovaStar LED processors
     - Firefly / Coleder / PixelFLEX
+
+- heading: Programming
+  items:
+    - C / C++
+    - Python
+    - SystemVerilog HDL
 
 - heading: Infrastructure
   items:
@@ -32,4 +38,5 @@
     - Network segmentation
     - PXE boot environments
     - Linux / Windows Server
-    - Python / PowerShell
+    - PowerShell
+    - Microsoft Azure / Cloudflare

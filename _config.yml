@@ -21,6 +21,12 @@ twitter_handle: ""
 markdown: kramdown
 permalink: pretty
 
+# The github-pages gem defaults to theme: jekyll-theme-primer when this is
+# unset, which ships its own assets/css/style.scss. On a full rebuild that
+# compiles to the same output path as our own assets/css/style.css and can
+# overwrite it, breaking all site styling. Explicitly disable it.
+theme: null
+
 # force_polling works around filesystems (WSL, some network/overlay mounts)
 # where the default inotify-based file watcher misses changes.
 force_polling: true
