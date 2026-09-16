@@ -7,13 +7,13 @@
   org_url: https://ibhs.org
   dates: May 2026–Present
   title: Broadcast Systems Engineer
-  desc: Redesigned the studio production pipeline for a nationally recognized insurance research organization, migrating the primary switcher role from Livestream Studio to an ATEM for live hardware switching. Architected a Bitfocus Companion control layer unifying OBS, ATEM, X32 audio, and Sennheiser mic control, and designed a fiber-based remote production transmission system over existing dark fiber. Retained on a part-time consulting basis beyond the summer internship.
-  tags: [ATEM, Bitfocus Companion, Dark Fiber, Consulting]
+  desc: Redesigned the studio production pipeline for a nationally recognized insurance research organization. Migrated primary switching from Livestream Studio 6 to an ATEM, rebuilt the control room wiring and rack, and built a Bitfocus Companion layer unifying OBS, ATEM, X32 audio, Sennheiser wireless, and Sierra Video matrix routing. Designed, built, and deployed the new system for its first live event within 9 weeks, while other events continued using the legacy workflow. Retained on a part-time consulting basis beyond the summer internship, now evaluating a dark-fiber transmission pipeline and a next-gen networked IEM system.
+  tags: [ATEM, Bitfocus Companion, Video Routing, Sennheiser Wireless, Consulting]
 
 - icon: 📡
   org: Purdue Esports / RecWell
   org_url: https://esports.purdue.edu
-  dates: Nov 2024–Present
+  dates: Aug 2025-Present
   title: Broadcast Engineering Coordinator
   desc: Joined the Alienware Gaming Lounge front desk in November 2024, assisting the outgoing coordinator with broadcast ops, then advanced to lead the role in August 2025. Designs and operates the broadcast infrastructure for Purdue varsity esports, leading a team of three to produce five weekly varsity broadcasts.
   tags: [vMix, OBS, OMT, Bitfocus Companion, PXE Boot]

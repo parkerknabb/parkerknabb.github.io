@@ -7,7 +7,12 @@
   org: IBHS — Richburg, SC
   org_url: https://ibhs.org
   title: Broadcast Systems Engineer
-  desc: "What I was looking forward to that summer became the real thing: redesigned the studio's switcher pipeline from Livestream Studio to an ATEM, built a Bitfocus Companion layer tying together OBS, ATEM, X32 audio, and Sennheiser mics, and got retained afterward to keep consulting part-time."
+  desc: "The esports system, I built with no budget and no precedent — every call was mine to make. Walking into IBHS meant the opposite: an established facility, real budget, and other people's workflows already in motion around me. Redesigning the switcher pipeline and building the Companion control layer meant learning to make a case for change inside something that already worked, not just building from a blank slate. The new system carried its first live event solo within nine weeks of starting, and being retained afterward told me the case had landed."
+  photos:
+    - /images/timeline/ibhs/01.webp
+    - /images/timeline/ibhs/02.webp
+    - /images/timeline/ibhs/03.webp
+    - /images/timeline/ibhs/04.webp
 
 - year: "2026-27"
   org: Purdue Varsity Glee Club
@@ -62,7 +67,7 @@
   org: DreamHack Atlanta
   org_url: https://dreamhack.com/atlanta
   title: Creator Hub · Panel Stage Manager
-  desc: My first paid production gig. Four days in a professional live event environment at a scale I hadn't experienced before. I was thrown in and figured it out, which turned out to be the template for most of what followed. I'm looking forward to returning for the 2026 event in May!
+  desc: My first paid production gig. Four days in a professional live event environment at a scale I hadn't experienced before. I was thrown in and figured it out, which turned out to be the template for most of what followed. I returned for the 2026 event in May — the scale had grown, but the instinct from year one still applied.
   photos:
     - /images/timeline/dreamhack/01.webp
     - /images/timeline/dreamhack/02.webp
