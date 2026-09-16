@@ -882,6 +882,7 @@ a.org-link:hover {
   text-align: center;
   padding: 120px var(--pad-x);
 }
+#contact .section-label { justify-content: center; }
 #contact h2 { margin-bottom: 16px; }
 #contact p {
   color: var(--text-mid);

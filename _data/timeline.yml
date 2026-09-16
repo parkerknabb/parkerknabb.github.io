@@ -3,22 +3,24 @@
 # org_url is optional.
 # docs_link/docs_label are optional — for linking to external documentation.
 
-- year: "2026"
+- year: "2026–"
   org: IBHS — Richburg, SC
   org_url: https://ibhs.org
-  title: Broadcast & AV Infrastructure Intern
-  desc: "I'm looking forward to working on new projects in IFB and VTR systems this summer."
+  title: Broadcast Systems Engineer
+  desc: "What I was looking forward to that summer became the real thing: redesigned the studio's switcher pipeline from Livestream Studio to an ATEM, built a Bitfocus Companion layer tying together OBS, ATEM, X32 audio, and Sennheiser mics, and got retained afterward to keep consulting part-time."
 
 - year: "2026-27"
   org: Purdue Varsity Glee Club
   org_url: https://www.purdue.edu/pmo/ensembles/purdue-varsity-glee-club.php
   title: Audio Engineer
-  desc: "Three years on stage with PVGC gave me a performer's perspective on what a system needs to do. Taking over as audio engineer for 2026-27, where I will commission a new rig: Behringer Wing, Shure ULX-D wireless, StageConnect P24 monitoring. Getting to put together the system I'll then operate on tour is the best possible introduction to a new discipline."
+  desc: "Three years on stage with PVGC gave me a performer's perspective on what a system needs to do. Taking over as audio engineer for 2026-27 flips that perspective — now I'm the one making the calls I used to just trust were being made right."
+  photos:
+    - /images/timeline/pvgc/01.webp
 
 - year: "2025–"
   org: Purdue Esports
   org_url: https://esports.purdue.edu
-  title: Broadcast Production & Engineering Coordinator
+  title: Broadcast Engineering Coordinator
   desc: "My first role where I was fully responsible for both building the system from scratch and keeping it running. The constraints were real: small budget, no infrastructure, no precedent. I had to think my way through every decision. Managing a team while the system is live every match week is a different kind of pressure from building it in the first place."
   docs_link: https://parkerknabb.com/esports
   docs_label: System and ops documentation
