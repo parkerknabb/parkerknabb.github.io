@@ -1,0 +1,121 @@
+# Special event workflows (Event Setup tab) — content outside normal NECC match ops.
+# Each event has:
+#   id:      used for the tab button onclick and panel id (e.g. "fgc")
+#   label:   tab button label with emoji
+#   warn:    optional orange warning note at the top of the panel (string)
+#   schedule: optional — title, stream_note, and a list of rows (time/game/note/highlight)
+#   stream_info: optional — a single info card (heading + lines of HTML)
+#   routing: optional — Video Routing Architecture block (heading, intro, boxes, note)
+#   first_time_setup: optional — collapsible reference-only block (heading, intro, groups of header+steps)
+#   groups:  event-day operations checklist groups, same structure as setup.yml,
+#            with an optional trailing "note" (HTML) shown under the checklist
+#
+# To add a new event type: copy a block, give it a unique id, fill in the fields
+# that apply — every top-level block above is optional except id/label/groups.
+# To update the schedule for a recurring event (e.g. next FGC tournament), just
+# replace the schedule.title and schedule.rows for that event.
+
+- id: fgc
+  label: "🥊 FGC Tournament"
+  warn: "<strong>⚠ Different workflow:</strong> FGC events do not follow standard NECC match operations. No observer overlays. TSH handles player info and scoreboard data for the stream."
+
+  schedule:
+    title: "Boiler Room XXIV — Saturday, September 19, 2026"
+    stream_note: 'Stream: <a href="https://www.twitch.tv/purdueesports" style="color:#888">twitch.tv/purdueesports</a>'
+    rows:
+      - time: "12:00 PM"
+        game: "🚪 Doors Open"
+        highlight: true
+      - time: "1:00 PM"
+        game: "Street Fighter 6"
+        note: "SF6 Midbest Qualifier"
+      - time: "2:30 PM"
+        game: "Guilty Gear Strive"
+      - time: "4:00 PM"
+        game: "Marvel Tokon: Fighting Souls"
+      - time: "5:30 PM"
+        game: "Tekken 8"
+      - time: "6:00 PM"
+        game: "Avatar Legends: The Fighting Game"
+      - time: "9:00 PM"
+        game: "🚪 Doors Close"
+        highlight: true
+
+  stream_info:
+    heading: "Stream — Broadcast Staff"
+    lines:
+      - "Broadcast staff run and staff the stream for the full event"
+      - "<strong>Tool:</strong> vMix on Director PC + TSH"
+      - "<strong>Video in:</strong> Casting desk cameras + R3PC1 OMT"
+      - '<strong>Twitch:</strong> <a href="https://twitch.tv/PurdueEsports" target="_blank">ttv/PurdueEsports</a> &amp; <a href="https://youtube.com/@PurdueEsports" target="_blank">YouTube</a>'
+
+  routing:
+    heading: "Video Routing Architecture"
+    intro: "The system can pull video from <strong>any of the 14 PCs in the main lab</strong> and route it to the stream. <strong>R3PC1</strong> (front-right corner of the lab) is the video router. It has two network adapters: one on the lab network and one with a cable running around the corner to the broadcast network — bridging an otherwise segmented gap."
+    boxes:
+      - label: "14 Lab PCs"
+        lines:
+          - "OBS running on each"
+          - "OMT output enabled + audio on"
+          - "Identified by <strong>hostname</strong>"
+          - "↓ lab network"
+      - label: "R3PC1 — Video Router"
+        accent: true
+        lines:
+          - "Single OBS instance"
+          - "OMT output → <strong>vMix on Director PC</strong>"
+          - "USB ethernet → broadcast network"
+    note: '<strong style="color:#eee;">To switch which setup is on stream:</strong> Go to R3PC1, change the OMT input in OBS. No changes needed in vMix.'
+
+  first_time_setup:
+    heading: "🔧 First-Time Setup — For Reference Only (done by broadcast engineer)"
+    intro: "One-time implementation steps. Staff do not need to perform these."
+    groups:
+      - header: "TSH Installation &amp; Tournament Config"
+        steps:
+          - 'Download and install <strong>Tournament Stream Helper</strong> on the Director PC from <a href="https://github.com/joaorb64/TournamentStreamHelper" target="_blank">github.com/joaorb64/TournamentStreamHelper</a>'
+          - "Launch TSH, click <strong>Set Tournament</strong>, paste the start.gg event URL (must include <code>/event/</code> in the path)"
+          - "Verify the correct game is selected in TSH settings — right character roster and overlay assets"
+      - header: "R3PC1 — Video Router Setup"
+        steps:
+          - "Install OBS on R3PC1 if not already present. Verify both network adapters are active: one on the lab network, one connected via USB ethernet to the broadcast network with the cable running around the corner"
+          - "Configure OBS. Tools → OMT Output Settings — name the output"
+          - "Add OMT sources for each lab PC — they appear by hostname. Ensure audio is enabled on each source"
+          - "Verify the R3PC1 OMT output appears as a source in vMix on the broadcast network"
+      - header: "vMix Browser Sources"
+        steps:
+          - "Create the event vMix file as a copy of the NECC file — update scenes and layouts for FGC format"
+          - "Add the R3PC1 OMT as a source in vMix alongside casting desk cameras"
+          - "For each TSH overlay (scoreboard, commentator bar, VS screen, etc.), add a <strong>Web Browser input</strong> in vMix: <code>file:///</code> path → TSH install folder → <code>layout\\</code> → subfolder → HTML file. Resolution: <strong>1920×1080</strong>"
+          - "Configure vMix to stream to Twitch (ttv/PurdueEsports) and YouTube (@PurdueEsports) simultaneously"
+
+  groups:
+    - header: "Pre-Event Setup"
+      items:
+        - id: fgc1
+          text: "Have the <strong>esports admin put all PCs in admin mode</strong> before you begin setup"
+        - id: fgc3
+          text: "On <strong>R3PC1</strong>: confirm the USB ethernet adapter and cable running to the broadcast network are plugged in"
+        - id: fgc4
+          text: "On <strong>R3PC1</strong>: run OBS. Tools → OMT Output Settings — confirm the output is named and active"
+        - id: fgc5
+          text: "On <strong>all 14 lab PCs</strong>: run OBS and confirm OMT output is enabled with audio transmitting. Names don't matter — they're identified by hostname"
+        - id: fgc6
+          text: "On <strong>R3PC1</strong>: open the OMT source properties in OBS and verify all 14 lab PCs appear in the source list. If any are missing, close the Properties dialog and re-open to refresh the list"
+        - id: fgc7
+          text: "On <strong>Director PC</strong>: open the event vMix file — confirm the R3PC1 OMT and all TSH browser sources are loading"
+        - id: fgc9
+          text: "On <strong>Director PC</strong>: launch <strong>TSH</strong> and confirm bracket data is loaded for today's event"
+        - id: fgc11
+          text: "Go live — confirm the stream is up on <strong>ttv/PurdueEsports + YouTube</strong>"
+
+    - header: "During the Event — Switching Setups"
+      items:
+        - id: fgc12
+          text: "To change which lab setup is featured on stream: go to <strong>R3PC1</strong>, change the OMT input in OBS. No changes needed in vMix"
+      note: "<strong style=\"color:#aaa;\">TSH</strong> (Tournament Stream Helper) connects to the start.gg bracket and handles all scoreboard updates live — player names, characters, round labels, and scores — pushing to the stream overlay automatically. FGC admins manage bracket and player data through TSH; broadcast staff continue running the stream throughout."
+
+    - header: "Post-Event Teardown"
+      items:
+        - id: fgc13
+          text: "Run the standard <strong>casting set teardown checklist</strong> once the event has concluded — broadcast staff are present and running the stream for the full event"
