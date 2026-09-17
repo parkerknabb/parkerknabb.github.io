@@ -6,9 +6,11 @@
 #   schedule: optional — title, stream_note, and a list of rows (time/game/note/highlight)
 #   stream_info: optional — a single info card (heading + lines of HTML)
 #   routing: optional — Video Routing Architecture block (heading, intro, boxes, note)
-#   first_time_setup: optional — collapsible reference-only block (heading, intro, groups of header+steps)
+#   reference: optional — list of collapsible reference blocks (heading, intro,
+#              groups of header+steps). Rendered in list order.
 #   groups:  event-day operations checklist groups, same structure as setup.yml,
-#            with an optional trailing "note" (HTML) shown under the checklist
+#            with an optional "warn" (HTML, shown above the checklist) and an
+#            optional trailing "note" (HTML) shown under the checklist
 #
 # To add a new event type: copy a block, give it a unique id, fill in the fields
 # that apply — every top-level block above is optional except id/label/groups.
@@ -47,7 +49,7 @@
       - "Broadcast staff run and staff the stream for the full event"
       - "<strong>Tool:</strong> vMix on Director PC + TSH"
       - "<strong>Video in:</strong> Casting desk cameras + R3PC1 OMT"
-      - '<strong>Twitch:</strong> <a href="https://twitch.tv/PurdueEsports" target="_blank">ttv/PurdueEsports</a> &amp; <a href="https://youtube.com/@PurdueEsports" target="_blank">YouTube</a>'
+      - '<strong>Twitch:</strong> <a href="https://twitch.tv/PurdueEsports" target="_blank">ttv/PurdueEsports</a>'
 
   routing:
     heading: "Video Routing Architecture"
@@ -67,35 +69,66 @@
           - "USB ethernet → broadcast network"
     note: '<strong style="color:#eee;">To switch which setup is on stream:</strong> Go to R3PC1, change the OMT input in OBS. No changes needed in vMix.'
 
-  first_time_setup:
-    heading: "🔧 First-Time Setup — For Reference Only (done by broadcast engineer)"
-    intro: "One-time implementation steps. Staff do not need to perform these."
-    groups:
-      - header: "TSH Installation &amp; Tournament Config"
-        steps:
-          - 'Download and install <strong>Tournament Stream Helper</strong> on the Director PC from <a href="https://github.com/joaorb64/TournamentStreamHelper" target="_blank">github.com/joaorb64/TournamentStreamHelper</a>'
-          - "Launch TSH, click <strong>Set Tournament</strong>, paste the start.gg event URL (must include <code>/event/</code> in the path)"
-          - "Verify the correct game is selected in TSH settings — right character roster and overlay assets"
-      - header: "R3PC1 — Video Router Setup"
-        steps:
-          - "Install OBS on R3PC1 if not already present. Verify both network adapters are active: one on the lab network, one connected via USB ethernet to the broadcast network with the cable running around the corner"
-          - "Configure OBS. Tools → OMT Output Settings — name the output"
-          - "Add OMT sources for each lab PC — they appear by hostname. Ensure audio is enabled on each source"
-          - "Verify the R3PC1 OMT output appears as a source in vMix on the broadcast network"
-      - header: "vMix Browser Sources"
-        steps:
-          - "Create the event vMix file as a copy of the NECC file — update scenes and layouts for FGC format"
-          - "Add the R3PC1 OMT as a source in vMix alongside casting desk cameras"
-          - "For each TSH overlay (scoreboard, commentator bar, VS screen, etc.), add a <strong>Web Browser input</strong> in vMix: <code>file:///</code> path → TSH install folder → <code>layout\\</code> → subfolder → HTML file. Resolution: <strong>1920×1080</strong>"
-          - "Configure vMix to stream to Twitch (ttv/PurdueEsports) and YouTube (@PurdueEsports) simultaneously"
+  reference:
+    - heading: "🔧 First-Time Setup — For Reference Only (done by broadcast engineer)"
+      intro: "One-time implementation steps. Staff do not need to perform these."
+      groups:
+        - header: "TSH Installation &amp; Tournament Config"
+          steps:
+            - 'Download and install <strong>Tournament Stream Helper</strong> on the Director PC from <a href="https://github.com/joaorb64/TournamentStreamHelper" target="_blank">github.com/joaorb64/TournamentStreamHelper</a>'
+            - "Launch TSH, click <strong>Set Tournament</strong>, paste the start.gg event URL (must include <code>/event/</code> in the path)"
+            - "Verify the correct game is selected in TSH settings — right character roster and overlay assets"
+        - header: "R3PC1 — Video Router Setup"
+          steps:
+            - "Install OBS on R3PC1 if not already present. Verify both network adapters are active: one on the lab network, one connected via USB ethernet to the broadcast network with the cable running around the corner"
+            - "Configure OBS. Tools → OMT Output Settings — name the output"
+            - "Add OMT sources for each lab PC — they appear by hostname. Ensure audio is enabled on each source"
+            - "Verify the R3PC1 OMT output appears as a source in vMix on the broadcast network"
+        - header: "vMix Browser Sources"
+          steps:
+            - "Create the event vMix file as a copy of the NECC file — update scenes and layouts for FGC format"
+            - "Add the R3PC1 OMT as a source in vMix alongside casting desk cameras"
+            - "For each TSH overlay (scoreboard, commentator bar, VS screen, etc.), add a <strong>Web Browser input</strong> in vMix pointed at <code>http://localhost:5500/&lt;path&gt;</code> (see the TSH Operation Guide below — not a <code>file:///</code> path). Resolution: <strong>1920×1080</strong>"
+            - "Configure vMix to stream to Twitch (ttv/PurdueEsports)"
+
+    - heading: "📖 TSH Operation Guide — Read Before Event Day"
+      intro: 'A plain-language refresher for running TSH on the day — you shouldn''t need anything from the technical setup above. If you want more detail than what''s here: <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Quickstart" target="_blank">TSH Quickstart guide</a> · <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Layouts" target="_blank">TSH Layouts guide</a>'
+      groups:
+        - header: "Opening TSH &amp; Loading the Tournament"
+          steps:
+            - "Find <strong>TSH</strong> on the Director PC and open it like any other program — it's already installed, no download needed"
+            - "If it's a game TSH hasn't been used for before: click the menu button (☰) → <strong>Download assets</strong> → pick the game → click each asset pack to download it. Skip this if it's a game we've streamed before"
+            - "Click <strong>Set Tournament</strong> near the top and paste in today's start.gg link. TSH pulls in the game, players, and match info on its own — you don't need to type any of that in by hand"
+            - 'Want a walkthrough with video clips? <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Quickstart" target="_blank">TSH Quickstart guide</a>'
+        - header: "Picking Which Match Is Live"
+          steps:
+            - "Click <strong>Select set</strong> to manually pick which match should be shown on stream right now"
+            - 'Or click <strong>Get stream set</strong> to have TSH automatically grab whichever match the FGC admins have marked as "on stream" on start.gg — only works if they''re actually doing that (see the checklist item about this below)'
+            - "Player names and characters fill in on their own. If something looks wrong — misspelled name, wrong character — just click that field and fix it"
+            - 'More detail: <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Quickstart" target="_blank">TSH Quickstart guide</a> ("Streaming a tournament" section)'
+        - header: "Getting the Overlays Onto the Stream"
+          steps:
+            - "The score/player overlays should already be set up in vMix — you shouldn't need to add them yourself. This is just here in case one ever needs to be re-added"
+            - "In vMix, add a <strong>Web Browser</strong> source and type in <code>http://localhost:5500/</code> plus the overlay's file path — e.g. <code>http://localhost:5500/layout/scoreboard/scoreboard.html</code>. Set its size to <strong>1920×1080</strong>"
+            - "<strong>Heads up:</strong> TSH's own website says to use <strong>5000</strong> instead — that's outdated for how ours is set up. Use <strong>5500</strong>"
+            - "If that address doesn't work, open TSH, click the <strong>Ruleset</strong> tab, and check the bottom of the page — it lists the exact address to use"
+            - 'Full list of overlay options: <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Layouts" target="_blank">TSH Layouts guide</a>'
+        - header: "If Something Goes Wrong"
+          steps:
+            - "Overlay frozen or showing stale info: <strong>first, right-click that overlay's source in vMix and click Refresh</strong> — this fixes it most of the time"
+            - "Still no luck? Close TSH completely and reopen it — that clears it up almost always"
+            - "Overlays never work at all, even after a TSH reboot: the very first time TSH runs on a computer, Windows sometimes asks for permission and someone may have clicked \"deny\" by mistake. This is a one-time computer setting, not something you'd normally need to touch — flag it if you hit this"
+            - "I'll be at a festival and unreachable during this event — don't wait around for a reply from me. TSH has its own Discord where people can help troubleshoot: <a href=\"https://discord.gg/FJATDrjB8M\" target=\"_blank\">discord.gg/FJATDrjB8M</a>"
+            - "Worst case: the stream can run just fine without TSH's overlays. Turn those sources off in vMix and keep the show going — they're a nice-to-have, not a requirement"
+            - "<strong>General rule for the whole day:</strong> if something breaks and it's not mission-critical, don't get stuck trying to make it perfect — drop it and keep the stream smooth. A missing overlay beats a frozen stream"
 
   groups:
     - header: "Pre-Event Setup"
       items:
         - id: fgc1
-          text: "Have the <strong>esports admin put all PCs in admin mode</strong> before you begin setup"
+          text: "Have the esports admin put <strong>R3PC1</strong> in admin mode before you begin setup — it's the only lab PC that needs it"
         - id: fgc3
-          text: "On <strong>R3PC1</strong>: confirm the USB ethernet adapter and cable running to the broadcast network are plugged in"
+          text: "Grab an <strong>ethernet cable and USB ethernet adapter</strong>. Run from R3PC1 (USB) to the port the PS5 usually connects to — the <strong>right port on the ethernet dongle behind the wall panel</strong>"
         - id: fgc4
           text: "On <strong>R3PC1</strong>: run OBS. Tools → OMT Output Settings — confirm the output is named and active"
         - id: fgc5
@@ -107,12 +140,15 @@
         - id: fgc9
           text: "On <strong>Director PC</strong>: launch <strong>TSH</strong> and confirm bracket data is loaded for today's event"
         - id: fgc11
-          text: "Go live — confirm the stream is up on <strong>ttv/PurdueEsports + YouTube</strong>"
+          text: "Go live — confirm the stream is up on <strong>ttv/PurdueEsports</strong>"
 
     - header: "During the Event — Switching Setups"
+      warn: "<strong>⚠ IMPORTANT:</strong> OMT is susceptible to an exactly <strong>1000 ms audio delay</strong>. Be on the lookout for this — if you see it, reboot OBS on the affected computer(s)."
       items:
         - id: fgc12
           text: "To change which lab setup is featured on stream: go to <strong>R3PC1</strong>, change the OMT input in OBS. No changes needed in vMix"
+        - id: fgc14
+          text: "Confirm the <strong>FGC admins know how to curate matches for stream</strong> (i.e. switch setups) and will tell you which bracket match is on which setup — and that <strong>someone is actually assigned to do it</strong>. That's too much for you to also manage as stream op"
       note: "<strong style=\"color:#aaa;\">TSH</strong> (Tournament Stream Helper) connects to the start.gg bracket and handles all scoreboard updates live — player names, characters, round labels, and scores — pushing to the stream overlay automatically. FGC admins manage bracket and player data through TSH; broadcast staff continue running the stream throughout."
 
     - header: "Post-Event Teardown"

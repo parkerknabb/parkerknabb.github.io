@@ -341,26 +341,26 @@ title: "Purdue Esports Broadcast Operations Guide"
     </div>
     {% endif %}
 
-    {% if event.first_time_setup %}
+    {% for ref in event.reference %}
     <div style="background:#111; border:1px solid #333; border-radius:8px; margin-bottom:20px; overflow:hidden;">
       <div onclick="this.nextElementSibling.classList.toggle('open'); this.querySelector('.chevron').classList.toggle('open')"
            style="padding:12px 16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:#666; font-weight:700;">{{ event.first_time_setup.heading }}</span>
+        <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:#666; font-weight:700;">{{ ref.heading }}</span>
         <span class="chevron" style="color:#555; font-size:0.8rem;">▼</span>
       </div>
       <div class="issue-body" style="border-top:1px solid #222;">
-        <p style="color:#777; font-size:0.85rem; margin-bottom:14px;">{{ event.first_time_setup.intro }}</p>
-        {% for group in event.first_time_setup.groups %}
+        <p style="color:#777; font-size:0.85rem; margin-bottom:14px;">{{ ref.intro }}</p>
+        {% for group in ref.groups %}
         <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">{{ group.header }}</p>
         <ol class="steps">
           {% for step in group.steps %}
-          <li>{{ step }}</li>
+          <li><span>{{ step }}</span></li>
           {% endfor %}
         </ol>
         {% endfor %}
       </div>
     </div>
-    {% endif %}
+    {% endfor %}
 
     {% if event.groups %}
     <h3 style="font-size:0.85rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.05em; margin:0 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border);">— Event Day Operations —</h3>
@@ -368,6 +368,9 @@ title: "Purdue Esports Broadcast Operations Guide"
     {% for group in event.groups %}
     <div class="check-group">
       <div class="check-group-header">{{ group.header }}</div>
+      {% if group.warn %}
+      <div class="warn-note" style="margin:12px 16px 0;">{{ group.warn }}</div>
+      {% endif %}
       <ul class="checklist">
         {% for item in group.items %}
         <li>
@@ -427,7 +430,7 @@ title: "Purdue Esports Broadcast Operations Guide"
       {% if issue.note %}<p>{{ issue.note }}</p>{% endif %}
       <ol class="steps">
         {% for step in issue.steps %}
-        <li>{{ step }}</li>
+        <li><span>{{ step }}</span></li>
         {% endfor %}
       </ol>
     </div>

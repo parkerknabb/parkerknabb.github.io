@@ -229,6 +229,7 @@
     border-bottom: 1px solid #2a2a2a;
   }
   .steps li:last-child { border-bottom: none; }
+  .steps li > span { flex: 1; min-width: 0; overflow-wrap: break-word; }
   .steps li::before {
     content: counter(step);
     background: var(--gold);
@@ -1552,7 +1553,7 @@
     <div style="background:#1a1a2e; border:1px solid #3a3a6e; border-radius:8px; padding:14px 16px; margin:0 0 24px;">
       <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; color:#7a8adc; margin-bottom:8px; font-weight:700;">Stream — Broadcast Staff</div>
       <div style="font-size:0.85rem; color:#ccc; line-height:1.7;">
-        Broadcast staff run and staff the stream for the full event<br><strong>Tool:</strong> vMix on Director PC + TSH<br><strong>Video in:</strong> Casting desk cameras + R3PC1 OMT<br><strong>Twitch:</strong> <a href="https://twitch.tv/PurdueEsports" target="_blank">ttv/PurdueEsports</a> &amp; <a href="https://youtube.com/@PurdueEsports" target="_blank">YouTube</a>
+        Broadcast staff run and staff the stream for the full event<br><strong>Tool:</strong> vMix on Director PC + TSH<br><strong>Video in:</strong> Casting desk cameras + R3PC1 OMT<br><strong>Twitch:</strong> <a href="https://twitch.tv/PurdueEsports" target="_blank">ttv/PurdueEsports</a>
       </div>
     </div>
     
@@ -1595,37 +1596,107 @@
         <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">TSH Installation &amp; Tournament Config</p>
         <ol class="steps">
           
-          <li>Download and install <strong>Tournament Stream Helper</strong> on the Director PC from <a href="https://github.com/joaorb64/TournamentStreamHelper" target="_blank">github.com/joaorb64/TournamentStreamHelper</a></li>
+          <li><span>Download and install <strong>Tournament Stream Helper</strong> on the Director PC from <a href="https://github.com/joaorb64/TournamentStreamHelper" target="_blank">github.com/joaorb64/TournamentStreamHelper</a></span></li>
           
-          <li>Launch TSH, click <strong>Set Tournament</strong>, paste the start.gg event URL (must include <code>/event/</code> in the path)</li>
+          <li><span>Launch TSH, click <strong>Set Tournament</strong>, paste the start.gg event URL (must include <code>/event/</code> in the path)</span></li>
           
-          <li>Verify the correct game is selected in TSH settings — right character roster and overlay assets</li>
+          <li><span>Verify the correct game is selected in TSH settings — right character roster and overlay assets</span></li>
           
         </ol>
         
         <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">R3PC1 — Video Router Setup</p>
         <ol class="steps">
           
-          <li>Install OBS on R3PC1 if not already present. Verify both network adapters are active: one on the lab network, one connected via USB ethernet to the broadcast network with the cable running around the corner</li>
+          <li><span>Install OBS on R3PC1 if not already present. Verify both network adapters are active: one on the lab network, one connected via USB ethernet to the broadcast network with the cable running around the corner</span></li>
           
-          <li>Configure OBS. Tools → OMT Output Settings — name the output</li>
+          <li><span>Configure OBS. Tools → OMT Output Settings — name the output</span></li>
           
-          <li>Add OMT sources for each lab PC — they appear by hostname. Ensure audio is enabled on each source</li>
+          <li><span>Add OMT sources for each lab PC — they appear by hostname. Ensure audio is enabled on each source</span></li>
           
-          <li>Verify the R3PC1 OMT output appears as a source in vMix on the broadcast network</li>
+          <li><span>Verify the R3PC1 OMT output appears as a source in vMix on the broadcast network</span></li>
           
         </ol>
         
         <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">vMix Browser Sources</p>
         <ol class="steps">
           
-          <li>Create the event vMix file as a copy of the NECC file — update scenes and layouts for FGC format</li>
+          <li><span>Create the event vMix file as a copy of the NECC file — update scenes and layouts for FGC format</span></li>
           
-          <li>Add the R3PC1 OMT as a source in vMix alongside casting desk cameras</li>
+          <li><span>Add the R3PC1 OMT as a source in vMix alongside casting desk cameras</span></li>
           
-          <li>For each TSH overlay (scoreboard, commentator bar, VS screen, etc.), add a <strong>Web Browser input</strong> in vMix: <code>file:///</code> path → TSH install folder → <code>layout\</code> → subfolder → HTML file. Resolution: <strong>1920×1080</strong></li>
+          <li><span>For each TSH overlay (scoreboard, commentator bar, VS screen, etc.), add a <strong>Web Browser input</strong> in vMix pointed at <code>http://localhost:5500/&lt;path&gt;</code> (see the TSH Operation Guide below — not a <code>file:///</code> path). Resolution: <strong>1920×1080</strong></span></li>
           
-          <li>Configure vMix to stream to Twitch (ttv/PurdueEsports) and YouTube (@PurdueEsports) simultaneously</li>
+          <li><span>Configure vMix to stream to Twitch (ttv/PurdueEsports)</span></li>
+          
+        </ol>
+        
+      </div>
+    </div>
+    
+    <div style="background:#111; border:1px solid #333; border-radius:8px; margin-bottom:20px; overflow:hidden;">
+      <div onclick="this.nextElementSibling.classList.toggle('open'); this.querySelector('.chevron').classList.toggle('open')"
+           style="padding:12px 16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:#666; font-weight:700;">📖 TSH Operation Guide — Read Before Event Day</span>
+        <span class="chevron" style="color:#555; font-size:0.8rem;">▼</span>
+      </div>
+      <div class="issue-body" style="border-top:1px solid #222;">
+        <p style="color:#777; font-size:0.85rem; margin-bottom:14px;">A plain-language refresher for running TSH on the day — you shouldn't need anything from the technical setup above. If you want more detail than what's here: <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Quickstart" target="_blank">TSH Quickstart guide</a> · <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Layouts" target="_blank">TSH Layouts guide</a></p>
+        
+        <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">Opening TSH &amp; Loading the Tournament</p>
+        <ol class="steps">
+          
+          <li><span>Find <strong>TSH</strong> on the Director PC and open it like any other program — it's already installed, no download needed</span></li>
+          
+          <li><span>If it's a game TSH hasn't been used for before: click the menu button (☰) → <strong>Download assets</strong> → pick the game → click each asset pack to download it. Skip this if it's a game we've streamed before</span></li>
+          
+          <li><span>Click <strong>Set Tournament</strong> near the top and paste in today's start.gg link. TSH pulls in the game, players, and match info on its own — you don't need to type any of that in by hand</span></li>
+          
+          <li><span>Want a walkthrough with video clips? <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Quickstart" target="_blank">TSH Quickstart guide</a></span></li>
+          
+        </ol>
+        
+        <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">Picking Which Match Is Live</p>
+        <ol class="steps">
+          
+          <li><span>Click <strong>Select set</strong> to manually pick which match should be shown on stream right now</span></li>
+          
+          <li><span>Or click <strong>Get stream set</strong> to have TSH automatically grab whichever match the FGC admins have marked as "on stream" on start.gg — only works if they're actually doing that (see the checklist item about this below)</span></li>
+          
+          <li><span>Player names and characters fill in on their own. If something looks wrong — misspelled name, wrong character — just click that field and fix it</span></li>
+          
+          <li><span>More detail: <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Quickstart" target="_blank">TSH Quickstart guide</a> ("Streaming a tournament" section)</span></li>
+          
+        </ol>
+        
+        <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">Getting the Overlays Onto the Stream</p>
+        <ol class="steps">
+          
+          <li><span>The score/player overlays should already be set up in vMix — you shouldn't need to add them yourself. This is just here in case one ever needs to be re-added</span></li>
+          
+          <li><span>In vMix, add a <strong>Web Browser</strong> source and type in <code>http://localhost:5500/</code> plus the overlay's file path — e.g. <code>http://localhost:5500/layout/scoreboard/scoreboard.html</code>. Set its size to <strong>1920×1080</strong></span></li>
+          
+          <li><span><strong>Heads up:</strong> TSH's own website says to use <strong>5000</strong> instead — that's outdated for how ours is set up. Use <strong>5500</strong></span></li>
+          
+          <li><span>If that address doesn't work, open TSH, click the <strong>Ruleset</strong> tab, and check the bottom of the page — it lists the exact address to use</span></li>
+          
+          <li><span>Full list of overlay options: <a href="https://github.com/joaorb64/TournamentStreamHelper/wiki/Layouts" target="_blank">TSH Layouts guide</a></span></li>
+          
+        </ol>
+        
+        <p style="color:#aaa; font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; margin:16px 0 8px;">If Something Goes Wrong</p>
+        <ol class="steps">
+          
+          <li><span>Overlay frozen or showing stale info: <strong>first, right-click that overlay's source in vMix and click Refresh</strong> — this fixes it most of the time</span></li>
+          
+          <li><span>Still no luck? Close TSH completely and reopen it — that clears it up almost always</span></li>
+          
+          <li><span>Overlays never work at all, even after a TSH reboot: the very first time TSH runs on a computer, Windows sometimes asks for permission and someone may have clicked "deny" by mistake. This is a one-time computer setting, not something you'd normally need to touch — flag it if you hit this</span></li>
+          
+          <li><span>I'll be at a festival and unreachable during this event — don't wait around for a reply from me. TSH has its own Discord where people can help troubleshoot: <a href="https://discord.gg/FJATDrjB8M" target="_blank">discord.gg/FJATDrjB8M</a></span></li>
+          
+          <li><span>Worst case: the stream can run just fine without TSH's overlays. Turn those sources off in vMix and keep the show going — they're a nice-to-have, not a requirement</span></li>
+          
+          <li><span><strong>General rule for the whole day:</strong> if something breaks and it's not mission-critical, don't get stuck trying to make it perfect — drop it and keep the stream smooth. A missing overlay beats a frozen stream</span></li>
           
         </ol>
         
@@ -1639,16 +1710,17 @@
     
     <div class="check-group">
       <div class="check-group-header">Pre-Event Setup</div>
+      
       <ul class="checklist">
         
         <li>
           <input type="checkbox" id="fgc1">
-          <label for="fgc1">Have the <strong>esports admin put all PCs in admin mode</strong> before you begin setup</label>
+          <label for="fgc1">Have the esports admin put <strong>R3PC1</strong> in admin mode before you begin setup — it's the only lab PC that needs it</label>
         </li>
         
         <li>
           <input type="checkbox" id="fgc3">
-          <label for="fgc3">On <strong>R3PC1</strong>: confirm the USB ethernet adapter and cable running to the broadcast network are plugged in</label>
+          <label for="fgc3">Grab an <strong>ethernet cable and USB ethernet adapter</strong>. Run from R3PC1 (USB) to the port the PS5 usually connects to — the <strong>right port on the ethernet dongle behind the wall panel</strong></label>
         </li>
         
         <li>
@@ -1678,7 +1750,7 @@
         
         <li>
           <input type="checkbox" id="fgc11">
-          <label for="fgc11">Go live — confirm the stream is up on <strong>ttv/PurdueEsports + YouTube</strong></label>
+          <label for="fgc11">Go live — confirm the stream is up on <strong>ttv/PurdueEsports</strong></label>
         </li>
         
       </ul>
@@ -1687,11 +1759,19 @@
     
     <div class="check-group">
       <div class="check-group-header">During the Event — Switching Setups</div>
+      
+      <div class="warn-note" style="margin:12px 16px 0;"><strong>⚠ IMPORTANT:</strong> OMT is susceptible to an exactly <strong>1000 ms audio delay</strong>. Be on the lookout for this — if you see it, reboot OBS on the affected computer(s).</div>
+      
       <ul class="checklist">
         
         <li>
           <input type="checkbox" id="fgc12">
           <label for="fgc12">To change which lab setup is featured on stream: go to <strong>R3PC1</strong>, change the OMT input in OBS. No changes needed in vMix</label>
+        </li>
+        
+        <li>
+          <input type="checkbox" id="fgc14">
+          <label for="fgc14">Confirm the <strong>FGC admins know how to curate matches for stream</strong> (i.e. switch setups) and will tell you which bracket match is on which setup — and that <strong>someone is actually assigned to do it</strong>. That's too much for you to also manage as stream op</label>
         </li>
         
       </ul>
@@ -1702,6 +1782,7 @@
     
     <div class="check-group">
       <div class="check-group-header">Post-Event Teardown</div>
+      
       <ul class="checklist">
         
         <li>
@@ -1754,15 +1835,15 @@
       
       <ol class="steps">
         
-        <li>Confirm the <strong>Sonnet Breakaway Box</strong> was powered on before the laptop booted. If the laptop was booted first, fully shut it down, verify the Breakaway Box has power, then boot the laptop again.</li>
+        <li><span>Confirm the <strong>Sonnet Breakaway Box</strong> was powered on before the laptop booted. If the laptop was booted first, fully shut it down, verify the Breakaway Box has power, then boot the laptop again.</span></li>
         
-        <li>Check for the <strong>blue "S" LED on the Breakaway Box</strong> during boot — if it doesn't light, Thunderbolt was not recognized. Full shutdown and retry.</li>
+        <li><span>Check for the <strong>blue "S" LED on the Breakaway Box</strong> during boot — if it doesn't light, Thunderbolt was not recognized. Full shutdown and retry.</span></li>
         
-        <li>Verify the Thunderbolt cable is in the <strong>far rear USB-C port</strong> on the Alienware m16 (furthest from the power adapter), not the adjacent port.</li>
+        <li><span>Verify the Thunderbolt cable is in the <strong>far rear USB-C port</strong> on the Alienware m16 (furthest from the power adapter), not the adjacent port.</span></li>
         
-        <li>Confirm all 3 camera HDMI cables are seated at both the camera and Cam Link Pro ends.</li>
+        <li><span>Confirm all 3 camera HDMI cables are seated at both the camera and Cam Link Pro ends.</span></li>
         
-        <li>Open the <strong>Elgato 4K Capture Utility</strong> first to confirm the card is visible before opening OBS. If the card doesn't appear in Capture Utility, the Thunderbolt link is the problem — not OBS.</li>
+        <li><span>Open the <strong>Elgato 4K Capture Utility</strong> first to confirm the card is visible before opening OBS. If the card doesn't appear in Capture Utility, the Thunderbolt link is the problem — not OBS.</span></li>
         
       </ol>
     </div>
@@ -1783,15 +1864,15 @@
       
       <ol class="steps">
         
-        <li>Check for a valid IP on the broadcast network — open a browser and confirm connectivity.</li>
+        <li><span>Check for a valid IP on the broadcast network — open a browser and confirm connectivity.</span></li>
         
-        <li>Try <strong>unplugging and replugging the USB-to-Ethernet adapter</strong>. The adapter occasionally needs a reconnect to re-establish a stable link.</li>
+        <li><span>Try <strong>unplugging and replugging the USB-to-Ethernet adapter</strong>. The adapter occasionally needs a reconnect to re-establish a stable link.</span></li>
         
-        <li>If the issue persists, run a direct cable from the casting set directly to the switch under OBS 1 in the studio — this bypasses the wall port entirely.</li>
+        <li><span>If the issue persists, run a direct cable from the casting set directly to the switch under OBS 1 in the studio — this bypasses the wall port entirely.</span></li>
         
-        <li>Confirm nothing else is saturating the broadcast network — check if any other PCs are doing large file transfers.</li>
+        <li><span>Confirm nothing else is saturating the broadcast network — check if any other PCs are doing large file transfers.</span></li>
         
-        <li>In OBS on the casting laptop, verify the OMT output is still active (not just open but transmitting).</li>
+        <li><span>In OBS on the casting laptop, verify the OMT output is still active (not just open but transmitting).</span></li>
         
       </ol>
     </div>
@@ -1812,17 +1893,17 @@
       
       <ol class="steps">
         
-        <li>Confirm the RODECaster Pro II was powered on <strong>before</strong> vMix was opened. If vMix launched first, close vMix, power cycle the RODECaster, then reopen vMix.</li>
+        <li><span>Confirm the RODECaster Pro II was powered on <strong>before</strong> vMix was opened. If vMix launched first, close vMix, power cycle the RODECaster, then reopen vMix.</span></li>
         
-        <li>In vMix, verify the audio input device is set to the RODECaster USB interface.</li>
+        <li><span>In vMix, verify the audio input device is set to the RODECaster USB interface.</span></li>
         
-        <li>Check XLR mic cables and ¼" return cables running through the loom — trace for any disconnected ends at the headset or board end.</li>
+        <li><span>Check XLR mic cables and ¼" return cables running through the loom — trace for any disconnected ends at the headset or board end.</span></li>
         
-        <li>On the RODECaster, confirm the caster channel faders are up and not muted.</li>
+        <li><span>On the RODECaster, confirm the caster channel faders are up and not muted.</span></li>
         
-        <li>If the RODECaster USB disconnects mid-show: unplug and replug the USB cable, then re-select the device in vMix audio settings.</li>
+        <li><span>If the RODECaster USB disconnects mid-show: unplug and replug the USB cable, then re-select the device in vMix audio settings.</span></li>
         
-        <li>Check that no channels are accidentally <strong>solo'd</strong> on the board — a solo'd channel will prevent you from hearing other sources in your producer headset.</li>
+        <li><span>Check that no channels are accidentally <strong>solo'd</strong> on the board — a solo'd channel will prevent you from hearing other sources in your producer headset.</span></li>
         
       </ol>
     </div>
@@ -1843,11 +1924,11 @@
       <p>This is almost always the ¼" headset return cable being slightly unseated — a known quirk of this connector type.</p>
       <ol class="steps">
         
-        <li>Gently twist the ¼" cable at the headset connection point while the caster listens — rotate slowly until stereo is restored.</li>
+        <li><span>Gently twist the ¼" cable at the headset connection point while the caster listens — rotate slowly until stereo is restored.</span></li>
         
-        <li>If twisting doesn't resolve it, fully unplug and firmly reseat the ¼" connector.</li>
+        <li><span>If twisting doesn't resolve it, fully unplug and firmly reseat the ¼" connector.</span></li>
         
-        <li>If the issue persists on one specific caster, try swapping their ¼" cable with the spare if available, to rule out a damaged cable.</li>
+        <li><span>If the issue persists on one specific caster, try swapping their ¼" cable with the spare if available, to rule out a damaged cable.</span></li>
         
       </ol>
     </div>
@@ -1868,13 +1949,13 @@
       
       <ol class="steps">
         
-        <li>Check the RODECaster for any <strong>solo'd channels</strong> — when a channel is soloed, you only hear that channel. Unsolo everything and check again.</li>
+        <li><span>Check the RODECaster for any <strong>solo'd channels</strong> — when a channel is soloed, you only hear that channel. Unsolo everything and check again.</span></li>
         
-        <li>Confirm the channel for the source you're not hearing (casters, game audio, music) has its fader up and is not muted.</li>
+        <li><span>Confirm the channel for the source you're not hearing (casters, game audio, music) has its fader up and is not muted.</span></li>
         
-        <li>Verify game audio from Observer PCs is routing through vMix and being sent to the RODECaster mix.</li>
+        <li><span>Verify game audio from Observer PCs is routing through vMix and being sent to the RODECaster mix.</span></li>
         
-        <li>Remember: the <strong>producer headset (3rd fader)</strong> is configured to never go to stream — if something is not on stream but you can hear it, that's expected behavior.</li>
+        <li><span>Remember: the <strong>producer headset (3rd fader)</strong> is configured to never go to stream — if something is not on stream but you can hear it, that's expected behavior.</span></li>
         
       </ol>
     </div>
@@ -1895,15 +1976,15 @@
       
       <ol class="steps">
         
-        <li>Confirm OBS is running on the casting laptop and the OMT output is active (not just OBS being open).</li>
+        <li><span>Confirm OBS is running on the casting laptop and the OMT output is active (not just OBS being open).</span></li>
         
-        <li>Verify the casting laptop's network connection is live — check for a valid IP on the broadcast network.</li>
+        <li><span>Verify the casting laptop's network connection is live — check for a valid IP on the broadcast network.</span></li>
         
-        <li>On the Director PC in vMix, confirm the OMT input source IP/address matches the casting laptop's current IP.</li>
+        <li><span>On the Director PC in vMix, confirm the OMT input source IP/address matches the casting laptop's current IP.</span></li>
         
-        <li>If the IP has changed (e.g., DHCP reassignment), update the OMT source address in vMix accordingly.</li>
+        <li><span>If the IP has changed (e.g., DHCP reassignment), update the OMT source address in vMix accordingly.</span></li>
         
-        <li>If feed is present but degraded, follow network troubleshooting steps above (run cable to switch under OBS 1).</li>
+        <li><span>If feed is present but degraded, follow network troubleshooting steps above (run cable to switch under OBS 1).</span></li>
         
       </ol>
     </div>
@@ -1924,13 +2005,13 @@
       <p>All 8 power strip slots must be filled before booting. A free plug means something is unpowered.</p>
       <ol class="steps">
         
-        <li>Identify what is missing by checking against the full list: Breakaway Box · Cam 1 · Cam 2 · Cam 3 · GVM Light 1 · GVM Light 2 · HDMI Switcher · Casting Laptop.</li>
+        <li><span>Identify what is missing by checking against the full list: Breakaway Box · Cam 1 · Cam 2 · Cam 3 · GVM Light 1 · GVM Light 2 · HDMI Switcher · Casting Laptop.</span></li>
         
-        <li>Trace the missing device's power cable — it may have been forgotten during setup or come loose.</li>
+        <li><span>Trace the missing device's power cable — it may have been forgotten during setup or come loose.</span></li>
         
-        <li>If the power strip itself appears dead, check that it is firmly plugged into the wall outlet inside the concealed panel and that the panel outlet has power.</li>
+        <li><span>If the power strip itself appears dead, check that it is firmly plugged into the wall outlet inside the concealed panel and that the panel outlet has power.</span></li>
         
-        <li>Do not boot the laptop until all 8 slots are confirmed filled and all devices have power.</li>
+        <li><span>Do not boot the laptop until all 8 slots are confirmed filled and all devices have power.</span></li>
         
       </ol>
     </div>
@@ -1951,15 +2032,15 @@
       
       <ol class="steps">
         
-        <li>Confirm the USB extension cable is firmly seated at both the laptop and the Stream Deck Mini ends.</li>
+        <li><span>Confirm the USB extension cable is firmly seated at both the laptop and the Stream Deck Mini ends.</span></li>
         
-        <li>Check that <strong>Bitfocus Companion Satellite</strong> is running on the casting laptop — it must be open for the deck to receive its button layout.</li>
+        <li><span>Check that <strong>Bitfocus Companion Satellite</strong> is running on the casting laptop — it must be open for the deck to receive its button layout.</span></li>
         
-        <li>If Companion Satellite is open but the deck is blank or showing wrong buttons, try closing and reopening Companion Satellite.</li>
+        <li><span>If Companion Satellite is open but the deck is blank or showing wrong buttons, try closing and reopening Companion Satellite.</span></li>
         
-        <li>If the deck is still unresponsive, unplug the USB extension from the laptop, wait a few seconds, and replug. Companion Satellite should re-detect the device automatically.</li>
+        <li><span>If the deck is still unresponsive, unplug the USB extension from the laptop, wait a few seconds, and replug. Companion Satellite should re-detect the device automatically.</span></li>
         
-        <li>If the issue persists, try plugging the Stream Deck Mini directly into a laptop USB port (bypassing the extension cable) to rule out a faulty extension.</li>
+        <li><span>If the issue persists, try plugging the Stream Deck Mini directly into a laptop USB port (bypassing the extension cable) to rule out a faulty extension.</span></li>
         
       </ol>
     </div>
@@ -1980,13 +2061,13 @@
       
       <ol class="steps">
         
-        <li>Check that <strong>Foobar2000</strong> is open and playing on the Director PC — it may not have been launched yet or may have stopped.</li>
+        <li><span>Check that <strong>Foobar2000</strong> is open and playing on the Director PC — it may not have been launched yet or may have stopped.</span></li>
         
-        <li>In Foobar2000, verify the output device is set to route to the RODECaster (check Preferences → Playback → Output).</li>
+        <li><span>In Foobar2000, verify the output device is set to route to the RODECaster (check Preferences → Playback → Output).</span></li>
         
-        <li>On the RODECaster, confirm the <strong>MUSIC</strong> channel fader is up and not muted.</li>
+        <li><span>On the RODECaster, confirm the <strong>MUSIC</strong> channel fader is up and not muted.</span></li>
         
-        <li>If Foobar2000 is running and routing correctly but the board shows no signal, power cycle the RODECaster and reopen vMix after it restarts.</li>
+        <li><span>If Foobar2000 is running and routing correctly but the board shows no signal, power cycle the RODECaster and reopen vMix after it restarts.</span></li>
         
       </ol>
     </div>
@@ -2007,15 +2088,15 @@
       
       <ol class="steps">
         
-        <li>In OBS on the affected Observer PC, confirm the game capture source has audio enabled and is not muted in the OBS audio mixer.</li>
+        <li><span>In OBS on the affected Observer PC, confirm the game capture source has audio enabled and is not muted in the OBS audio mixer.</span></li>
         
-        <li>Verify the Observer PC is transmitting OMT to vMix — if the video feed is also missing, resolve that first (see OMT troubleshooting).</li>
+        <li><span>Verify the Observer PC is transmitting OMT to vMix — if the video feed is also missing, resolve that first (see OMT troubleshooting).</span></li>
         
-        <li>In vMix on the Director PC, check the audio settings for that Observer's OMT input — confirm audio is enabled and its level is not zeroed.</li>
+        <li><span>In vMix on the Director PC, check the audio settings for that Observer's OMT input — confirm audio is enabled and its level is not zeroed.</span></li>
         
-        <li>Put that Observer feed on program and check the RODECaster for signal on the game audio channel. If vMix is sending it but the board isn't receiving it, check the USB connection between the Director PC and the RODECaster.</li>
+        <li><span>Put that Observer feed on program and check the RODECaster for signal on the game audio channel. If vMix is sending it but the board isn't receiving it, check the USB connection between the Director PC and the RODECaster.</span></li>
         
-        <li>Confirm no solo button is engaged on the board that would mask the game audio channel in your monitor mix.</li>
+        <li><span>Confirm no solo button is engaged on the board that would mask the game audio channel in your monitor mix.</span></li>
         
       </ol>
     </div>
@@ -2036,11 +2117,11 @@
       <p>A consistent 1-second delay is a known OBS sync issue on observer PCs — a full reboot of OBS resolves it reliably.</p>
       <ol class="steps">
         
-        <li>Identify which observer's feed has the delayed audio.</li>
+        <li><span>Identify which observer's feed has the delayed audio.</span></li>
         
-        <li>Fully close OBS on that observer PC and reopen it.</li>
+        <li><span>Fully close OBS on that observer PC and reopen it.</span></li>
         
-        <li>Confirm game capture and audio are transmitting again via OMT before putting that feed back on program.</li>
+        <li><span>Confirm game capture and audio are transmitting again via OMT before putting that feed back on program.</span></li>
         
       </ol>
     </div>
@@ -2061,11 +2142,11 @@
       <p>This happens when both <strong>Desktop Audio</strong> and <strong>Game Capture</strong> are passing audio simultaneously in OBS — two slightly offset copies of the same source.</p>
       <ol class="steps">
         
-        <li>On the affected observer PC, open the OBS audio mixer.</li>
+        <li><span>On the affected observer PC, open the OBS audio mixer.</span></li>
         
-        <li>Find the <strong>Desktop Audio</strong> channel and mute it — only <strong>Game Capture</strong> audio should be active.</li>
+        <li><span>Find the <strong>Desktop Audio</strong> channel and mute it — only <strong>Game Capture</strong> audio should be active.</span></li>
         
-        <li>Confirm the echo is gone before returning that feed to program.</li>
+        <li><span>Confirm the echo is gone before returning that feed to program.</span></li>
         
       </ol>
     </div>
