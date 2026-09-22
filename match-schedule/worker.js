@@ -56,7 +56,9 @@ export default {
           'User-Agent': 'Mozilla/5.0 (compatible; CalendarFetch/1.0)',
           'Accept': 'text/calendar, application/ics, */*',
         },
-        cf: { cacheTtl: 900 }, // Cache in Cloudflare edge for 15 min — keeps LeagueOS load down without going stale
+        // cacheEverything is required here — text/calendar isn't in Cloudflare's
+        // default-cacheable content types, so cacheTtl alone is silently ignored.
+        cf: { cacheTtl: 900, cacheEverything: true }, // Cache in Cloudflare edge for 15 min
       });
     } catch (err) {
       return new Response(`Upstream fetch failed: ${err.message}`, {
