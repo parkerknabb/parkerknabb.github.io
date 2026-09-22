@@ -37,3 +37,4 @@ exclude:
   - README.md
   - node_modules
   - vendor
+  - match-schedule/worker.js

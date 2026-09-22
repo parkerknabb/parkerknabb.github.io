@@ -124,6 +124,7 @@
     .status-pill.loading { border-color: var(--gold-dim); color: var(--gold); background: rgba(207,185,145,0.06); }
     .status-pill.ok      { border-color: #4caf7d55; color: var(--win); background: rgba(76,175,125,0.08); }
     .status-pill.error   { border-color: #e05c5c55; color: var(--red); background: rgba(224,92,92,0.08); }
+    .status-pill.stale   { border-color: #f5a62355; color: #f5a623; background: rgba(245,166,35,0.08); }
 
     .status-dot {
       width: 6px; height: 6px;
@@ -459,6 +460,16 @@
       transition: color 0.15s;
     }
 
+    .cal-btn {
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .cal-btn:hover, .cal-btn:focus-visible {
+      color: var(--gold);
+      outline: none;
+    }
+
     .match-card--link:hover .link-hint {
       color: var(--gold) !important;
     }
@@ -564,7 +575,6 @@ const PROXIES = [
   ...(WORKER_URL ? [u => `${WORKER_URL}?url=${encodeURIComponent(u)}`] : []),
   u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
   u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-  u => `https://cors-anywhere.herokuapp.com/${u}`,
 ];
 
 // Per-game team rules — which Purdue team name is varsity for each game
@@ -817,6 +827,27 @@ function getCookie(name) {
   }
 }
 
+// --- Last-known-good ICS cache (localStorage) ---
+// Not a load-reduction cache — the Worker's edge cache handles that. This is
+// purely so a visitor still sees a schedule (labeled stale) if every proxy
+// is down, instead of a blank error screen.
+const ICS_CACHE_KEY = 'matchScheduleIcsCache';
+
+function saveIcsCache(rawText) {
+  try {
+    localStorage.setItem(ICS_CACHE_KEY, JSON.stringify({ rawText, fetchedAt: Date.now() }));
+  } catch (e) { /* storage unavailable — skip caching */ }
+}
+
+function loadIcsCache() {
+  try {
+    const raw = localStorage.getItem(ICS_CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 // --- Render ---
 let allMatches = [];
 let currentFilter = getCookie('matchFilter') || 'upcoming';
@@ -923,6 +954,10 @@ function render() {
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 LeagueOS
               </span>` : ''}
+              <span class="meta-chip cal-btn" data-uid="${escHtml(m.uid)}" role="button" tabindex="0" title="Add to calendar">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Add to Calendar
+              </span>
             </div>
             ${(()=>{
               const w = getWarnings(m);
@@ -949,6 +984,46 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// --- Add-to-calendar (single-event .ics download) ---
+function icsDate(date) {
+  return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+}
+
+function escapeICSText(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
+}
+
+function downloadMatchIcs(uid) {
+  const match = allMatches.find(m => m.uid === uid);
+  if (!match) return;
+
+  const title = `${match.gameTitle || 'Match'} vs ${match.opponent || 'TBD'}`.trim();
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Purdue Varsity Esports//Match Schedule//EN',
+    'BEGIN:VEVENT',
+    `UID:${match.uid}@purdue-varsity-esports`,
+    `DTSTAMP:${icsDate(new Date())}`,
+    `DTSTART:${icsDate(match.start)}`,
+    `DTEND:${icsDate(match.end)}`,
+    `SUMMARY:${escapeICSText(title)}`,
+    match.matchUrl ? `URL:${match.matchUrl}` : '',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].filter(Boolean);
+
+  const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `${(title || 'match').replace(/[^\w\- ]/g, '').trim().replace(/\s+/g, '-')}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 function setStatus(type, text) {
   const pill = document.getElementById('statusPill');
   const dot  = document.getElementById('statusDot');
@@ -958,7 +1033,19 @@ function setStatus(type, text) {
   txt.textContent = text;
 }
 
+let fetchInFlight = false;
+
 async function fetchICS() {
+  if (fetchInFlight) return;
+  fetchInFlight = true;
+  try {
+    await fetchICSInner();
+  } finally {
+    fetchInFlight = false;
+  }
+}
+
+async function fetchICSInner() {
   setStatus('loading', 'Fetching calendar...');
   console.group('%c📅 fetchICS()', 'font-weight:bold;color:#CFB991');
   console.log('ICS_URL (after webcal→https):', ICS_URL);
@@ -1005,6 +1092,7 @@ async function fetchICS() {
       console.groupEnd();
       console.groupEnd();
 
+      saveIcsCache(text);
       setStatus('ok', `${allMatches.length} varsity match${allMatches.length !== 1 ? 'es' : ''} loaded`);
       document.getElementById('lastFetched').textContent =
         `Last fetched ${new Date().toLocaleTimeString()}`;
@@ -1021,7 +1109,20 @@ async function fetchICS() {
   console.error('%c✗ All proxies exhausted.', 'color:red;font-weight:bold');
   console.groupEnd();
 
-  // All proxies failed — show error state
+  // All proxies failed — fall back to the last successfully fetched feed, if any
+  const cached = loadIcsCache();
+  if (cached) {
+    console.warn('  Falling back to cached ICS from', new Date(cached.fetchedAt).toISOString());
+    allMatches = parseICS(cached.rawText);
+    const ago = Math.round((Date.now() - cached.fetchedAt) / 60000);
+    setStatus('stale', `Showing cached schedule (${ago} min old) — live fetch failed`);
+    document.getElementById('lastFetched').textContent =
+      `Last successful fetch ${new Date(cached.fetchedAt).toLocaleString()}`;
+    render();
+    return;
+  }
+
+  // No cache to fall back on either — show error state
   setStatus('error', 'Failed to load calendar');
   document.getElementById('main').innerHTML = `
     <div class="state-container">
@@ -1033,6 +1134,25 @@ async function fetchICS() {
       <button class="retry-btn" onclick="fetchICS()">↺ Retry</button>
     </div>`;
 }
+
+// "Add to Calendar" chips — delegated since cards re-render, and the chip
+// sits inside a card that's sometimes itself an <a> (must stop its navigation)
+document.getElementById('main').addEventListener('click', (e) => {
+  const btn = e.target.closest('.cal-btn');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  downloadMatchIcs(btn.dataset.uid);
+});
+
+document.getElementById('main').addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const btn = e.target.closest('.cal-btn');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  downloadMatchIcs(btn.dataset.uid);
+});
 
 // Date filter buttons
 document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
@@ -1061,6 +1181,15 @@ document.querySelector(`.filter-btn[data-filter="${currentFilter}"]`)?.classList
 document.querySelector(`.filter-btn[data-game="${currentGameFilter}"]`)?.classList.add('active');
 
 fetchICS();
+
+// Auto-refresh so a pinned/left-open tab stays current. The Worker's edge
+// cache (15 min) means most of these refetches are cheap — they don't hit
+// LeagueOS directly.
+setInterval(fetchICS, 5 * 60 * 1000);
+
+// Re-render every minute on the existing data so Today/Completed status and
+// warnings stay accurate between refetches, without any extra network cost.
+setInterval(() => { if (allMatches.length) render(); }, 60 * 1000);
 </script>
 </body>
 </html>
