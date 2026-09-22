@@ -149,10 +149,16 @@
     /* Filters */
     .controls {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 12px;
       padding: 20px 48px;
       border-bottom: 1px solid var(--border);
+    }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
@@ -516,23 +522,23 @@
 </header>
 
 <div class="controls">
-  <span class="filter-label">Show</span>
-  <button class="filter-btn" data-filter="week">This Week</button>
-  <button class="filter-btn" data-filter="nextweek">Next Week</button>
-  <button class="filter-btn active" data-filter="upcoming">Upcoming</button>
-  <button class="filter-btn" data-filter="past">Past</button>
-  <button class="filter-btn" data-filter="all">All</button>
-  <span class="count-badge" id="countBadge"></span>
-</div>
-
-<div class="controls">
-  <span class="filter-label">Game</span>
-  <button class="filter-btn active" data-game="all">All Games</button>
-  <button class="filter-btn" data-game="valorant">Valorant</button>
-  <button class="filter-btn" data-game="rivals">Marvel Rivals</button>
-  <button class="filter-btn" data-game="rocketleague">Rocket League</button>
-  <button class="filter-btn" data-game="lol">LoL</button>
-  <button class="filter-btn" data-game="overwatch">Overwatch</button>
+  <div class="filter-row">
+    <span class="filter-label">Show</span>
+    <button class="filter-btn" data-filter="week">This Week</button>
+    <button class="filter-btn" data-filter="nextweek">Next Week</button>
+    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+    <button class="filter-btn" data-filter="past">Past</button>
+    <button class="filter-btn" data-filter="all">All</button>
+    <span class="count-badge" id="countBadge"></span>
+  </div>
+  <div class="filter-row">
+    <button class="filter-btn" data-game="valorant">Valorant</button>
+    <button class="filter-btn" data-game="rivals">Marvel Rivals</button>
+    <button class="filter-btn" data-game="rocketleague">Rocket League</button>
+    <button class="filter-btn" data-game="lol">LoL</button>
+    <button class="filter-btn" data-game="overwatch">Overwatch</button>
+    <button class="filter-btn" data-game="all">All</button>
+  </div>
 </div>
 
 <main id="main">
@@ -794,10 +800,27 @@ function matchesGameFilter(match, filter) {
   return (match.gameTitle || '').toLowerCase().includes(key);
 }
 
+// --- Cookie storage for last-used filters ---
+function setCookie(name, value) {
+  try {
+    const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+  } catch (e) { /* cookies unavailable — filters just won't persist */ }
+}
+
+function getCookie(name) {
+  try {
+    const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 // --- Render ---
 let allMatches = [];
-let currentFilter = 'upcoming';
-let currentGameFilter = 'all';
+let currentFilter = getCookie('matchFilter') || 'upcoming';
+let currentGameFilter = getCookie('matchGameFilter') || 'all';
 
 function render() {
   const now    = new Date();
@@ -1017,6 +1040,7 @@ document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
     document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentFilter = btn.dataset.filter;
+    setCookie('matchFilter', currentFilter);
     if (allMatches.length) render();
   });
 });
@@ -1027,9 +1051,14 @@ document.querySelectorAll('.filter-btn[data-game]').forEach(btn => {
     document.querySelectorAll('.filter-btn[data-game]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentGameFilter = btn.dataset.game;
+    setCookie('matchGameFilter', currentGameFilter);
     if (allMatches.length) render();
   });
 });
+
+// Reflect the restored (or default) filters in the button states
+document.querySelector(`.filter-btn[data-filter="${currentFilter}"]`)?.classList.add('active');
+document.querySelector(`.filter-btn[data-game="${currentGameFilter}"]`)?.classList.add('active');
 
 fetchICS();
 </script>
