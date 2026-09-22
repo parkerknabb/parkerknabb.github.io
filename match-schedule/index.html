@@ -525,6 +525,16 @@
   <span class="count-badge" id="countBadge"></span>
 </div>
 
+<div class="controls">
+  <span class="filter-label">Game</span>
+  <button class="filter-btn active" data-game="all">All Games</button>
+  <button class="filter-btn" data-game="valorant">Valorant</button>
+  <button class="filter-btn" data-game="rivals">Marvel Rivals</button>
+  <button class="filter-btn" data-game="rocketleague">Rocket League</button>
+  <button class="filter-btn" data-game="lol">LoL</button>
+  <button class="filter-btn" data-game="overwatch">Overwatch</button>
+</div>
+
 <main id="main">
   <div class="state-container" id="stateContainer">
     <div class="state-icon">⚡</div>
@@ -761,9 +771,33 @@ function monthKey(date) {
   return `${MONTHS[date.getMonth()]} ${date.getFullYear()}`;
 }
 
+// --- Game filter ---
+const GAME_FILTER_KEYS = {
+  valorant:     'valorant',
+  rivals:       'rivals',           // matches "Marvel Rivals" and "Rivals"
+  rocketleague: 'rocket league',
+  lol:          'league of legends',
+  overwatch:    'overwatch',
+};
+
+const GAME_FILTER_LABELS = {
+  valorant:     'Valorant',
+  rivals:       'Marvel Rivals',
+  rocketleague: 'Rocket League',
+  lol:          'LoL',
+  overwatch:    'Overwatch',
+};
+
+function matchesGameFilter(match, filter) {
+  if (filter === 'all') return true;
+  const key = GAME_FILTER_KEYS[filter];
+  return (match.gameTitle || '').toLowerCase().includes(key);
+}
+
 // --- Render ---
 let allMatches = [];
 let currentFilter = 'upcoming';
+let currentGameFilter = 'all';
 
 function render() {
   const now    = new Date();
@@ -790,6 +824,10 @@ function render() {
     matches = allMatches.filter(m => m.start >= nextStart && m.start < nextEnd);
   }
 
+  if (currentGameFilter !== 'all') {
+    matches = matches.filter(m => matchesGameFilter(m, currentGameFilter));
+  }
+
   document.getElementById('countBadge').textContent = `${matches.length} match${matches.length !== 1 ? 'es' : ''}`;
 
   if (!matches.length) {
@@ -797,7 +835,7 @@ function render() {
       <div class="state-container">
         <div class="state-icon">🎮</div>
         <div class="state-title">No Matches Found</div>
-        <div class="state-desc">No ${currentFilter !== 'all' ? currentFilter + ' ' : ''}matches found for Purdue Gold or Purdue Varsity Gold.</div>
+        <div class="state-desc">No ${currentFilter !== 'all' ? currentFilter + ' ' : ''}${currentGameFilter !== 'all' ? GAME_FILTER_LABELS[currentGameFilter] + ' ' : ''}matches found.</div>
       </div>`;
     return;
   }
@@ -973,12 +1011,22 @@ async function fetchICS() {
     </div>`;
 }
 
-// Filter buttons
-document.querySelectorAll('.filter-btn').forEach(btn => {
+// Date filter buttons
+document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentFilter = btn.dataset.filter;
+    if (allMatches.length) render();
+  });
+});
+
+// Game filter buttons
+document.querySelectorAll('.filter-btn[data-game]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn[data-game]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentGameFilter = btn.dataset.game;
     if (allMatches.length) render();
   });
 });
