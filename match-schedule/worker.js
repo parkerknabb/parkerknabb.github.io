@@ -8,7 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-const ALLOWED_ORIGIN = '*'; // e.g. 'https://parkerknabb.com' to restrict
+const ALLOWED_ORIGIN = 'https://parkerknabb.com'
  
 // Whitelist of upstream hosts this worker will proxy — prevents open-relay abuse
 const ALLOWED_UPSTREAM_HOSTS = [
