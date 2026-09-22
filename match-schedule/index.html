@@ -610,12 +610,10 @@ function parseICS(raw) {
     const dtend   = get('DTEND');
     const uid     = get('UID');
 
-    // Extract URL and rewrite domain
-    let matchUrl = get('URL(?:;VALUE=URI)?');
-    if (!matchUrl) matchUrl = get('URL');
-    if (matchUrl) {
-      matchUrl = matchUrl.replace('necc.leagueos.gg', 'necc.v1.leagueos.gg');
-    }
+    // Build the match URL from the event UID — LeagueOS's own URL field
+    // points at /match/<id>, but the live site now serves matches at
+    // /league/matches/<id> (same id).
+    const matchUrl = uid ? `https://necc.v1.leagueos.gg/league/matches/${uid}` : '';
 
     // Extract all ATTENDEE CN= values
     const attendeeMatches = [...block.matchAll(/ATTENDEE[^:]*;CN="([^"]+)"/g)];
