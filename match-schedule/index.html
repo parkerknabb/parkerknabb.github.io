@@ -567,14 +567,12 @@ const ICS_URL = 'webcal://api.leagueos.gg/league/ics/b1q6j3ea75j6zgk1s4i79dlw7/g
 // ─────────────────────────────────────────────────────────────
 // Set WORKER_URL after deploying the Cloudflare Worker relay.
 // e.g. 'https://ics-relay.YOUR-SUBDOMAIN.workers.dev'
-// Leave as '' to skip it and fall through to public proxies.
+// The worker is the only relay; it serves a cached copy because LeagueOS takes ~13s.
 // ─────────────────────────────────────────────────────────────
 const WORKER_URL = 'https://misty-unit-0ea4.parker-4f6.workers.dev';
 
 const PROXIES = [
   ...(WORKER_URL ? [u => `${WORKER_URL}?url=${encodeURIComponent(u)}`] : []),
-  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
 ];
 
 // Per-game team rules — which Purdue team name is varsity for each game
@@ -1055,7 +1053,7 @@ async function fetchICSInner() {
     console.group(`%c🔗 Proxy: ${url}`, 'color:#5b8fd4');
     try {
       console.time('  fetch duration');
-      const resp = await fetch(url, { signal: AbortSignal.timeout(12000) });
+      const resp = await fetch(url, { signal: AbortSignal.timeout(30000) });
       console.timeEnd('  fetch duration');
       console.log('  HTTP status:', resp.status, resp.statusText);
       console.log('  Headers:', Object.fromEntries(resp.headers.entries()));
@@ -1128,7 +1126,7 @@ async function fetchICSInner() {
     <div class="state-container">
       <div class="state-icon">⚠️</div>
       <div class="state-title">Could Not Load Feed</div>
-      <div class="state-desc">All CORS proxies failed to reach the LeagueOS calendar endpoint.
+      <div class="state-desc">The relay worker failed to reach the LeagueOS calendar endpoint.
       This can happen if the feed is temporarily unavailable or blocked.
       Try again in a moment.</div>
       <button class="retry-btn" onclick="fetchICS()">↺ Retry</button>
