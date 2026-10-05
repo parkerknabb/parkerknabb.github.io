@@ -851,10 +851,19 @@ let allMatches = [];
 let currentFilter = getCookie('matchFilter') || 'upcoming';
 let currentGameFilter = getCookie('matchGameFilter') || 'all';
 
+// Last markup written to #main. Periodic re-renders produce identical HTML unless
+// a status/warning actually changed, so skipping the write avoids replaying the
+// card entrance animation (and resetting scroll/hover) every minute.
+let lastHtml = null;
+function setMainHtml(html) {
+  if (html === lastHtml) return;
+  lastHtml = html;
+  document.getElementById('main').innerHTML = html;
+}
+
 function render() {
   const now    = new Date();
   const todayS = now.toDateString();
-  const main   = document.getElementById('main');
 
   // Compute Monday–Sunday bounds for current calendar week
   const weekStart = new Date(now);
@@ -883,12 +892,12 @@ function render() {
   document.getElementById('countBadge').textContent = `${matches.length} match${matches.length !== 1 ? 'es' : ''}`;
 
   if (!matches.length) {
-    main.innerHTML = `
+    setMainHtml(`
       <div class="state-container">
         <div class="state-icon">🎮</div>
         <div class="state-title">No Matches Found</div>
         <div class="state-desc">No ${currentFilter !== 'all' ? currentFilter + ' ' : ''}${currentGameFilter !== 'all' ? GAME_FILTER_LABELS[currentGameFilter] + ' ' : ''}matches found.</div>
-      </div>`;
+      </div>`);
     return;
   }
 
@@ -975,7 +984,7 @@ function render() {
     html += '</div>';
   }
 
-  main.innerHTML = html;
+  setMainHtml(html);
 }
 
 function escHtml(s) {
@@ -1122,6 +1131,7 @@ async function fetchICSInner() {
 
   // No cache to fall back on either — show error state
   setStatus('error', 'Failed to load calendar');
+  lastHtml = null;
   document.getElementById('main').innerHTML = `
     <div class="state-container">
       <div class="state-icon">⚠️</div>
