@@ -448,7 +448,7 @@ h2 {
 .about-text p + p { margin-top: 20px; }
 .about-text strong { color: var(--text); font-weight: 500; }
 
-.facts { border-top: 1px solid var(--border-strong); }
+.facts { border-top: 2px solid var(--accent); }
 .fact {
   display: grid;
   grid-template-columns: 4.25rem minmax(0, 1fr);
@@ -474,7 +474,9 @@ h2 {
 /* ── RUNDOWN ROWS ──
    Experience, credits, and skills share one ruled-list anatomy:
    a narrow meta column (dates, group names) and the content. */
-.rundown { border-top: 1px solid var(--border-strong); }
+/* Every rundown opens on a gold header rule: the one structural accent
+   that repeats section to section. */
+.rundown { border-top: 2px solid var(--accent); }
 .rd-row {
   display: grid;
   grid-template-columns: var(--meta-col) minmax(0, 1fr);
@@ -691,17 +693,29 @@ h2 {
 }
 .gallery-thumb:focus-visible { border-radius: var(--radius-sm); }
 
-/* ── CONTACT ── */
-#contact { padding-bottom: 128px; }
+/* ── CONTACT ──
+   The closing segment goes to air: a full-bleed Boilermaker Gold field
+   with ink type. The page's one large block of color. */
+#contact {
+  --contact-ink: var(--accent-ink);
+  --contact-ink-mid: #4A3F28;
+  max-width: none;
+  margin-top: 104px;
+  padding: 104px max(var(--pad-x), calc((100% - var(--max-width)) / 2 + var(--pad-x))) 120px;
+  background: var(--accent);
+  color: var(--contact-ink);
+}
 #contact h2 { margin-bottom: 20px; }
 #contact p {
-  color: var(--text-mid);
+  color: var(--contact-ink-mid);
   font-size: 1.05rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   max-width: 46ch;
   margin-bottom: 28px;
 }
+#contact ::selection { background: var(--contact-ink); color: var(--accent); }
+#contact :focus-visible { outline-color: var(--contact-ink); }
 .contact-email {
   display: inline-block;
   font-family: var(--font-display);
@@ -711,22 +725,33 @@ h2 {
   line-height: 1.2;
   overflow-wrap: anywhere;
   text-decoration: underline;
-  text-decoration-color: var(--accent);
+  text-decoration-color: currentColor;
   text-decoration-thickness: 2px;
   text-underline-offset: 8px;
-  transition: color 0.15s;
+  transition: text-decoration-thickness 0.15s, text-underline-offset 0.15s;
 }
-.contact-email:hover { color: var(--accent-text); }
+.contact-email:hover {
+  text-decoration-thickness: 4px;
+  text-underline-offset: 6px;
+}
 .contact-links {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 36px;
 }
+#contact .btn-secondary {
+  color: var(--contact-ink);
+  border-color: rgba(26,18,0,0.35);
+}
+#contact .btn-secondary:hover {
+  background: var(--contact-ink);
+  border-color: var(--contact-ink);
+  color: var(--accent);
+}
 
 /* ── FOOTER ── */
 footer {
-  border-top: 1px solid var(--border);
   padding: 24px var(--pad-x);
   display: flex;
   justify-content: space-between;
@@ -769,7 +794,7 @@ footer {
   .nav-links li:last-child a { border-bottom: none; }
 
   section { padding: 80px 24px 0; }
-  #contact { padding-bottom: 96px; }
+  #contact { margin-top: 80px; padding: 80px 24px 96px; }
   #hero { padding: 104px 24px 88px; }
   .hero-frame {
     --hf-side: 12px;
