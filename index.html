@@ -17,154 +17,132 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
     <span class="hf-safe hf-safe-bl"></span>
     <span class="hf-safe hf-safe-br"></span>
 
-    <span class="hf-ticks hf-ticks-top"></span>
-    <span class="hf-ticks hf-ticks-bottom"></span>
-
     <span class="hf-on-air"><span class="hf-dot"></span><span class="hf-label">ON AIR</span></span>
   </div>
 
   <div class="hero-inner">
     <div class="hero-text">
-      <p class="hero-label">AV Infrastructure &amp; Broadcast Engineering</p>
-      <h1>Building today's broadcast systems<br>for <em>tomorrow's</em> experiences.</h1>
+      <h1>I build the systems behind the broadcast.</h1>
       <p class="hero-sub">Computer Engineering student at Purdue University. I design, build, and operate IP-based AV and broadcast infrastructure — from university esports arenas to professional production facilities.</p>
       <div class="hero-cta">
-        <a href="#work" class="btn btn-primary">View My Work →</a>
-        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+        <a href="#work" class="btn btn-primary">View my work</a>
+        <a href="{{ '/Parker_Knabb_Resume.pdf' | relative_url }}" class="btn btn-secondary" target="_blank" rel="noopener">Résumé (PDF)</a>
       </div>
     </div>
 
     <div class="hero-photo-col">
       <div class="hero-photo-frame">
         {% if site.headshot %}
-          <img src="{{ '/images/photo.webp' | relative_url }}" alt="Parker Knabb">
+          <img src="{{ '/images/photo.webp' | relative_url }}" alt="Parker Knabb" width="500" height="752" fetchpriority="high">
         {% else %}
           <div class="hero-photo-placeholder">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
             <span>photo.webp</span>
           </div>
         {% endif %}
       </div>
-      <div class="hero-photo-label">
-        <span class="name-large">Parker Knabb</span>
-        <span class="name-title">Purdue CompE '27 · West Lafayette, IN</span>
-      </div>
+      <p class="lower-third">
+        <span class="lt-name">Parker Knabb</span>
+        <span class="lt-meta"><span>Purdue CompE '27</span> · <span>West Lafayette, IN</span></span>
+      </p>
     </div>
-  </div>
-
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    SCROLL
   </div>
 </div>
 
 <!-- ABOUT -->
 <section id="about">
-  <p class="section-label">Background</p>
-  <h2>Self-taught since<br>first grade.</h2>
+  <h2>Self-taught since first grade.</h2>
   <div class="about-grid">
     <div class="about-text">
       {% for paragraph in site.data.about.paragraphs %}
       <p>{{ paragraph }}</p>
       {% endfor %}
     </div>
-    <div class="about-stats">
+    <dl class="facts">
       {% for stat in site.data.about.stats %}
-      <div class="stat-card">
-        <div class="stat-num">{{ stat.num }}</div>
-        <div class="stat-label">{{ stat.label }}</div>
+      <div class="fact">
+        <dt>{{ stat.num }}</dt>
+        <dd>{{ stat.label }}</dd>
       </div>
       {% endfor %}
-    </div>
+    </dl>
   </div>
 </section>
 
 <!-- WORK -->
 <section id="work">
-  <p class="section-label">Experience</p>
   <h2>Then people started paying me for it.</h2>
-  <div class="work-cards">
+  <ol class="rundown">
     {% for job in site.data.work %}
-    <div class="work-card{% if job.upcoming %} upcoming{% endif %}">
-      <div class="work-card-icon">{{ job.icon }}</div>
+    <li class="rd-row">
+      <p class="rd-meta">{{ job.dates }}</p>
       <div>
-        <p class="work-card-org">
-          {% if job.org_url %}<a href="{{ job.org_url }}" target="_blank" class="org-link">{{ job.org }}</a>{% else %}{{ job.org }}{% endif %}
-          · {{ job.dates }}
+        <h3 class="job-title">{{ job.title }}</h3>
+        <p class="job-org">
+          {% if job.org_url %}<a href="{{ job.org_url }}" target="_blank" rel="noopener" class="org-link">{{ job.org }}</a>{% else %}{{ job.org }}{% endif %}
         </p>
-        <p class="work-card-title">{{ job.title }}</p>
+        <p class="job-desc">{{ job.desc }}</p>
+        {% if job.tags %}
+        <ul class="job-tools" aria-label="Tools">
+          {% for tag in job.tags %}<li>{{ tag }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+        {% if job.link %}
+        <a href="{{ job.link }}" class="job-link" target="_blank" rel="noopener">{{ job.link_label }} →</a>
+        {% endif %}
+        {% if job.upcoming_label %}
+        <p class="job-note">{{ job.upcoming_label }}</p>
+        {% endif %}
       </div>
-      <p class="work-card-desc">{{ job.desc }}</p>
-      {% if job.tags %}
-      <div class="work-card-tags">
-        {% for tag in job.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
-      </div>
-      {% endif %}
-      {% if job.link %}
-      <a href="{{ job.link }}" class="work-card-link" target="_blank">{{ job.link_label }} →</a>
-      {% endif %}
-      {% if job.upcoming_label %}
-      <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);margin-top:4px;">{{ job.upcoming_label }}</span>
-      {% endif %}
-    </div>
+    </li>
     {% endfor %}
-  </div>
+  </ol>
 </section>
 
 <!-- CREDITS -->
 <section id="credits">
-  <p class="section-label">Credits</p>
   <h2>Shows, not just jobs.</h2>
-  <p style="color:var(--text-mid);font-size:1rem;font-weight:300;line-height:1.7;max-width:560px;margin-bottom:56px;"></p>
 
   {% for group in site.data.credits %}
-  <div class="credits-block"{% unless forloop.first %} style="margin-top:40px;"{% endunless %}>
-    <p class="credits-group-label">{{ group.group }}</p>
-    <div class="credits-list">
+  <div class="credits-group">
+    <h3>{{ group.group }}</h3>
+    <ul class="rundown">
       {% for production in group.productions %}
-      <div class="credit-row">
-        <div class="credit-main">
-          <span class="credit-show">
-            {% if production.url %}<a href="{{ production.url }}" target="_blank" class="org-link">{{ production.show }}</a>{% else %}{{ production.show }}{% endif %}
-          </span>
-          <span class="credit-role">{{ production.role }}</span>
+      <li class="rd-row credit-row">
+        <p class="rd-meta">{{ production.date | remove: ' ↗' }}</p>
+        <div>
+          <p class="credit-show">
+            {% if production.url %}<a href="{{ production.url }}" target="_blank" rel="noopener" class="org-link">{{ production.show }}</a>{% else %}{{ production.show }}{% endif %}
+          </p>
+          <p class="credit-role">{{ production.role }}</p>
         </div>
-        <div class="credit-meta">
-          <span class="credit-date">{{ production.date }}</span>
-          <span class="credit-location">{{ production.location }}</span>
-        </div>
-      </div>
+        <p class="credit-location">{{ production.location }}</p>
+      </li>
       {% endfor %}
-    </div>
+    </ul>
   </div>
   {% endfor %}
 </section>
 
 <!-- SKILLS -->
-<div id="signal">
-  <div class="inner">
-    <p class="section-label">Technical</p>
-    <h2>What's actually in the signal chain.</h2>
-    <div class="skills-grid">
-      {% for group in site.data.skills %}
-      <div class="skill-group">
-        <h4>{{ group.heading }}</h4>
-        <ul>
-          {% for item in group.items %}
-          <li>{{ item }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endfor %}
+<section id="signal">
+  <h2>What's actually in the signal chain.</h2>
+  <div class="rundown">
+    {% for group in site.data.skills %}
+    <div class="rd-row skill-row">
+      <h3>{{ group.heading }}</h3>
+      <ul class="skill-items">
+        {% for item in group.items %}<li>{{ item }}</li>{% endfor %}
+      </ul>
     </div>
+    {% endfor %}
   </div>
-</div>
+</section>
 
 <!-- TIMELINE -->
 <section id="timeline">
-  <p class="section-label">Background</p>
   <h2>The long way here.</h2>
-  <p class="tl-intro">The moments behind the résumé.</p>
+  <p class="section-intro">The moments behind the résumé.</p>
 
   {% for entry in site.data.timeline %}
   <div class="tl-entry">
@@ -172,17 +150,17 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
     <div class="tl-dot"></div>
     <div class="tl-body">
       <p class="tl-org">
-        {% if entry.org_url %}<a href="{{ entry.org_url }}" target="_blank" class="org-link">{{ entry.org }}</a>{% else %}{{ entry.org }}{% endif %}
+        {% if entry.org_url %}<a href="{{ entry.org_url }}" target="_blank" rel="noopener" class="org-link">{{ entry.org }}</a>{% else %}{{ entry.org }}{% endif %}
       </p>
-      <p class="tl-title">{{ entry.title }}</p>
+      <h3 class="tl-title">{{ entry.title }}</h3>
       <p class="tl-desc">{{ entry.desc }}</p>
       {% if entry.docs_link %}
-      <p style="margin-top:12px;font-size:0.82rem;">
-        <a href="{{ entry.docs_link }}" target="_blank" style="color:var(--accent);">{{ entry.docs_label }} →</a>
+      <p class="tl-docs">
+        <a href="{{ entry.docs_link }}" target="_blank" rel="noopener">{{ entry.docs_label }} →</a>
       </p>
       {% endif %}
       {% if entry.photos %}
-      <div class="tl-gallery" data-photos='{{ entry.photos | jsonify }}'></div>
+      <div class="tl-gallery" data-label="{{ entry.org | escape }}: {{ entry.title | escape }}" data-photos='{{ entry.photos | jsonify }}'></div>
       {% endif %}
     </div>
   </div>
@@ -191,13 +169,12 @@ description: "Computer Engineering student at Purdue. I design, build, and opera
 </section>
 
 <!-- CONTACT -->
-<section id="contact" style="padding-top:60px;">
-  <p class="section-label">Contact</p>
-  <h2>Let's build the future of broadcast together.</h2>
-  <p style="color:var(--text-mid);font-size:1rem;font-weight:300;line-height:1.7;max-width:480px;margin:0 auto 40px;">I'm currently seeking full-time roles in AV infrastructure, broadcast engineering, and systems integration starting May 2027.</p>
+<section id="contact">
+  <h2>Let's talk.</h2>
+  <p>I'm currently seeking full-time roles in AV infrastructure, broadcast engineering, and systems integration starting May 2027.</p>
+  <a href="mailto:{{ site.author.email }}" class="contact-email">{{ site.author.email }}</a>
   <div class="contact-links">
-    <a href="mailto:{{ site.author.email }}" class="btn btn-primary">{{ site.author.email }}</a>
-    <a href="{{ site.author.linkedin }}" class="btn btn-secondary" target="_blank">LinkedIn</a>
-    <a href="{{ '/Parker_Knabb_Resume.pdf' | relative_url }}" class="btn btn-secondary" target="_blank">Download Resume</a>
+    <a href="{{ site.author.linkedin }}" class="btn btn-secondary" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="{{ '/Parker_Knabb_Resume.pdf' | relative_url }}" class="btn btn-secondary" target="_blank" rel="noopener">Résumé (PDF)</a>
   </div>
 </section>

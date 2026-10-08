@@ -14,7 +14,7 @@ headshot: true
 headshot_ext: webp
 
 # ── Open Graph / Social ───────────────────────────────────────
-og_image: /images/headshot.webp
+og_image: /images/og-card.jpg
 twitter_handle: ""
 
 # ── Build ─────────────────────────────────────────────────────

@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ page.title | default: site.title }}</title>
 <meta name="description" content="{{ page.description | default: site.description }}">
+<meta name="theme-color" content="#F7F9FC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#080E1A" media="(prefers-color-scheme: dark)">
 
 <!-- Open Graph -->
 <meta property="og:title" content="{{ page.title | default: site.title }}">
@@ -12,6 +14,9 @@
 <meta property="og:url" content="{{ site.url }}{{ page.url }}">
 <meta property="og:type" content="website">
 <meta property="og:image" content="{{ site.url }}{{ site.og_image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ site.author.name }}, AV infrastructure and broadcast engineering">
 
 <!-- Twitter/X Card -->
 <meta name="twitter:card" content="summary_large_image">
@@ -20,15 +25,18 @@
 <meta name="twitter:image" content="{{ site.url }}{{ site.og_image }}">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <!-- NAV -->
-<nav>
-  <span class="nav-name">parker_knabb</span>
-  <ul class="nav-links">
+<nav aria-label="Primary">
+  <a class="nav-name" href="#hero">Parker Knabb</a>
+  <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#work">Experience</a></li>
     <li><a href="#credits">Credits</a></li>
@@ -36,124 +44,192 @@
     <li><a href="#timeline">Story</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-    <span class="ti" id="themeIcon">☀️</span>
-    <span id="themeLabel">Light</span>
-  </button>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">
+      <svg class="ti-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="ti-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      <span class="tl-text" id="themeLabel">Light</span>
+    </button>
+    <button class="nav-menu-btn" id="navMenuBtn" type="button" aria-expanded="false" aria-controls="navLinks">
+      <svg class="menu-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="menu-close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      <span>Menu</span>
+    </button>
+  </div>
 </nav>
 
+<main id="main">
 {{ content }}
+</main>
 
 <!-- FOOTER -->
 <footer>
   <span>© {% assign yr = 'now' | date: "%Y" %}{{ yr }} {{ site.author.name }}</span>
   <div class="footer-links">
-    <a href="https://parkerknabb.com/esports" target="_blank">Esports Ops Doc</a>
-    <a href="{{ site.author.linkedin }}" target="_blank">LinkedIn</a>
+    <a href="https://parkerknabb.com/esports" target="_blank" rel="noopener">Esports Ops Doc</a>
+    <a href="{{ site.author.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
   </div>
 </footer>
 
 <script>
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
   // ── THEME TOGGLE ──
+  // With no override, the CSS follows the system preference on its own.
+  // The toggle pins data-theme; the label and icon name the theme you'd switch to.
   var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
   var forcedTheme = null;
+  var themeToggle = document.getElementById('themeToggle');
 
   function applyTheme(dark) {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    var icon = document.getElementById('themeIcon');
-    var label = document.getElementById('themeLabel');
-    if (icon) icon.textContent = dark ? '☀️' : '🌙';
-    if (label) label.textContent = dark ? 'Light' : 'Dark';
+    var next = dark ? 'Light' : 'Dark';
+    document.getElementById('themeLabel').textContent = next;
+    themeToggle.setAttribute('aria-label', 'Switch to ' + next.toLowerCase() + ' theme');
   }
 
-  function toggleTheme() {
-    var currentlyDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    forcedTheme = !currentlyDark;
+  themeToggle.addEventListener('click', function() {
+    forcedTheme = document.documentElement.getAttribute('data-theme') !== 'dark';
     applyTheme(forcedTheme);
-  }
+  });
 
   applyTheme(prefersDark.matches);
   prefersDark.addEventListener('change', function(e) {
     if (forcedTheme === null) applyTheme(e.matches);
   });
 
-  // ── SMOOTH NAV SCROLL ──
-  document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(link) {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      var target = document.querySelector(link.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+  // ── MOBILE MENU ──
+  var nav = document.querySelector('nav');
+  var menuBtn = document.getElementById('navMenuBtn');
+
+  function setMenu(open) {
+    nav.classList.toggle('menu-open', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  menuBtn.addEventListener('click', function() {
+    setMenu(menuBtn.getAttribute('aria-expanded') !== 'true');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function() { setMenu(false); });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && nav.classList.contains('menu-open')) {
+      setMenu(false);
+      menuBtn.focus();
+    }
+  });
+  document.addEventListener('click', function(e) {
+    if (nav.classList.contains('menu-open') && !nav.contains(e.target)) setMenu(false);
   });
 
   // ── NAV ACTIVE HIGHLIGHT ──
-  window.addEventListener('scroll', function() {
-    var current = '';
-    document.querySelectorAll('section[id], div[id]').forEach(function(s) {
-      if (window.scrollY >= s.offsetTop - 140) current = s.id;
-    });
+  // Marks the section crossing a thin line 40% down the viewport.
+  if ('IntersectionObserver' in window) {
+    var navLinks = {};
     document.querySelectorAll('.nav-links a').forEach(function(a) {
-      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+      navLinks[a.getAttribute('href').slice(1)] = a;
     });
-  });
+    var sectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        Object.keys(navLinks).forEach(function(id) {
+          if (id === entry.target.id) navLinks[id].setAttribute('aria-current', 'true');
+          else navLinks[id].removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-40% 0px -59% 0px' });
+    Object.keys(navLinks).forEach(function(id) {
+      var section = document.getElementById(id);
+      if (section) sectionObserver.observe(section);
+    });
+  }
 
   // ── PHOTO GALLERIES ──
+  // photos entries are either a path string or { src, alt }.
   document.querySelectorAll('.tl-gallery').forEach(function(gallery) {
-    var photos = JSON.parse(gallery.dataset.photos || '[]');
+    var photos = JSON.parse(gallery.dataset.photos || '[]').map(function(p) {
+      return typeof p === 'string' ? { src: p } : p;
+    });
     if (!photos.length) return;
 
+    var label = gallery.dataset.label || 'Photo';
     var currentIndex = 0;
     var autoplayTimer = null;
+
+    function altFor(i) {
+      return photos[i].alt || (label + ', photo ' + (i + 1) + ' of ' + photos.length);
+    }
 
     var mainDiv = document.createElement('div');
     mainDiv.className = 'gallery-main';
     var mainImg = document.createElement('img');
-    mainImg.src = photos[0];
-    mainImg.alt = 'Gallery photo';
+    mainImg.src = photos[0].src;
+    mainImg.alt = altFor(0);
+    mainImg.loading = 'lazy';
+    mainImg.decoding = 'async';
     mainDiv.appendChild(mainImg);
     gallery.appendChild(mainDiv);
 
+    if (photos.length < 2) return;
+
     var thumbsDiv = document.createElement('div');
     thumbsDiv.className = 'gallery-thumbs';
+    thumbsDiv.setAttribute('role', 'group');
+    thumbsDiv.setAttribute('aria-label', label + ' photos');
 
     function goTo(index) {
       currentIndex = (index + photos.length) % photos.length;
-      mainImg.style.opacity = '0';
-      setTimeout(function() {
-        mainImg.src = photos[currentIndex];
+      var swap = function() {
+        mainImg.src = photos[currentIndex].src;
+        mainImg.alt = altFor(currentIndex);
         mainImg.style.opacity = '1';
-      }, 150);
+      };
+      if (reduceMotion.matches) {
+        swap();
+      } else {
+        mainImg.style.opacity = '0';
+        setTimeout(swap, 150);
+      }
       thumbsDiv.querySelectorAll('.gallery-thumb').forEach(function(th, i) {
-        th.classList.toggle('active', i === currentIndex);
+        if (i === currentIndex) th.setAttribute('aria-current', 'true');
+        else th.removeAttribute('aria-current');
       });
     }
 
-    photos.forEach(function(src, i) {
-      var thumb = document.createElement('div');
-      thumb.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
+    function stopAutoplay() {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+
+    photos.forEach(function(photo, i) {
+      var thumb = document.createElement('button');
+      thumb.type = 'button';
+      thumb.className = 'gallery-thumb';
+      thumb.setAttribute('aria-label', 'Show photo ' + (i + 1) + ' of ' + photos.length);
+      if (i === 0) thumb.setAttribute('aria-current', 'true');
       var img = document.createElement('img');
-      img.src = src;
+      img.src = photo.src;
       img.alt = '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
       thumb.appendChild(img);
       thumb.addEventListener('click', function() {
+        stopAutoplay();
         goTo(i);
-        if (autoplayTimer) {
-          clearInterval(autoplayTimer);
-          autoplayTimer = setInterval(function() { goTo(currentIndex + 1); }, 2000);
-        }
       });
       thumbsDiv.appendChild(thumb);
     });
 
     gallery.appendChild(thumbsDiv);
 
+    // Hover autoplay is a pointer nicety; never for reduced motion.
     gallery.addEventListener('mouseenter', function() {
+      if (reduceMotion.matches || autoplayTimer) return;
       autoplayTimer = setInterval(function() { goTo(currentIndex + 1); }, 2000);
     });
-    gallery.addEventListener('mouseleave', function() {
-      clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    });
+    gallery.addEventListener('mouseleave', stopAutoplay);
+    gallery.addEventListener('focusin', stopAutoplay);
   });
 </script>
 

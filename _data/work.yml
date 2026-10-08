@@ -1,5 +1,6 @@
 # To add a new job: copy one block and fill in the fields.
-# upcoming: true adds a dashed border to the card.
+# upcoming_label: optional short note shown under the description.
+# icon is kept for reference but is no longer displayed.
 # link/link_label are optional — remove those lines if not needed.
 
 - icon: 🌩️
