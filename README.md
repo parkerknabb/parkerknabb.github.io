@@ -17,7 +17,7 @@ The site doesn't list jobs or skills; the résumé PDF and LinkedIn cover those.
 
 ### Adding a system
 
-Add a file to `_data/systems/` (copy `esports.yml`) and list its name under `systems.order` in `_data/sections.yml`. `_data/systems/README.md` lists the fields. To give it a diagram, add a file with an `svg` (or an image `src`) to `_data/diagrams/` and set `diagram:` to its file name. A case study awaiting approval can set `pending:` to show only its header and a short placeholder. How to draw and edit one is in [docs/diagrams.md](docs/diagrams.md). Nothing renders for a diagram until it has one.
+Add a file to `_data/systems/` (copy `esports.yml`) and list its name under `systems.order` in `_data/sections.yml`. `_data/systems/README.md` lists the fields. To give it a diagram, add a file with an `svg` (or an image `src`) to `_data/diagrams/` and set `diagram:` to its file name. A case study awaiting approval can set `pending:` to show only its header and a short placeholder. How to draw and edit one is in [_data/diagrams/README.md](_data/diagrams/README.md). Nothing renders for a diagram until it has one.
 
 ### Adding a credit
 

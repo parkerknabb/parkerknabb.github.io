@@ -1,4 +1,4 @@
-# Purdue Esports signal-flow diagram. Fields: see docs/diagrams.md.
+# Purdue Esports signal-flow diagram. Fields: see README.md in this folder.
 
 # Standard in-person show. PXE/lab boot, remote production and Discord ops are out of scope on purpose.
 label: View signal flow
