@@ -1,0 +1,38 @@
+{% comment %}
+  Signal-flow diagram. Usage: {% include diagram.html key="ibhs" %}
+  Looks up include.key in _data/diagrams/ (one file per diagram) and renders nothing until the
+  entry has an svg or src, so a half-filled entry never ships a broken figure.
+
+  Layer tabs are radio inputs styled as a segmented control; :checked
+  restyles the svg and the panels, so they work without JavaScript.
+{% endcomment %}
+{% assign d = site.data.diagrams[include.key] %}
+{% if d.svg or d.src %}
+<figure class="diagram{% if d.layers %} sf-layered{% endif %}">
+  {% if d.layers %}
+  {% for layer in d.layers %}<input class="sf-radio sf-radio-{{ layer.id }}" type="radio" name="layer-{{ include.key }}" id="{{ include.key }}-layer-{{ layer.id }}"{% if forloop.first %} checked{% endif %}>
+  {% endfor %}
+  <div class="sf-tabs">
+    {% for layer in d.layers %}<label for="{{ include.key }}-layer-{{ layer.id }}">{{ layer.label }}</label>{% endfor %}
+  </div>
+  {% endif %}
+  <p class="diagram-hint">Scroll sideways for the full diagram.</p>
+  <div class="diagram-scroll" tabindex="0" role="group" aria-label="Signal-flow diagram, scrolls sideways on small screens">
+    {% if d.svg %}
+    <div class="diagram-svg" role="img" aria-label="{{ d.alt | escape }}">{{ d.svg }}</div>
+    {% else %}
+    <img class="diagram-img" src="{{ d.src | relative_url }}" alt="{{ d.alt | escape }}" loading="lazy">
+    {% endif %}
+  </div>
+  {% if d.layers %}
+  <div class="sf-panels">
+    {% for layer in d.layers %}<div class="sf-panel sf-panel-{{ layer.id }}">
+      {% if layer.summary %}<p class="sf-summary">{{ layer.summary }}</p>{% endif %}
+      {% if layer.points %}<ul>{% for point in layer.points %}<li>{{ point }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if d.caption %}<figcaption>{{ d.caption }}</figcaption>{% endif %}
+</figure>
+{% endif %}

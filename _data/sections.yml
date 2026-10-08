@@ -1,0 +1,46 @@
+# Section headings and intros.
+# HTML is supported in intros (<strong>, etc.).
+#
+# The page reads as a pair, then the path to it:
+#   Systems: the blank slate (Purdue Esports), then the live system (IBHS).
+#   Story:   how I got to either one.
+#   Contact: the next system.
+
+systems:
+  # Which files in _data/systems/ show, in order.
+  order: [esports, ibhs]
+  heading: One from scratch. One already on air.
+  intro: >-
+    Two production systems I designed, built, and still support. The first
+    was a blank slate, and I learned system design on it by trial and error.
+    The second was a working studio with shows on the calendar, where
+    everything had to work the first time.
+
+# The system-specific figures (crew of 3, 41h, 9 wk) now live with their
+# system in _data/systems/<id>.yml under `facts`.
+# Not rendered yet: needs a home (see the Story intro).
+years:
+  num: "5+"
+  label: Years operating broadcast & AV systems
+
+story:
+  heading: The long way here.
+  intro:
+    - >-
+      Purdue doesn't have a broadcast engineering program, and there's no
+      career-fair track for this field. I found the work one show at a time,
+      starting long before college.
+    - >-
+      A tour of The Weather Channel's broadcast facility, with a server room
+      spanning half a floor and centralized processing at scale, made the
+      destination clear. <strong>This is the work I want to do.</strong>
+
+contact:
+  heading: Put me on the crew.
+  intro:
+    - >-
+      Two systems so far: one from scratch, one already on air. I'd like the
+      third one to be on a truck.
+    - >-
+      Seeking broadcast engineering roles and apprenticeships starting May
+      2027, including mobile production / OB. Open to travel and relocation.

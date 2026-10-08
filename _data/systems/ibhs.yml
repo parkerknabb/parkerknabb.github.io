@@ -1,0 +1,35 @@
+# IBHS case study. Fields are documented in _data/systems/README.md.
+
+id: ibhs
+org: IBHS
+org_url: https://ibhs.org
+place: Richburg, SC
+dates: May 2026–
+title: Studio broadcast system
+label: Live system
+facts:
+  - num: "9 wk"
+    label: Studio redesign to first live event at IBHS
+# Held until IBHS approves: the signal-flow diagram and design notes live in
+# _held/ (git-ignored, never published). While `pending` is set, the page shows
+# the header and a placeholder in their place. To publish, see _held/README.md.
+pending: Signal flow and design notes coming soon.
+summary: >-
+  An established studio with events already on the calendar. I built a
+  Companion-driven control layer over its ATEM, OBS and X32 in parallel
+  with the Studio 6 workflow, without interrupting live events. Studio 6 is
+  now deprecated but still works as a fallback.
+gear:
+  - Blackmagic ATEM 4K8
+  - OBS Studio
+  - Behringer X32 Compact
+  - Bitfocus Companion
+  - Stream Deck + XL
+  - Sennheiser EW-DX
+  - Sierra Video routing
+  - ZoomISO
+  - NDI
+next: >-
+  A Sennheiser Spectera wideband RF system replacing Shure MXW, and a
+  dark-fiber link that will carry 4K SDI and DAD antenna data across campus.
+  Both in progress.

@@ -35,6 +35,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - docs
   - PRODUCT.md
   - DESIGN.md
   - .impeccable

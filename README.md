@@ -6,32 +6,22 @@ All content lives in `_data/`. You never need to touch HTML.
 
 | File | What it controls |
 |---|---|
-| `_data/work.yml` | Experience cards |
-| `_data/credits.yml` | Productions list |
-| `_data/skills.yml` | Skills grid |
+| `_data/systems/` | One file per Systems case study (summary, figures, design notes, gear); fields in its README |
+| `_data/diagrams/` | One file per signal-flow diagram |
 | `_data/timeline.yml` | Story/background entries |
-| `_data/stats.yml` | The four stat cards in About |
+| `_data/credits.yml` | Short show-credits list at the end of the Story |
+| `_data/sections.yml` | Section headings and intros (Systems, Story, Contact) |
 | `_config.yml` | Your name, email, LinkedIn URL, headshot toggle |
 
-### Adding a new job
+The site doesn't list jobs or skills; the résumé PDF and LinkedIn cover those.
 
-Open `_data/work.yml` and paste a new block at the top (or wherever in the order you want it):
+### Adding a system
 
-```yaml
-- icon: 🎬
-  org: Company Name
-  org_url: https://example.com
-  dates: Summer 2027
-  title: Your Job Title
-  desc: What you did there.
-  tags: [Tag One, Tag Two]
-```
-
-`link`, `link_label`, and `upcoming`/`upcoming_label` are optional — only include them if needed.
+Add a file to `_data/systems/` (copy `esports.yml`) and list its name under `systems.order` in `_data/sections.yml`. `_data/systems/README.md` lists the fields. To give it a diagram, add a file with an `svg` (or an image `src`) to `_data/diagrams/` and set `diagram:` to its file name. A case study awaiting approval can set `pending:` to show only its header and a short placeholder. How to draw and edit one is in [docs/diagrams.md](docs/diagrams.md). Nothing renders for a diagram until it has one.
 
 ### Adding a credit
 
-Open `_data/credits.yml` and add a production under the right group:
+Open `_data/credits.yml` and add a production, newest first:
 
 ```yaml
 - show: Show Name
@@ -53,7 +43,18 @@ Open `_data/timeline.yml` and paste a new block in the right chronological posit
   desc: The story behind it.
 ```
 
-Add `photos:` with a list of image URLs if you have a gallery. Add `docs_link:` and `docs_label:` for an external documentation link.
+Add `photos:` with a list of image URLs if you have a gallery. Add `docs_link:` and `docs_label:` for an external documentation link, or `system:` with a system's id to link to that case study.
+
+Gallery photos get automatic alt text ("IBHS: Broadcast Systems Engineer, photo 2 of 4"). To describe what's actually in a photo, use the long form for that entry:
+
+```yaml
+  photos:
+    - src: /images/timeline/ibhs/01.webp
+      alt: Rebuilt control room rack with the new ATEM switcher
+    - /images/timeline/ibhs/02.webp
+```
+
+Keep gallery images around 1200px wide or smaller; they display at 580px at most.
 
 ### Enabling the headshot
 
@@ -89,11 +90,13 @@ Point your domain DNS to GitHub Pages per their [custom domain docs](https://doc
 .
 ├── _config.yml          # Site config and author info
 ├── _data/
-│   ├── work.yml         # Experience cards
-│   ├── credits.yml      # Productions list
-│   ├── skills.yml       # Skills grid
+│   ├── systems/         # One file per case study
+│   ├── diagrams/        # One file per signal-flow diagram
+│   ├── credits.yml      # Show credits
 │   ├── timeline.yml     # Story entries
-│   └── stats.yml        # About stat cards
+│   └── sections.yml     # Section headings and intros
+├── _includes/
+│   └── diagram.html     # Signal-flow diagram figure
 ├── _layouts/
 │   └── default.html     # Page shell (nav, head, footer, JS)
 ├── assets/css/

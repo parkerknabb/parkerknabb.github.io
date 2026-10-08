@@ -1,0 +1,66 @@
+# Purdue Esports case study. Fields are documented in _data/systems/README.md.
+# The page shows systems in the order listed in _data/sections.yml (systems.order).
+
+id: esports
+org: Purdue Esports
+org_url: https://esports.purdue.edu
+place: West Lafayette, IN
+dates: Aug 2025–
+title: Varsity esports broadcast studio
+label: Blank slate
+facts:
+  - num: "3"
+    label: Person crew led on 5 weekly varsity esports broadcasts
+  - num: "41h"
+    label: Airtime produced in a single month of the varsity esports season
+diagram: esports
+summary: >-
+  I started with a shoestring budget and no broadcast system to build on. It's an
+  IP-based studio: vMix, OBS and Companion over OMT across segmented
+  VLANs, with PXE boot for the lounge's 22 PCs. Most of what I know about
+  system design I learned here, usually by getting it wrong first.
+notes:
+  - title: No slot, no capture card.
+    text: >-
+      The lounge PCs are Alienware prebuilts with no free PCIe slots, so a
+      capture card was never an option. Video reaches vMix over the network
+      instead: the casting cameras through a Thunderbolt breakout on a
+      laptop, sent as OMT. When OBS developed intermittent audio delay over
+      OMT, I moved observer feeds to vMix Desktop Capture.
+  - title: One bridge between networks.
+    text: >-
+      The lab and broadcast networks stay segmented. For some events, one lab PC
+      with a second network adapter acts as the video router: it pulls OMT
+      from any of the 14 lab PCs and hands a single feed to vMix. Changing
+      what's on stream happens at the router, instead of deep into vMix menus.
+  - title: Automate the repetitive.
+    text: >-
+      Every game title needs its own overlay and routing, so each one is a
+      single button on the Stream Deck XL's overlay row, with the per-game
+      routing automated in Companion. The caster table gets its own Stream
+      Deck Mini through Companion Satellite.
+  - title: Mix in one place.
+    text: >-
+      Physical faders with all audio in one place matter more to the crew
+      than a tidier signal path. The RØDECaster is the authoritative mixer:
+      caster mics go straight into it, vMix sends game audio and music out on aux
+      buses, and the mix returns on the master bus for transmission. The
+      mixer's own routing sets what each caster hears in their headphones.
+  - title: Encoder separate from the switcher.
+    text: >-
+      OBS only encodes and records. vMix could do it all, but it sometimes
+      needs a restart mid-show to clear an audio routing problem, and that
+      shouldn't take the stream connection down with it. Either side can be
+      restarted without disturbing the other.
+gear:
+  - vMix
+  - OBS
+  - Bitfocus Companion
+  - OMT
+  - RØDECaster Pro II
+  - Blackmagic Micro Studio Camera 4K G2
+  - Elgato Cam Link Pro
+  - VLAN segmentation
+  - PXE boot
+link: https://parkerknabb.com/esports-guide
+link_label: System and ops documentation

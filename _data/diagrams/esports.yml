@@ -1,0 +1,184 @@
+# Purdue Esports signal-flow diagram. Fields: see docs/diagrams.md.
+
+# Standard in-person show. PXE/lab boot, remote production and Discord ops are out of scope on purpose.
+label: View signal flow
+hint: vMix · OBS · RØDECaster · Companion
+alt: Simplified Purdue Esports studio signal flow for a standard in-person show. Casting cameras go over HDMI
+  into a Cam Link Pro in a Thunderbolt breakout on a laptop, which sends them to vMix as OMT. Three observer PCs
+  also send OMT to vMix. Caster microphones go into a RØDECaster Pro II over XLR; vMix sends game audio to it
+  on an aux bus and takes the master mix back over USB. vMix sends program to OBS over OMT, and OBS streams and
+  records it. vMix fullscreen outputs drive the multiview and the studio monitors. Bitfocus Companion,
+  with a Stream Deck XL and a Stream Deck Mini, controls vMix and the RØDECaster over MIDI.
+caption: Pick a layer to isolate its paths.
+layers:
+- id: overview
+  label: Overview
+  summary: Video, outputs, audio and control are separate layers of one system.
+- id: audio
+  label: Audio
+  summary: Everything meets at the RØDECaster, so all audio is on one set of physical faders.
+  points:
+  - Caster microphones go straight into the RØDECaster Pro II over XLR.
+  - Game audio rides inside the OMT streams from the observer PCs (and from the lab PC at special events), so
+    it reaches vMix with its video. vMix sends it out on an aux bus to the RØDECaster.
+  - The mix returns to vMix over USB through a virtual audio device driver, taken from the RØDECaster master bus,
+    and vMix transmits it.
+  - Casters listen on the RØDECaster's headphone outputs. The mixer's own routing sets what each of them hears.
+- id: video
+  label: Video
+  summary: Cameras and observer PCs in as OMT, one program out.
+  points:
+  - The casting cameras (Blackmagic Micro Studio 4K G2) output HDMI into an Elgato Cam Link Pro in a Thunderbolt
+    breakout on a laptop, which sends them to vMix as OMT. The lounge PCs have no free PCIe slots, so this is
+    the capture path.
+  - 'Three observer PCs in the broadcast room send OMT to vMix: game or window capture when it works, full display
+    capture when it doesn''t.'
+  - vMix is the switcher and graphics engine. It sends program to OBS over OMT.
+  - Fighting-game events add a lab PC with a second network adapter. It bridges the segmented lab and broadcast
+    networks and pulls OMT straight from the player stations.
+- id: outputs
+  label: Outputs
+  summary: Where program goes after vMix.
+  points:
+  - 'Stream and recording: OBS is the only encoder. It streams program and records it. vMix does neither.'
+  - 'Multiview: a vMix fullscreen output on a GPU HDMI port drives the control-room multiview.'
+  - 'Studio monitors: a second vMix fullscreen output on a GPU HDMI port carries program to the on-site monitors.'
+- id: control
+  label: Control
+  summary: Companion drives vMix and the mixer; the Stream Deck XL runs the show.
+  points:
+  - Bitfocus Companion controls vMix and the RØDECaster Pro II over MIDI.
+  - Each game title is one button on the Stream Deck XL's overlay row, and the per-game overlay and routing are
+    automated in Companion.
+  - Button layouts change with context through Companion custom variables.
+  - The caster table has its own Stream Deck Mini through Companion Satellite.
+svg: |
+  <svg viewBox="0 0 816 452" xmlns="http://www.w3.org/2000/svg" focusable="false"><defs><marker id="esp-arr-video" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="sf-arrow sf-arrow-video" d="M0 1 L10 5 L0 9 z"/></marker><marker id="esp-arr-audio" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="sf-arrow sf-arrow-audio" d="M0 1 L10 5 L0 9 z"/></marker><marker id="esp-arr-stream" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="sf-arrow sf-arrow-stream" d="M0 1 L10 5 L0 9 z"/></marker><marker id="esp-arr-ctl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="sf-arrow sf-arrow-ctl" d="M0 1 L10 5 L0 9 z"/></marker></defs>
+  <rect class="sf-ctrl sf-x" data-l="control" x="422" y="2" width="180" height="448" rx="16"/>
+  <text class="sf-ctrl-tag sf-x" data-l="control" x="438" y="436">CONTROL · COMPANION</text>
+  <g data-l="audio">
+  <rect class="sf-node" x="0" y="16" width="150" height="80" rx="10"/>
+  <text class="sf-title" x="75.0" y="43" text-anchor="middle">Casters</text>
+  <text class="sf-sub" x="75.0" y="63" text-anchor="middle">Mics and headphones</text>
+  </g>
+  <g data-l="audio control">
+  <rect class="sf-node" x="432" y="16" width="150" height="80" rx="10"/>
+  <text class="sf-title" x="507.0" y="43" text-anchor="middle">RØDECaster Pro II</text>
+  <text class="sf-sub" x="507.0" y="63" text-anchor="middle">Authoritative mixer</text>
+  <text class="sf-sub" x="507.0" y="80" text-anchor="middle">Faders, headphone outs</text>
+  </g>
+  <g data-l="video audio">
+  <rect class="sf-node" x="0" y="158" width="150" height="76" rx="10"/>
+  <text class="sf-title" x="75.0" y="185" text-anchor="middle">Observer PCs</text>
+  <text class="sf-sub" x="75.0" y="205" text-anchor="middle">3 PCs</text>
+  <text class="sf-sub" x="75.0" y="222" text-anchor="middle">Game / display capture</text>
+  </g>
+  <g data-l="video audio control outputs">
+  <rect class="sf-node sf-node-key" x="432" y="180" width="150" height="92" rx="10"/>
+  <text class="sf-title" x="507.0" y="207" text-anchor="middle">vMix</text>
+  <text class="sf-sub" x="507.0" y="227" text-anchor="middle">Switching, graphics</text>
+  <text class="sf-sub" x="507.0" y="244" text-anchor="middle">Program output</text>
+  </g>
+  <g data-l="video">
+  <rect class="sf-node" x="0" y="362" width="150" height="80" rx="10"/>
+  <text class="sf-title" x="75.0" y="389" text-anchor="middle">Casting cameras</text>
+  <text class="sf-sub" x="75.0" y="409" text-anchor="middle">Micro Studio 4K G2</text>
+  </g>
+  <g data-l="video">
+  <rect class="sf-node" x="222" y="362" width="150" height="80" rx="10"/>
+  <text class="sf-title" x="297.0" y="389" text-anchor="middle">Capture laptop</text>
+  <text class="sf-sub" x="297.0" y="409" text-anchor="middle">Thunderbolt breakout</text>
+  <text class="sf-sub" x="297.0" y="426" text-anchor="middle">Cam Link Pro</text>
+  </g>
+  <g data-l="outputs">
+  <rect class="sf-node" x="712" y="188" width="104" height="76" rx="10"/>
+  <text class="sf-title" x="764.0" y="215" text-anchor="middle">OBS Studio</text>
+  <text class="sf-sub" x="764.0" y="235" text-anchor="middle">Encode, record</text>
+  </g>
+  <g data-l="outputs">
+  <rect class="sf-node" x="712" y="300" width="104" height="56" rx="10"/>
+  <text class="sf-title" x="764.0" y="327" text-anchor="middle">Internet</text>
+  <text class="sf-sub" x="764.0" y="347" text-anchor="middle">Twitch</text>
+  </g>
+  <path class="sf-edge sf-video" data-l="video" d="M150 402 H222" marker-end="url(#esp-arr-video)"/>
+  <rect class="sf-label-bg" data-l="video" x="167.2" y="394" width="37.6" height="17" rx="3"/>
+  <text class="sf-label" data-l="video" x="186" y="406" text-anchor="middle">HDMI</text>
+  <path class="sf-edge sf-video" data-l="video" d="M372 390 H470 V272" marker-end="url(#esp-arr-video)"/>
+  <rect class="sf-label-bg" data-l="video" x="382.6" y="382" width="30.7" height="17" rx="3"/>
+  <text class="sf-label" data-l="video" x="398" y="394" text-anchor="middle">OMT</text>
+  <path class="sf-edge sf-video" data-l="video audio" d="M150 196 H432" marker-end="url(#esp-arr-video)"/>
+  <rect class="sf-label-bg" data-l="video audio" x="170.7" y="188" width="30.7" height="17" rx="3"/>
+  <text class="sf-label" data-l="video audio" x="186" y="200" text-anchor="middle">OMT</text>
+  <path class="sf-edge sf-audio" data-l="audio" d="M150 40 H432" marker-end="url(#esp-arr-audio)"/>
+  <rect class="sf-label-bg" data-l="audio" x="170.7" y="32" width="30.7" height="17" rx="3"/>
+  <text class="sf-label" data-l="audio" x="186" y="44" text-anchor="middle">XLR</text>
+  <path class="sf-edge sf-audio" data-l="audio" d="M432 66 H150" marker-end="url(#esp-arr-audio)"/>
+  <rect class="sf-label-bg" data-l="audio" x="181.4" y="58" width="65.2" height="17" rx="3"/>
+  <text class="sf-label" data-l="audio" x="214" y="70" text-anchor="middle">1/4" TRS</text>
+  <path class="sf-edge sf-audio" data-l="audio" d="M470 96 V180" marker-end="url(#esp-arr-audio)"/>
+  <rect class="sf-label-bg" data-l="audio" x="430.5" y="114" width="79.0" height="17" rx="3"/>
+  <text class="sf-label" data-l="audio" x="470" y="126" text-anchor="middle">USB (main)</text>
+  <path class="sf-edge sf-audio" data-l="audio" d="M548 180 V96" marker-end="url(#esp-arr-audio)"/>
+  <rect class="sf-label-bg" data-l="audio" x="498.1" y="142" width="99.7" height="17" rx="3"/>
+  <text class="sf-label" data-l="audio" x="548" y="154" text-anchor="middle">USB (aux bus)</text>
+  <path class="sf-edge sf-video" data-l="outputs" d="M582 226 H712" marker-end="url(#esp-arr-video)"/>
+  <rect class="sf-label-bg" data-l="outputs" x="631.6" y="218" width="30.7" height="17" rx="3"/>
+  <text class="sf-label" data-l="outputs" x="647" y="230" text-anchor="middle">OMT</text>
+  <path class="sf-edge sf-stream" data-l="outputs" d="M764 264 V300" marker-end="url(#esp-arr-stream)"/>
+  <text class="sf-label" data-l="outputs" x="772" y="288">RTMP</text>
+  <path class="sf-edge sf-video" d="M700 84 H730"/>
+  <text class="sf-legend" x="740" y="88">Video</text>
+  <path class="sf-edge sf-audio" d="M700 106 H730"/>
+  <text class="sf-legend" x="740" y="110">Audio</text>
+  <path class="sf-edge sf-stream" d="M700 128 H730"/>
+  <text class="sf-legend" x="740" y="132">Stream</text>
+  <g class="sf-x" data-l="video audio">
+  <g>
+  <rect class="sf-node" x="0" y="256" width="150" height="80" rx="10" stroke-dasharray="5 4"/>
+  <text class="sf-title" x="75.0" y="283" text-anchor="middle">Player stations</text>
+  <text class="sf-sub" x="75.0" y="303" text-anchor="middle">Special events only</text>
+  </g>
+  <g>
+  <rect class="sf-node" x="222" y="256" width="150" height="80" rx="10" stroke-dasharray="5 4"/>
+  <text class="sf-title" x="297.0" y="283" text-anchor="middle">Lab PC</text>
+  <text class="sf-sub" x="297.0" y="303" text-anchor="middle">Second NIC bridges</text>
+  <text class="sf-sub" x="297.0" y="320" text-anchor="middle">lab and broadcast</text>
+  </g>
+  <path class="sf-edge sf-video" d="M150 296 H222" marker-end="url(#esp-arr-video)"/>
+  <rect class="sf-label-bg" x="170.7" y="288" width="30.7" height="17" rx="3"/>
+  <text class="sf-label" x="186" y="300" text-anchor="middle">OMT</text>
+  <path class="sf-edge sf-video" d="M372 296 H402 V250 H432" marker-end="url(#esp-arr-video)"/>
+  <rect class="sf-label-bg" x="386.6" y="265" width="30.7" height="17" rx="3"/>
+  <text class="sf-label" x="402" y="277" text-anchor="middle">OMT</text>
+  <g class="sf-mark"><circle cx="358" cy="256" r="9.5"/><text x="358" y="260" text-anchor="middle">2</text></g>
+  </g>
+  <g class="sf-x" data-l="outputs">
+  <rect class="sf-node" x="688" y="10" width="128" height="40" rx="10"/>
+  <text class="sf-title" x="752.0" y="35" text-anchor="middle">Multiview</text>
+  <rect class="sf-node" x="688" y="392" width="128" height="40" rx="10"/>
+  <text class="sf-title" x="752.0" y="417" text-anchor="middle">Viewing area</text>
+  <path class="sf-edge sf-video" d="M582 194 H630 V30 H688" marker-end="url(#esp-arr-video)"/>
+  <path class="sf-edge sf-video" d="M582 258 H630 V412 H688" marker-end="url(#esp-arr-video)"/>
+  <rect class="sf-label-bg" x="637.2" y="22" width="37.6" height="17" rx="3"/>
+  <text class="sf-label" x="656" y="34" text-anchor="middle">HDMI</text>
+  <rect class="sf-label-bg" x="637.2" y="404" width="37.6" height="17" rx="3"/>
+  <text class="sf-label" x="656" y="416" text-anchor="middle">HDMI</text>
+  </g>
+  <g class="sf-x" data-l="control">
+  <rect class="sf-node sf-node-ctl" x="222" y="110" width="150" height="60" rx="10"/>
+  <text class="sf-title" x="297.0" y="137" text-anchor="middle">Companion</text>
+  <text class="sf-sub" x="297.0" y="157" text-anchor="middle">Stream Deck XL + Mini</text>
+  <path class="sf-edge sf-ctl" d="M372 124 H392 V86 H432" marker-end="url(#esp-arr-ctl)"/>
+  <path class="sf-edge sf-ctl" d="M372 154 H450 V180" marker-end="url(#esp-arr-ctl)"/>
+  <rect class="sf-label-bg" x="373.2" y="93" width="37.6" height="17" rx="3"/>
+  <text class="sf-label" x="392" y="105" text-anchor="middle">MIDI</text>
+  <rect class="sf-label-bg" x="388.6" y="146" width="30.7" height="17" rx="3"/>
+  <text class="sf-label" x="404" y="158" text-anchor="middle">TCP</text>
+  <path class="sf-edge sf-ctl" d="M700 150 H730"/>
+  <text class="sf-legend" x="740" y="154">Control</text>
+  </g>
+  <g class="sf-mark"><circle cx="358" cy="362" r="9.5"/><text x="358" y="366" text-anchor="middle">1</text></g>
+  <g class="sf-mark"><circle cx="584" cy="436" r="9.5"/><text x="584" y="440" text-anchor="middle">3</text></g>
+  <g class="sf-mark"><circle cx="568" cy="16" r="9.5"/><text x="568" y="20" text-anchor="middle">4</text></g>
+  <g class="sf-mark"><circle cx="802" cy="188" r="9.5"/><text x="802" y="192" text-anchor="middle">5</text></g>
+  </svg>

@@ -1,25 +1,28 @@
-# Timeline entries, newest first.
+# Timeline entries, newest first in this file. The page shows them oldest
+# first, so the story starts at Origins and ends at the present.
 # photos is optional — remove those lines if there are no gallery images.
 # org_url is optional.
 # docs_link/docs_label are optional — for linking to external documentation.
+# system is optional — the id of a case study in _data/systems/ to link to.
 #
 # Blurb style: one concrete moment → what I did (specific enough for an
-# engineer to recognize) → one-sentence takeaway. ~60–90 words. Don't repeat
-# the Experience card; this section is the story behind it.
+# engineer to recognize) → one-sentence takeaway. ~60–90 words. The résumé
+# covers the what and the Systems section covers the how; this is the why.
 
 - year: "2026–"
-  org: IBHS — Richburg, SC
+  org: IBHS, Richburg, SC
   org_url: https://ibhs.org
   title: Broadcast Engineering Intern → Broadcast Systems Engineer (Part-time)
+  system: ibhs
   desc: >-
     I built the esports system from a blank page. IBHS was the opposite: an
-    established facility, a real budget, and other people's workflows
-    already running. The job was making a case for change inside something
-    that worked, then moving switching to an ATEM and tying it together in
-    Companion without disrupting the shows still on the old system. It
-    carried its first live event nine weeks in. Now the work is RF and
-    fiber: a Spectera deployment and a dark-fiber link across campus, both
-    still in progress.
+    established facility with a real budget and other people's workflows
+    already running. First I had to make the case for changing something
+    that worked. Then I moved switching to an ATEM and tied it together in
+    Companion while shows kept running on the old system. The new one
+    carried its first live event nine weeks in. These days the work is RF
+    and fiber, with a Spectera deployment and a dark-fiber link across
+    campus both still in progress.
   photos:
     - /images/timeline/ibhs/01.webp
     - /images/timeline/ibhs/02.webp
@@ -33,22 +36,21 @@
   desc: >-
     Three years on the risers taught me what a mix sounds like from inside
     it. For 2026–27 I'm behind the console on tour, making the calls I used
-    to trust someone else was making. The people relying on it only notice
-    when something goes wrong, so the job is making sure they never have a
-    reason to.
+    to trust someone else was making. If anyone in the audience notices the
+    mix, something has gone wrong.
   photos:
     - /images/timeline/pvgc/01.webp
 
 - year: "2026"
-  org: LEAP (Live Events And Productions) — Student Production Club
+  org: LEAP (Live Events And Productions) student production club
   org_url: https://boilerlink.purdue.edu/organization/leap-purdue
-  title: LED Tech — EDM Show, Purdue Armory
+  title: LED Tech, EDM Show at the Purdue Armory
   desc: >-
     Three LED panel types (Firefly, Coleder, and PixelFLEX) had to work as one
     wall, on stage and flown, and I had never opened NovaLCT. I had six hours
     before doors. I got all three running by working through the NovaStar
-    documentation one panel type at a time. The lesson wasn't the software. It
-    was reading a vendor manual under a hard deadline.
+    documentation one panel type at a time. Mostly it taught me to read a
+    vendor manual fast.
   photos:
     - /images/timeline/leap/01.webp
     - /images/timeline/leap/02.webp
@@ -59,16 +61,15 @@
   org: Purdue Esports
   org_url: https://esports.purdue.edu
   title: Broadcast Engineering Coordinator
+  system: esports
   desc: >-
-    The lounge PCs are Alienware prebuilts with no free PCIe slots, so a
-    capture card was never an option. I got video into vMix anyway, through a
-    Thunderbolt breakout on a laptop sent over the network as OMT. When OBS
-    developed intermittent audio delay over OMT, I moved observer feeds to vMix
-    desktop capture and started automating the per-game routing in Companion.
-    Every constraint became a design input. The documentation matters as much
-    as the rack, because the crew runs the show when I'm not there.
-  docs_link: https://parkerknabb.com/esports
-  docs_label: System and ops documentation
+    I started at the Alienware Gaming Lounge in November 2024, helping the
+    outgoing coordinator with broadcast operations, and took over the program
+    in August 2025. I built the system with no budget and no precedent, so
+    every call was mine, and most of the design came from working around
+    what the lounge didn't have. Now I lead a crew of three. The
+    documentation matters as much as the rack, because the crew runs the
+    show when I'm not there.
   photos:
     - /images/timeline/esports/01.webp
     - /images/timeline/esports/02.webp
@@ -78,12 +79,12 @@
   org_url: https://gotofoods.com
   title: Enterprise IT Infrastructure Intern
   desc: >-
-    An enterprise IT internship showed me how infrastructure decisions get
-    made at scale: slowly, deliberately, and for reasons that aren't obvious
-    from the outside. Between network deployments and PowerShell and Python
+    An enterprise IT internship showed me how slowly infrastructure
+    decisions move at scale, usually for reasons you can't see from the
+    outside. Between network deployments and PowerShell and Python
     automation, I learned why change control exists and why nobody skips it.
-    It also clarified that I want to work closer to live systems, where the
-    same discipline has to happen on a show clock.
+    It also told me I want to be closer to live systems, where that same
+    discipline has to happen on a show clock.
   photos:
     - /images/timeline/gtf/01.webp
 
@@ -112,8 +113,8 @@
     Dante intercom only reached crew at the desk, so I patched channels
     through Dante Virtual Soundcard into TeamSpeak and put roaming crew on
     comms from their own phones, at zero cost. It wasn't elegant, but it
-    worked, and it's still how I approach a system: find the constraint,
-    then the simplest fix that holds up through the show.
+    worked. I still start a system the same way: find the constraint, then
+    the simplest fix that holds up through the show.
   photos:
     - /images/timeline/georgiafirst/01.webp
     - /images/timeline/georgiafirst/02.webp
@@ -127,10 +128,9 @@
   desc: >-
     My first paid production gig: four days in the Creator Hub getting
     streamers and creators live in OBS, and by the end, acting as panel stage
-    manager too. It was a professional event at a scale I'd never seen, and
-    the only way to learn it was to be thrown in and figure it out. I came back
-    as a Livestream Technician in May 2026. The event had grown, but the job of
-    getting other people on air cleanly hadn't changed.
+    manager too. It was bigger than anything I'd worked, and I learned it on
+    the floor. I came back as a Livestream Technician in May 2026. The event
+    had grown, but the job was the same: get other people on air cleanly.
   photos:
     - /images/timeline/dreamhack/01.webp
     - /images/timeline/dreamhack/02.webp
@@ -143,9 +143,9 @@
   title: IT Intern
   desc: >-
     Three weeks at a Fortune 500, never on the same task twice. I noticed a
-    repetitive internal process and built a batch script to automate it. Its
-    foundation, since evolved into PowerShell, still powers the TechKnow Bar
-    today. It's the least broadcast thing on this page, but it's where I
+    repetitive internal process and built a batch script to automate it.
+    It's been rewritten in PowerShell since, and the TechKnow Bar still runs
+    on it. It's the least broadcast thing on this page, but it's where I
     learned to look for the repeated step in a workflow, which is most of
     what a good Companion page is.
   photos:
@@ -159,16 +159,16 @@
   desc: >-
     Where I learned that live means live. I was on a Hitachi camera and
     Clear-Com before I had any real training, and later directed the video
-    myself. There were no second takes: you trust your preparation, your
-    instincts, and the person calling the show. Nearly everything since has
-    been a bigger version of a Sunday service.
+    myself. There were no second takes, so you trusted your prep and the
+    person calling the show. Nearly everything since has been a bigger
+    version of a Sunday service.
   photos:
     - /images/timeline/church/01.webp
     - /images/timeline/church/02.webp
 
 - year: ""
   org: Before all of this
-  title: Origins
+  title: Self-taught since first grade.
   desc: >-
     Took apart a PC with my dad in 1st grade. Ran the computer lab before
     school through 5th grade. Went back to my elementary school on Tuesdays and

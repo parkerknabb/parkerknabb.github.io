@@ -1,41 +1,37 @@
-# Each group has a label and a list of productions.
-# url is optional — remove that line if there's no link.
+# Show credits, shown as a short list at the end of the Story section.
+# Newest first. url and location are optional.
 
-- group: Professional
-  productions:
-    - show: Disney Lorcana Challenge Indianapolis
-      url: https://disneylorcana.com/en-US/play/lorcana-challenge
-      role: Production Assistant
-      date: Jun 2026 ↗
-      location: Indianapolis, IN
+- show: Purdue Varsity Glee Club Tour
+  url: https://www.purdue.edu/pmo/ensembles/purdue-varsity-glee-club.php
+  role: Audio Engineer
+  date: 2026–27
 
-    - show: DreamHack Atlanta
-      url: https://dreamhack.com/atlanta
-      role: Creator Hub · Livestream Technician & Panel Stage Manager
-      date: Nov 2022 & May 2026 ↗
-      location: Atlanta, GA
+- show: Disney Lorcana Challenge Indianapolis
+  url: https://disneylorcana.com/en-US/play/lorcana-challenge
+  role: Production Assistant
+  date: Jun 2026
+  location: Indianapolis, IN
 
-    - show: Purdue Grand Prix
-      url: https://purduegrandprix.org
-      role: Camera Operator
-      date: Apr 2025 & Apr 2026 ↗
-      location: West Lafayette, IN
+- show: DreamHack Atlanta
+  url: https://dreamhack.com/atlanta
+  role: Creator Hub · Livestream Technician
+  date: Nov 2022, May 2026
+  location: Atlanta, GA
 
-- group: Volunteer / Student
-  productions:
-    - show: Purdue Varsity Glee Club Tour
-      url: https://www.purdue.edu/pmo/ensembles/purdue-varsity-glee-club.php
-      role: Audio Engineer · 1,000+ audiences
-      date: 2026–27 season
+- show: Purdue Grand Prix
+  url: https://purduegrandprix.org
+  role: Camera Operator
+  date: Apr 2025, Apr 2026
+  location: West Lafayette, IN
 
-    - show: LEAP EDM Show, Purdue Armory
-      url: https://boilerlink.purdue.edu/organization/leap-purdue
-      role: LED Tech · NovaStar, 3 panel types
-      date: Feb 2026
-      location: West Lafayette, IN
+- show: LEAP EDM Show, Purdue Armory
+  url: https://boilerlink.purdue.edu/organization/leap-purdue
+  role: LED Tech
+  date: Feb 2026
+  location: West Lafayette, IN
 
-    - show: GeorgiaFIRST Robotics
-      url: https://gafirst.org
-      role: Technical Director & Producer · Peachtree Live
-      date: Oct 2022 · Apr 2023
-      location: Georgia, USA
+- show: GeorgiaFIRST Robotics, Peachtree Live
+  url: https://gafirst.org
+  role: Technical Director & Producer
+  date: Oct 2022, Apr 2023
+  location: Georgia
