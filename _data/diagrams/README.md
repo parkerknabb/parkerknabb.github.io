@@ -27,7 +27,7 @@ mykey:
       points:                  # optional bullet list
         - A fact a technical reader would want.
   svg: |
-    <svg viewBox="0 0 816 452" ...> ... </svg>
+    <svg viewBox="-12 -12 840 476" ...> ... </svg>
 ```
 
 Use `src` (and optional `src_dark`) pointing to an image in `images/diagrams/` instead of `svg` if you draw it elsewhere. Inline SVG is preferred because it themes itself.
@@ -36,7 +36,7 @@ Layers appear as tabs in the order you list them. The first one is selected on l
 
 ## Drawing on the grid
 
-- **Canvas:** `viewBox="0 0 816 452"`, with `xmlns` and `focusable="false"`. Keep the same viewBox across diagrams so they look consistent.
+- **Canvas:** draw on a 816 x 452 grid (x 0 to 816, y 0 to 452). Set `viewBox="-12 -12 840 476"`, with `xmlns` and `focusable="false"`. The extra 12px on every side keeps strokes and rounded corners on the edge from being clipped. Keep the same viewBox across diagrams so they look consistent.
 - **Columns:** nodes are 150 wide (104 for small terminal nodes like "Internet"). Column x positions used so far: 0, 262, 492 and 712. Leave about 100px between columns for edge labels.
 - **Node heights:** 56 to 100. Keep titles to about 18 characters and subtitles to about 22 so they fit.
 - **Edges:** straight horizontal and vertical runs with `H`, `V` and `M` path commands only, no curves. Route around nodes instead of crossing them. If two paths must cross, rethink the layout.
