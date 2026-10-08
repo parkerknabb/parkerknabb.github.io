@@ -6,42 +6,41 @@
 - icon: 🌩️
   org: IBHS
   org_url: https://ibhs.org
-  dates: May 2026–Present
-  title: Broadcast Systems Engineer
-  desc: Redesigned the studio production pipeline for a nationally recognized insurance research organization. Migrated primary switching from Livestream Studio 6 to an ATEM, rebuilt the control room wiring and rack, and built a Bitfocus Companion layer unifying OBS, ATEM, X32 audio, Sennheiser wireless, and Sierra Video matrix routing. Designed, built, and deployed the new system for its first live event within 9 weeks, while other events continued using the legacy workflow. Retained on a part-time consulting basis beyond the summer internship, now evaluating a dark-fiber transmission pipeline and a next-gen networked IEM system.
-  tags: [ATEM, Bitfocus Companion, Video Routing, Sennheiser Wireless, Consulting]
+  dates: Aug 2026–Present
+  title: Broadcast Systems Engineer (Part-time)
+  desc: Retained part-time after my internship. I write the system documentation for the production system I built as an intern and provide ongoing support for it. I'm also leading two deployments that are still in progress. The first is a Sennheiser Spectera wideband RF system replacing Shure MXW. The second is a dark-fiber link that will carry 4K SDI and DAD antenna data across campus.
+  tags: [Sennheiser Spectera, Fiber Transmission, Documentation, System Support]
+
+- icon: 🌩️
+  org: IBHS
+  org_url: https://ibhs.org
+  dates: May 2026–Jul 2026
+  title: Broadcast Engineering Intern
+  desc: Redesigned the studio pipeline, moving primary switching from Livestream Studio 6 to a Blackmagic ATEM and repurposing OBS as a dedicated graphics and remote-guest engine. Rebuilt the control room rack and wiring. Built a Bitfocus Companion control layer that unifies ATEM, OBS, X32 audio, Sennheiser wireless, and Sierra Video router control. Commissioned the new system for its first live event in 9 weeks while legacy workflows ran other events. Also audited the wiring docs for the studio, Master Control, and chamber capture systems and recommended signal-flow fixes.
+  tags: [Blackmagic ATEM, Bitfocus Companion, Sierra Video Routing, X32, Sennheiser Wireless]
 
 - icon: 📡
   org: Purdue Esports / RecWell
   org_url: https://esports.purdue.edu
-  dates: Aug 2025-Present
+  dates: Aug 2025–Present
   title: Broadcast Engineering Coordinator
-  desc: Joined the Alienware Gaming Lounge front desk in November 2024, assisting the outgoing coordinator with broadcast ops, then advanced to lead the role in August 2025. Designs and operates the broadcast infrastructure for Purdue varsity esports, leading a team of three to produce five weekly varsity broadcasts.
-  tags: [vMix, OBS, OMT, Bitfocus Companion, PXE Boot]
+  desc: Started as a Technology Specialist at the Alienware Gaming Lounge in November 2024, assisting the outgoing coordinator with broadcast operations, then was promoted to lead the program in August 2025. I lead a team of three on five weekly varsity broadcasts, with 41 hours of airtime in one month. I designed and maintain an IP-based studio under tight space, budget, and infrastructure limits, integrating vMix, OBS, and Companion with OMT transport across segmented VLANs. I also run PXE boot for 22 PCs and maintain the system and ops documentation the crew uses for onboarding and troubleshooting.
+  tags: [vMix, OBS, OMT, Bitfocus Companion, VLANs, PXE Boot]
   link: https://parkerknabb.com/esports
   link_label: View documentation
 
-- icon: 🎵
+- icon: 🏈
   org: Purdue Hall of Music Productions
   org_url: https://purdue.edu/hallofmusic
-  dates: 2023–Present
+  dates: Aug 2023–Present
   title: Production Staff
-  desc: Part of the production crew at one of the largest university performing arts facilities in the country. Camera operator for the Purdue Grand Prix 2025 — one of the only full multicam live productions HoM undertakes each year.
-  tags: [Multicam, Live Events, Camera Op]
+  desc: Camera grip and utility for Purdue football and basketball productions, working with JVC cameras on Riedel Bolero comms. Camera operator for Purdue Grand Prix in 2025 and 2026, one of the few full multicam live shows HoM produces each year.
+  tags: [Camera Utility, JVC, Riedel Bolero, Multicam, Live Sports]
 
 - icon: 🍔
   org: GoTo Foods
   org_url: https://gotofoods.com
-  dates: Summer 2025
+  dates: May–Aug 2025
   title: Enterprise IT Infrastructure Intern
-  desc: Network deployments, PowerShell and Python automation for cloud FinOps and distribution list management, and infrastructure lifecycle reporting to leadership at a multi-brand food franchise company.
-  tags: [PowerShell, Python, Azure, Enterprise Networking]
-
-- icon: 💳
-  org: NCR Corporation
-  org_url: https://en.wikipedia.org/wiki/NCR_Corporation
-  dates: Summer 2022
-  title: IT Intern
-  desc: My first exposure to enterprise IT at a Fortune 500. Built an unsolicited batch file automation tool that streamlined a repetitive internal process — still in use in more advanced PowerShell form today.
-  tags: [Batch / PowerShell, Enterprise IT]
-  
+  desc: Deployed enterprise network hardware at a multi-brand food franchise company, and automated FinOps and directory tasks in PowerShell and Python.
+  tags: [Enterprise Networking, PowerShell, Python]

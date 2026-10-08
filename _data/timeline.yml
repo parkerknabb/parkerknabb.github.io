@@ -2,61 +2,118 @@
 # photos is optional — remove those lines if there are no gallery images.
 # org_url is optional.
 # docs_link/docs_label are optional — for linking to external documentation.
+#
+# Blurb style: one concrete moment → what I did (specific enough for an
+# engineer to recognize) → one-sentence takeaway. ~60–90 words. Don't repeat
+# the Experience card; this section is the story behind it.
 
 - year: "2026–"
   org: IBHS — Richburg, SC
   org_url: https://ibhs.org
-  title: Broadcast Systems Engineer
-  desc: "The esports system, I built with no budget and no precedent — every call was mine to make. Walking into IBHS meant the opposite: an established facility, real budget, and other people's workflows already in motion around me. Redesigning the switcher pipeline and building the Companion control layer meant learning to make a case for change inside something that already worked, not just building from a blank slate. The new system carried its first live event solo within nine weeks of starting, and being retained afterward told me the case had landed."
+  title: Broadcast Engineering Intern → Broadcast Systems Engineer (Part-time)
+  desc: >-
+    I built the esports system from a blank page. IBHS was the opposite: an
+    established facility, a real budget, and other people's workflows
+    already running. The job was making a case for change inside something
+    that worked, then moving switching to an ATEM and tying it together in
+    Companion without disrupting the shows still on the old system. It
+    carried its first live event nine weeks in. Now the work is RF and
+    fiber: a Spectera deployment and a dark-fiber link across campus, both
+    still in progress.
   photos:
     - /images/timeline/ibhs/01.webp
     - /images/timeline/ibhs/02.webp
     - /images/timeline/ibhs/03.webp
     - /images/timeline/ibhs/04.webp
 
-- year: "2026-27"
+- year: "2026–27"
   org: Purdue Varsity Glee Club
   org_url: https://www.purdue.edu/pmo/ensembles/purdue-varsity-glee-club.php
   title: Audio Engineer
-  desc: "Three years on stage with PVGC gave me a performer's perspective on what a system needs to do. Taking over as audio engineer for 2026-27 flips that perspective — now I'm the one making the calls I used to just trust were being made right."
+  desc: >-
+    Three years on the risers taught me what a mix sounds like from inside
+    it. For 2026–27 I'm behind the console on tour, making the calls I used
+    to trust someone else was making. The people relying on it only notice
+    when something goes wrong, so the job is making sure they never have a
+    reason to.
   photos:
     - /images/timeline/pvgc/01.webp
 
-- year: "2025–"
-  org: Purdue Esports
-  org_url: https://esports.purdue.edu
-  title: Broadcast Engineering Coordinator
-  desc: "My first role where I was fully responsible for both building the system from scratch and keeping it running. The constraints were real: small budget, no infrastructure, no precedent. I had to think my way through every decision. Managing a team while the system is live every match week is a different kind of pressure from building it in the first place."
-  docs_link: https://parkerknabb.com/esports
-  docs_label: System and ops documentation
-  photos:
-    - /images/timeline/esports/01.webp
-    - /images/timeline/esports/02.webp
-
 - year: "2026"
-  org: LEAP — Purdue Hall of Music
+  org: LEAP (Live Events And Productions) — Student Production Club
   org_url: https://boilerlink.purdue.edu/organization/leap-purdue
-  title: LED Tech — Arena EDM Show
-  desc: "I taught myself a crash course in NovaLCT LED configuration in six hours to get the 3 different LED panel types on stage and in the air working before showtime. When I explained my work to the full-time staff, they said they probably knew this better than they did."
+  title: LED Tech — EDM Show, Purdue Armory
+  desc: >-
+    Three LED panel types (Firefly, Coleder, and PixelFLEX) had to work as one
+    wall, on stage and flown, and I had never opened NovaLCT. I had six hours
+    before doors. I got all three running by working through the NovaStar
+    documentation one panel type at a time. The lesson wasn't the software. It
+    was reading a vendor manual under a hard deadline.
   photos:
     - /images/timeline/leap/01.webp
     - /images/timeline/leap/02.webp
     - /images/timeline/leap/03.webp
     - /images/timeline/leap/04.webp
 
+- year: "2025–"
+  org: Purdue Esports
+  org_url: https://esports.purdue.edu
+  title: Broadcast Engineering Coordinator
+  desc: >-
+    The lounge PCs are Alienware prebuilts with no free PCIe slots, so a
+    capture card was never an option. I got video into vMix anyway, through a
+    Thunderbolt breakout on a laptop sent over the network as OMT. When OBS
+    developed intermittent audio delay over OMT, I moved observer feeds to vMix
+    desktop capture and started automating the per-game routing in Companion.
+    Every constraint became a design input. The documentation matters as much
+    as the rack, because the crew runs the show when I'm not there.
+  docs_link: https://parkerknabb.com/esports
+  docs_label: System and ops documentation
+  photos:
+    - /images/timeline/esports/01.webp
+    - /images/timeline/esports/02.webp
+
 - year: "2025"
   org: GoTo Foods
   org_url: https://gotofoods.com
   title: Enterprise IT Infrastructure Intern
-  desc: This role taught me a lot about how infrastructure decisions get made at scale — and how slowly. I came in wanting to move fast and learned that large organizations move deliberately for reasons that aren't always obvious from the outside. Valuable perspective, even if it confirmed what I don't want my day-to-day to look like.
+  desc: >-
+    An enterprise IT internship showed me how infrastructure decisions get
+    made at scale: slowly, deliberately, and for reasons that aren't obvious
+    from the outside. Between network deployments and PowerShell and Python
+    automation, I learned why change control exists and why nobody skips it.
+    It also clarified that I want to work closer to live systems, where the
+    same discipline has to happen on a show clock.
   photos:
     - /images/timeline/gtf/01.webp
 
-- year: 2022–23
+- year: "2023–"
+  org: Purdue Hall of Music Productions
+  org_url: https://purdue.edu/hallofmusic
+  title: Production Staff
+  desc: >-
+    Most Hall of Music shifts are set and strike for university events:
+    build it, support it, tear it down on someone else's timeline. On a
+    handful of Purdue football and basketball games I worked camera
+    grip/utility, supporting the operator on JVC cameras and listening on
+    Riedel Bolero to how a director calls a game. On Purdue Grand Prix, one
+    of the few full multicam shows HoM produces each year, I ran a camera
+    myself in 2025 and 2026. Those shows are the closest I've been to where
+    I'm headed.
+
+- year: "2022–23"
   org: GeorgiaFIRST Robotics
   org_url: https://gafirst.org
   title: Technical Director & Producer · Peachtree Live
-  desc: Being approached to build something from scratch by an organization I'd just been volunteering for is a specific kind of validation. I was 17 and they handed me two multi-day tournaments with 2,000+ spectators. I didn't fully appreciate how unusual that was until later.
+  desc: >-
+    I was 17 when GeorgiaFIRST asked me to build a commentary show from
+    scratch for two multi-day tournaments with 2,000+ spectators. The most
+    useful engineering happened off camera. The event's Studio Technologies
+    Dante intercom only reached crew at the desk, so I patched channels
+    through Dante Virtual Soundcard into TeamSpeak and put roaming crew on
+    comms from their own phones, at zero cost. It wasn't elegant, but it
+    worked, and it's still how I approach a system: find the constraint,
+    then the simplest fix that holds up through the show.
   photos:
     - /images/timeline/georgiafirst/01.webp
     - /images/timeline/georgiafirst/02.webp
@@ -66,28 +123,45 @@
 - year: "2022"
   org: DreamHack Atlanta
   org_url: https://dreamhack.com/atlanta
-  title: Creator Hub · Panel Stage Manager
-  desc: My first paid production gig. Four days in a professional live event environment at a scale I hadn't experienced before. I was thrown in and figured it out, which turned out to be the template for most of what followed. I returned for the 2026 event in May — the scale had grown, but the instinct from year one still applied.
+  title: Creator Hub · Livestream Technician
+  desc: >-
+    My first paid production gig: four days in the Creator Hub getting
+    streamers and creators live in OBS, and by the end, acting as panel stage
+    manager too. It was a professional event at a scale I'd never seen, and
+    the only way to learn it was to be thrown in and figure it out. I came back
+    as a Livestream Technician in May 2026. The event had grown, but the job of
+    getting other people on air cleanly hadn't changed.
   photos:
     - /images/timeline/dreamhack/01.webp
     - /images/timeline/dreamhack/02.webp
     - /images/timeline/dreamhack/03.webp
     - /images/timeline/dreamhack/04.webp
-    
+
 - year: "2022"
   org: NCR Corporation
   org_url: https://en.wikipedia.org/wiki/NCR_Corporation
   title: IT Intern
-  desc: Three weeks at a Fortune 500, never on the same thing twice. I built a tool nobody asked for because I saw a problem and solved it. That script's foundation is still powering the TechKnow Bar today.
+  desc: >-
+    Three weeks at a Fortune 500, never on the same task twice. I noticed a
+    repetitive internal process and built a batch script to automate it. Its
+    foundation, since evolved into PowerShell, still powers the TechKnow Bar
+    today. It's the least broadcast thing on this page, but it's where I
+    learned to look for the repeated step in a workflow, which is most of
+    what a good Companion page is.
   photos:
     - /images/timeline/ncr/01.webp
     - /images/timeline/ncr/02.webp
 
-- year: 2021–23
+- year: "2021–23"
   org: Johnson Ferry Baptist Church
   org_url: https://johnsonferry.org
   title: Camera Operator & Video Director
-  desc: The place where I learned that live means live. No do-overs, no second chances. Starting on camera before I had any real training taught me to trust my instincts under pressure, which has turned out to be more useful than any formal credential.
+  desc: >-
+    Where I learned that live means live. I was on a Hitachi camera and
+    Clear-Com before I had any real training, and later directed the video
+    myself. There were no second takes: you trust your preparation, your
+    instincts, and the person calling the show. Nearly everything since has
+    been a bigger version of a Sunday service.
   photos:
     - /images/timeline/church/01.webp
     - /images/timeline/church/02.webp
@@ -95,4 +169,10 @@
 - year: ""
   org: Before all of this
   title: Origins
-  desc: Took apart a PC with my dad in 1st grade. Ran the computer lab before school through 5th grade. Went back to my elementary school on Tuesdays and Thursdays in 6th grade just to keep helping through "Tech on the T's." Choir from elementary school through Purdue Varsity Glee Club. FLL, FTC, and FRC robotics through senior year. A morning broadcast in middle school, edited in iMovie, played back every day. None of it was a plan.
+  desc: >-
+    Took apart a PC with my dad in 1st grade. Ran the computer lab before
+    school through 5th grade. Went back to my elementary school on Tuesdays and
+    Thursdays in 6th grade just to keep helping through "Tech on the T's."
+    Choir from elementary school through Purdue Varsity Glee Club. FLL, FTC,
+    and FRC robotics through senior year. A morning broadcast in middle school,
+    edited in iMovie, played back every day. None of it was a plan.

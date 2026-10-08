@@ -1,42 +1,57 @@
 # Each group has a heading and a list of items.
-# Add or remove items freely — the grid handles layout automatically.
+# Grouped by signal domain to mirror the resume's Technical Skills section.
+# Add or remove items freely — each group renders as one row.
 
-- heading: AV over IP
+- heading: Video & Switching
   items:
+    - Blackmagic ATEM
+    - Ross & Blackmagic switchers
+    - Sierra Video routing
+    - SDI
+    - NovaStar processors
+    - Firefly / Coleder / PixelFLEX LED
+
+- heading: Cameras
+  items:
+    - Blackmagic Studio Camera 6K Pro
+    - Blackmagic Micro Studio Camera 4K G2
+    - Hitachi studio cameras
+    - JVC studio cameras
+
+- heading: Intercom
+  items:
+    - Studio Technologies Dante (configuration)
+    - Clear-Com (operation)
+    - Riedel Bolero (operation)
+    - Green-GO (operation)
+
+- heading: Audio & RF
+  items:
+    - Sennheiser Spectera & wireless
     - Dante / AES67
+    - Dante Virtual Soundcard
+    - AES50
+    - X32 / M32
+    - Yamaha consoles
+    - RØDECaster Pro II
+
+- heading: Transport & Networking
+  items:
+    - Fiber transmission
     - NDI
     - OMT
-    - AES50
     - SRT
-
-- heading: Production Software
-  items:
-    - vMix
-    - OBS Studio
-    - Bitfocus Companion
-    - ProPresenter
-    - Dante Virtual Soundcard
-
-- heading: Hardware
-  items:
-    - Ross / Blackmagic switchers
-    - Broadcast cameras
-    - RODECaster Pro II
-    - X32 / M32 / Yamaha consoles
-    - NovaStar LED processors
-    - Firefly / Coleder / PixelFLEX
-
-- heading: Programming
-  items:
-    - C / C++
-    - Python
-    - SystemVerilog HDL
-
-- heading: Infrastructure
-  items:
-    - VLAN architecture
-    - Network segmentation
-    - PXE boot environments
+    - VLAN segmentation
+    - PXE
     - Linux / Windows Server
-    - PowerShell
-    - Microsoft Azure / Cloudflare
+
+- heading: Software & Code
+  items:
+    - Bitfocus Companion
+    - vMix
+    - OBS
+    - ProPresenter
+    - NovaLCT
+    - Python / PowerShell
+    - C / C++
+    - SystemVerilog

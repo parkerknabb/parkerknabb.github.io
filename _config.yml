@@ -1,6 +1,6 @@
 # ── Site Config ──────────────────────────────────────────────
-title: "Parker Knabb — AV Infrastructure & Broadcast Engineering"
-description: "Computer Engineering student at Purdue. I design, build, and operate IP-based AV and broadcast infrastructure — from university esports arenas to professional production facilities."
+title: "Parker Knabb — Broadcast Engineering & AV Infrastructure"
+description: "Purdue Computer Engineering senior seeking broadcast engineering roles and apprenticeships, including mobile production / OB. I design, build, and run live production systems, from a 22-PC esports arena to a corporate research studio."
 url: "https://parkerknabb.com"
 baseurl: ""
 
@@ -35,6 +35,9 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - PRODUCT.md
+  - DESIGN.md
+  - .impeccable
   - node_modules
   - vendor
   - match-schedule/worker.js

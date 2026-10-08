@@ -11,7 +11,7 @@
 
     - show: DreamHack Atlanta
       url: https://dreamhack.com/atlanta
-      role: Creator Hub · Panel Stage Manager
+      role: Creator Hub · Livestream Technician & Panel Stage Manager
       date: Nov 2022 & May 2026 ↗
       location: Atlanta, GA
 
@@ -23,9 +23,14 @@
 
 - group: Volunteer / Student
   productions:
-    - show: LEAP EDM Show,  Purdue Armory
+    - show: Purdue Varsity Glee Club Tour
+      url: https://www.purdue.edu/pmo/ensembles/purdue-varsity-glee-club.php
+      role: Audio Engineer · 1,000+ audiences
+      date: 2026–27 season
+
+    - show: LEAP EDM Show, Purdue Armory
       url: https://boilerlink.purdue.edu/organization/leap-purdue
-      role: LED Tech
+      role: LED Tech · NovaStar, 3 panel types
       date: Feb 2026
       location: West Lafayette, IN
 
