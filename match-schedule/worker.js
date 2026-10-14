@@ -8,7 +8,11 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-const ALLOWED_ORIGIN = 'https://parkerknabb.com'
+const ALLOWED_ORIGINS = [
+  'https://parkerknabb.com',
+  'https://www.parkerknabb.com',
+  'https://parkerknabb.github.io',
+];
  
 // Whitelist of upstream hosts this worker will proxy — prevents open-relay abuse
 const ALLOWED_UPSTREAM_HOSTS = [
@@ -24,7 +28,7 @@ export default {
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         status: 204,
-        headers: corsHeaders(),
+        headers: corsHeaders(request),
       });
     }
  
@@ -32,7 +36,7 @@ export default {
     const targetUrl = searchParams.get('url');
  
     if (!targetUrl) {
-      return new Response('Missing ?url= parameter', { status: 400, headers: corsHeaders() });
+      return new Response('Missing ?url= parameter', { status: 400, headers: corsHeaders(request) });
     }
  
     // Validate upstream host
@@ -40,13 +44,13 @@ export default {
     try {
       parsed = new URL(targetUrl);
     } catch {
-      return new Response('Invalid URL', { status: 400, headers: corsHeaders() });
+      return new Response('Invalid URL', { status: 400, headers: corsHeaders(request) });
     }
  
     if (!ALLOWED_UPSTREAM_HOSTS.includes(parsed.hostname)) {
       return new Response(`Upstream host not allowed: ${parsed.hostname}`, {
         status: 403,
-        headers: corsHeaders(),
+        headers: corsHeaders(request),
       });
     }
  
@@ -59,7 +63,7 @@ export default {
     if (cached) {
       const age = Date.now() - Number(cached.headers.get('X-Fetched-At') || 0);
       if (age > FRESH_MS) ctx.waitUntil(refresh(cache, cacheKey, parsed.toString()).catch(() => {}));
-      return icsResponse(await cached.text(), 'HIT');
+      return icsResponse(await cached.text(), 'HIT', request);
     }
 
     // Cold cache: no choice but to wait on the upstream
@@ -67,9 +71,9 @@ export default {
     try {
       body = await refresh(cache, cacheKey, parsed.toString());
     } catch (err) {
-      return new Response(err.message, { status: 502, headers: corsHeaders() });
+      return new Response(err.message, { status: 502, headers: corsHeaders(request) });
     }
-    return icsResponse(body, 'MISS');
+    return icsResponse(body, 'MISS', request);
   },
 };
 
@@ -94,7 +98,7 @@ async function refresh(cache, cacheKey, targetUrl) {
   return body;
 }
 
-function icsResponse(body, status) {
+function icsResponse(body, status, request) {
   return new Response(body, {
     status: 200,
     headers: {
@@ -102,14 +106,16 @@ function icsResponse(body, status) {
       'Cache-Control': 'no-store',
       'X-Worker-Cache': status,
       'Access-Control-Expose-Headers': 'X-Worker-Cache',
-      ...corsHeaders(),
+      ...corsHeaders(request),
     },
   });
 }
 
-function corsHeaders() {
+function corsHeaders(request) {
+  const origin = request.headers.get('Origin');
   return {
-    'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+    'Access-Control-Allow-Origin': ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0],
+    'Vary': 'Origin',
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };

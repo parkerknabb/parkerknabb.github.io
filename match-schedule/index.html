@@ -1052,6 +1052,8 @@ async function fetchICS() {
   }
 }
 
+let lastFetchError = '';
+
 async function fetchICSInner() {
   setStatus('loading', 'Fetching calendar...');
   console.group('%c📅 fetchICS()', 'font-weight:bold;color:#CFB991');
@@ -1062,12 +1064,18 @@ async function fetchICSInner() {
     console.group(`%c🔗 Proxy: ${url}`, 'color:#5b8fd4');
     try {
       console.time('  fetch duration');
-      const resp = await fetch(url, { signal: AbortSignal.timeout(30000) });
+      // AbortSignal.timeout is missing on older iOS Safari (<16)
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 30000);
+      let resp;
+      try { resp = await fetch(url, { signal: ctrl.signal }); }
+      finally { clearTimeout(timer); }
       console.timeEnd('  fetch duration');
       console.log('  HTTP status:', resp.status, resp.statusText);
       console.log('  Headers:', Object.fromEntries(resp.headers.entries()));
 
       if (!resp.ok) {
+        lastFetchError = `HTTP ${resp.status}`;
         console.warn('  ✗ Non-OK status — skipping');
         console.groupEnd();
         continue;
@@ -1107,6 +1115,7 @@ async function fetchICSInner() {
       return;
     } catch (e) {
       console.timeEnd('  fetch duration');
+      lastFetchError = `${e.name}: ${e.message}`;
       console.error('  ✗ Exception:', e.name, '—', e.message);
       console.error('  Full error:', e);
       console.groupEnd();
@@ -1139,6 +1148,7 @@ async function fetchICSInner() {
       <div class="state-desc">The relay worker failed to reach the LeagueOS calendar endpoint.
       This can happen if the feed is temporarily unavailable or blocked.
       Try again in a moment.</div>
+      ${lastFetchError ? `<div class="state-desc"><code>${lastFetchError.replace(/</g, '&lt;')}</code></div>` : ''}
       <button class="retry-btn" onclick="fetchICS()">↺ Retry</button>
     </div>`;
 }
