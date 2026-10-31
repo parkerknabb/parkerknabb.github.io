@@ -312,7 +312,7 @@
 
     .meta-chip svg { opacity: 0.5; flex-shrink: 0; }
 
-    .game-tag {
+    .game-tag, .league-tag {
       display: inline-block;
       padding: 2px 8px;
       border-radius: 3px;
@@ -322,6 +322,11 @@
       border: 1px solid var(--border);
       color: var(--text-muted);
       text-transform: uppercase;
+    }
+
+    .league-tag {
+      color: var(--gold);
+      letter-spacing: 0.04em;
     }
 
     /* Right column */
@@ -519,7 +524,7 @@
 <header>
   <div class="header-top">
     <div class="wordmark">
-      <span class="wordmark-sub">Purdue University · NECC Varsity</span>
+      <span class="wordmark-sub">Purdue University · NECC &amp; Project 1 Varsity</span>
       <h1 class="wordmark-main">Match <span>Schedule</span></h1>
     </div>
     <div class="header-meta">
@@ -533,6 +538,12 @@
 </header>
 
 <div class="controls">
+  <div class="filter-row">
+    <span class="filter-label">League</span>
+    <button class="filter-btn" data-league="necc">NECC</button>
+    <button class="filter-btn" data-league="project1">Project 1</button>
+    <button class="filter-btn" data-league="all">All</button>
+  </div>
   <div class="filter-row">
     <span class="filter-label">Show</span>
     <button class="filter-btn" data-filter="week">This Week</button>
@@ -556,13 +567,23 @@
   <div class="state-container" id="stateContainer">
     <div class="state-icon">⚡</div>
     <div class="state-title">Loading Matches</div>
-    <div class="state-desc">Fetching the NECC calendar feed and filtering for Purdue Gold / Purdue Varsity Gold...</div>
+    <div class="state-desc">Fetching the NECC and Project 1 calendar feeds and filtering for Purdue Gold / Purdue Varsity Gold...</div>
   </div>
 </main>
 
 <script>
-const ICS_URL = 'webcal://api.leagueos.gg/league/ics/b1q6j3ea75j6zgk1s4i79dlw7/g/aqcat5fy908uu7q1xvahe9es4/matches.ics'
-  .replace(/^webcal:/i, 'https:');
+const ICS_FEEDS = [
+  {
+    id: 'necc',
+    name: 'NECC',
+    url: 'https://api.leagueos.gg/league/ics/b1q6j3ea75j6zgk1s4i79dlw7/g/aqcat5fy908uu7q1xvahe9es4/matches.ics',
+  },
+  {
+    id: 'project1',
+    name: 'Project 1',
+    url: 'https://api.leagueos.gg/league/ics/9n7p4oxp0uzj12h4tjqu26wjq/g/aqcat5fy908uu7q1xvahe9es4/matches.ics',
+  },
+];
 
 // ─────────────────────────────────────────────────────────────
 // Set WORKER_URL after deploying the Cloudflare Worker relay.
@@ -808,6 +829,12 @@ function matchesGameFilter(match, filter) {
   return (match.gameTitle || '').toLowerCase().includes(key);
 }
 
+const LEAGUE_FILTER_LABELS = { necc: 'NECC', project1: 'Project 1' };
+
+function matchesLeagueFilter(match, filter) {
+  return filter === 'all' || match.leagues.includes(filter);
+}
+
 // --- Cookie storage for last-used filters ---
 function setCookie(name, value) {
   try {
@@ -831,15 +858,20 @@ function getCookie(name) {
 // is down, instead of a blank error screen.
 const ICS_CACHE_KEY = 'matchScheduleIcsCache';
 
-function saveIcsCache(rawText) {
+function icsCacheKey(feed) {
+  // Preserve the existing NECC cache for returning visitors.
+  return feed.id === 'necc' ? ICS_CACHE_KEY : `${ICS_CACHE_KEY}:${feed.id}`;
+}
+
+function saveIcsCache(feed, rawText) {
   try {
-    localStorage.setItem(ICS_CACHE_KEY, JSON.stringify({ rawText, fetchedAt: Date.now() }));
+    localStorage.setItem(icsCacheKey(feed), JSON.stringify({ rawText, fetchedAt: Date.now() }));
   } catch (e) { /* storage unavailable — skip caching */ }
 }
 
-function loadIcsCache() {
+function loadIcsCache(feed) {
   try {
-    const raw = localStorage.getItem(ICS_CACHE_KEY);
+    const raw = localStorage.getItem(icsCacheKey(feed));
     return raw ? JSON.parse(raw) : null;
   } catch (e) {
     return null;
@@ -850,6 +882,8 @@ function loadIcsCache() {
 let allMatches = [];
 let currentFilter = getCookie('matchFilter') || 'upcoming';
 let currentGameFilter = getCookie('matchGameFilter') || 'all';
+let currentLeagueFilter = getCookie('matchLeagueFilter') || 'all';
+if (!['all', ...ICS_FEEDS.map(feed => feed.id)].includes(currentLeagueFilter)) currentLeagueFilter = 'all';
 
 // Last markup written to #main. Periodic re-renders produce identical HTML unless
 // a status/warning actually changed, so skipping the write avoids replaying the
@@ -885,6 +919,8 @@ function render() {
     matches = allMatches.filter(m => m.start >= nextStart && m.start < nextEnd);
   }
 
+  matches = matches.filter(m => matchesLeagueFilter(m, currentLeagueFilter));
+
   if (currentGameFilter !== 'all') {
     matches = matches.filter(m => matchesGameFilter(m, currentGameFilter));
   }
@@ -896,7 +932,7 @@ function render() {
       <div class="state-container">
         <div class="state-icon">🎮</div>
         <div class="state-title">No Matches Found</div>
-        <div class="state-desc">No ${currentFilter !== 'all' ? currentFilter + ' ' : ''}${currentGameFilter !== 'all' ? GAME_FILTER_LABELS[currentGameFilter] + ' ' : ''}matches found.</div>
+        <div class="state-desc">No ${currentFilter !== 'all' ? currentFilter + ' ' : ''}${currentGameFilter !== 'all' ? GAME_FILTER_LABELS[currentGameFilter] + ' ' : ''}matches found${currentLeagueFilter !== 'all' ? ' in ' + LEAGUE_FILTER_LABELS[currentLeagueFilter] : ''}.</div>
       </div>`);
     return;
   }
@@ -957,6 +993,7 @@ function render() {
                 ${timeStr}
               </span>
               ${gameLabel ? `<span class="game-tag">${escHtml(gameLabel)}</span>` : ''}
+              ${m.leagues.map(league => `<span class="league-tag">${escHtml(LEAGUE_FILTER_LABELS[league])}</span>`).join('')}
               ${m.matchUrl ? `<span class="meta-chip link-hint">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 LeagueOS
@@ -1052,103 +1089,70 @@ async function fetchICS() {
   }
 }
 
-let lastFetchError = '';
-
-async function fetchICSInner() {
-  setStatus('loading', 'Fetching calendar...');
-  console.group('%c📅 fetchICS()', 'font-weight:bold;color:#CFB991');
-  console.log('ICS_URL (after webcal→https):', ICS_URL);
-
+async function fetchFeed(feed) {
   for (const proxyFn of PROXIES) {
-    const url = proxyFn(ICS_URL);
-    console.group(`%c🔗 Proxy: ${url}`, 'color:#5b8fd4');
     try {
-      console.time('  fetch duration');
-      // AbortSignal.timeout is missing on older iOS Safari (<16)
       const ctrl = new AbortController();
       const timer = setTimeout(() => ctrl.abort(), 30000);
       let resp;
-      try { resp = await fetch(url, { signal: ctrl.signal }); }
+      try { resp = await fetch(proxyFn(feed.url), { signal: ctrl.signal }); }
       finally { clearTimeout(timer); }
-      console.timeEnd('  fetch duration');
-      console.log('  HTTP status:', resp.status, resp.statusText);
-      console.log('  Headers:', Object.fromEntries(resp.headers.entries()));
-
-      if (!resp.ok) {
-        lastFetchError = `HTTP ${resp.status}`;
-        console.warn('  ✗ Non-OK status — skipping');
-        console.groupEnd();
-        continue;
-      }
-
-      const text = await resp.text();
-      console.log('  Body length (chars):', text.length);
-      console.log('  First 600 chars:\n', text.slice(0, 600));
-      console.log('  Contains BEGIN:VCALENDAR:', text.includes('BEGIN:VCALENDAR'));
-
-      const totalEvents = (text.match(/BEGIN:VEVENT/g) || []).length;
-      console.log('  Total VEVENT blocks:', totalEvents);
-
-      if (!text.includes('BEGIN:VCALENDAR')) {
-        console.warn('  ✗ Not valid ICS — skipping');
-        console.groupEnd();
-        continue;
-      }
-
-      // Dump all summaries before filtering
-      const allSummaries = [...text.matchAll(/SUMMARY[^:]*:([^\r\n]+)/g)].map(m => m[1].trim());
-      console.log('  All SUMMARY values (%d total):', allSummaries.length);
-      console.table(allSummaries.map(s => ({ SUMMARY: s, matchesFilter: isVarsity(s) })));
-
-      allMatches = parseICS(text);
-      console.log('  ✓ Varsity matches after filter:', allMatches.length);
-      if (allMatches.length > 0) console.table(allMatches.map(m => ({ summary: m.summary, start: m.start.toISOString() })));
-
-      console.groupEnd();
-      console.groupEnd();
-
-      saveIcsCache(text);
-      setStatus('ok', `${allMatches.length} varsity match${allMatches.length !== 1 ? 'es' : ''} loaded`);
-      document.getElementById('lastFetched').textContent =
-        `Last fetched ${new Date().toLocaleTimeString()}`;
-      render();
-      return;
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const rawText = await resp.text();
+      if (!rawText.includes('BEGIN:VCALENDAR')) throw new Error('Invalid calendar response');
+      const matches = parseICS(rawText);
+      saveIcsCache(feed, rawText);
+      return { feed, matches, fetchedAt: Date.now(), stale: false };
     } catch (e) {
-      console.timeEnd('  fetch duration');
-      lastFetchError = `${e.name}: ${e.message}`;
-      console.error('  ✗ Exception:', e.name, '—', e.message);
-      console.error('  Full error:', e);
-      console.groupEnd();
+      console.warn(`${feed.name} fetch failed:`, e);
     }
   }
+  const cached = loadIcsCache(feed);
+  if (cached && typeof cached.rawText === 'string' && cached.rawText.includes('BEGIN:VCALENDAR')) {
+    return { feed, matches: parseICS(cached.rawText), fetchedAt: cached.fetchedAt, stale: true };
+  }
+  return { feed, matches: [], missing: true };
+}
 
-  console.error('%c✗ All proxies exhausted.', 'color:red;font-weight:bold');
-  console.groupEnd();
-
-  // All proxies failed — fall back to the last successfully fetched feed, if any
-  const cached = loadIcsCache();
-  if (cached) {
-    console.warn('  Falling back to cached ICS from', new Date(cached.fetchedAt).toISOString());
-    allMatches = parseICS(cached.rawText);
-    const ago = Math.round((Date.now() - cached.fetchedAt) / 60000);
-    setStatus('stale', `Showing cached schedule (${ago} min old) — live fetch failed`);
-    document.getElementById('lastFetched').textContent =
-      `Last successful fetch ${new Date(cached.fetchedAt).toLocaleString()}`;
+async function fetchICSInner() {
+  setStatus('loading', 'Fetching calendars...');
+  const results = await Promise.all(ICS_FEEDS.map(fetchFeed));
+  const available = results.filter(result => !result.missing);
+  if (available.length) {
+    const unique = new Map();
+    for (const result of available) {
+      for (const match of result.matches) {
+        const key = match.uid || `${match.summary}:${match.start.toISOString()}`;
+        if (!unique.has(key)) unique.set(key, { ...match, leagues: [] });
+        const leagues = unique.get(key).leagues;
+        if (!leagues.includes(result.feed.id)) leagues.push(result.feed.id);
+      }
+    }
+    allMatches = [...unique.values()].sort((a, b) => a.start - b.start);
+    const missing = results.filter(result => result.missing).map(result => result.feed.name);
+    const stale = available.filter(result => result.stale).map(result => result.feed.name);
+    const warnings = [
+      ...(missing.length ? [`${missing.join(', ')} unavailable`] : []),
+      ...(stale.length ? [`${stale.join(', ')} cached`] : []),
+    ];
+    setStatus(warnings.length ? 'stale' : 'ok',
+      `${allMatches.length} varsity match${allMatches.length !== 1 ? 'es' : ''} loaded${warnings.length ? ` — ${warnings.join('; ')}` : ''}`);
+    document.getElementById('lastFetched').textContent = available.map(result =>
+      `${result.feed.name}: ${result.stale ? 'cached' : 'fetched'} ${new Date(result.fetchedAt).toLocaleString()}`
+    ).join(' · ');
     render();
     return;
   }
 
-  // No cache to fall back on either — show error state
-  setStatus('error', 'Failed to load calendar');
+  setStatus('error', 'Failed to load calendars');
   lastHtml = null;
   document.getElementById('main').innerHTML = `
     <div class="state-container">
       <div class="state-icon">⚠️</div>
-      <div class="state-title">Could Not Load Feed</div>
-      <div class="state-desc">The relay worker failed to reach the LeagueOS calendar endpoint.
-      This can happen if the feed is temporarily unavailable or blocked.
+      <div class="state-title">Could Not Load Feeds</div>
+      <div class="state-desc">The relay worker failed to reach the LeagueOS calendar endpoints.
+      This can happen if the feeds are temporarily unavailable or blocked.
       Try again in a moment.</div>
-      ${lastFetchError ? `<div class="state-desc"><code>${lastFetchError.replace(/</g, '&lt;')}</code></div>` : ''}
       <button class="retry-btn" onclick="fetchICS()">↺ Retry</button>
     </div>`;
 }
@@ -1194,7 +1198,19 @@ document.querySelectorAll('.filter-btn[data-game]').forEach(btn => {
   });
 });
 
+// League filter buttons
+document.querySelectorAll('.filter-btn[data-league]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn[data-league]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLeagueFilter = btn.dataset.league;
+    setCookie('matchLeagueFilter', currentLeagueFilter);
+    if (allMatches.length) render();
+  });
+});
+
 // Reflect the restored (or default) filters in the button states
+document.querySelector(`.filter-btn[data-league="${currentLeagueFilter}"]`)?.classList.add('active');
 document.querySelector(`.filter-btn[data-filter="${currentFilter}"]`)?.classList.add('active');
 document.querySelector(`.filter-btn[data-game="${currentGameFilter}"]`)?.classList.add('active');
 
