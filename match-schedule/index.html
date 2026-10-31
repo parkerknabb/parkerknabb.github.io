@@ -754,12 +754,22 @@ function gameColors(gameTitle) {
 // --- Broadcast warnings ---
 // 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
 const USUAL_GAMEDAYS = {
-  'valorant':          1, // Monday
-  'marvel rivals':     2, // Tuesday
-  'rivals':            2,
-  'rocket league':     3, // Wednesday
-  'league of legends': 4, // Thursday
-  'overwatch':         5, // Friday
+  necc: {
+    'valorant':          1, // Monday
+    'marvel rivals':     2, // Tuesday
+    'rivals':            2,
+    'rocket league':     3, // Wednesday
+    'league of legends': 4, // Thursday
+    'overwatch':         5, // Friday
+  },
+  project1: {
+    'league of legends': 1, // Monday
+    'overwatch':         2, // Tuesday
+    'valorant':          3, // Wednesday
+    'rocket league':     1, // Monday
+    'marvel rivals':     4, // Thursday
+    'rivals':            4,
+  },
 };
 
 function getWarnings(match) {
@@ -777,13 +787,20 @@ function getWarnings(match) {
 
   // Off-night warning
   const game = (match.gameTitle || '').toLowerCase();
-  for (const [key, usualDay] of Object.entries(USUAL_GAMEDAYS)) {
-    if (game.includes(key)) {
-      if (day !== usualDay) {
-        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-        warnings.push({ type: 'offnight', icon: '⚠️', text: `Off-night — usually ${days[usualDay]}` });
+  for (const league of match.leagues) {
+    const rules = USUAL_GAMEDAYS[league] || {};
+    for (const [key, usualDay] of Object.entries(rules)) {
+      if (game.includes(key)) {
+        if (day !== usualDay) {
+          const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+          warnings.push({
+            type: 'offnight',
+            icon: '⚠️',
+            text: `${LEAGUE_FILTER_LABELS[league]} off-night — usually ${days[usualDay]}`,
+          });
+        }
+        break;
       }
-      break;
     }
   }
 
