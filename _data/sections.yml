@@ -11,7 +11,7 @@ systems:
   order: [esports, ibhs, leap]
   heading: Built for the people running the show.
   intro: >-
-    A varsity esports studio, a working research facility, and a live IMAG
+    I've had the opportunity to work on systems for a collegiate esports studio, a working research facility, and a live IMAG
     show. Different constraints, the same approach: build options into the
     system so operators can adapt on the day without touching the plumbing.
     These are the designs, decisions and documentation behind the shows.
