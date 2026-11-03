@@ -40,6 +40,7 @@
     <li><a href="#systems">Systems</a></li>
     <li><a href="#timeline">Story</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="{{ '/Parker_Knabb_Resume.pdf' | relative_url }}" target="_blank" rel="noopener">Résumé</a></li>
   </ul>
   <div class="nav-actions">
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">
@@ -124,7 +125,7 @@
   // Marks the section crossing a thin line 40% down the viewport.
   if ('IntersectionObserver' in window) {
     var navLinks = {};
-    document.querySelectorAll('.nav-links a').forEach(function(a) {
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(a) {
       navLinks[a.getAttribute('href').slice(1)] = a;
     });
     var sectionObserver = new IntersectionObserver(function(entries) {
