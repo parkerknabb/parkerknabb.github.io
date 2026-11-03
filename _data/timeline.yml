@@ -10,7 +10,7 @@
 # covers the what and the Systems section covers the how; this is the why.
 
 - year: "2026–"
-  org: IBHS, Richburg, SC
+  org: Insurance Institute for Business & Home Safety (IBHS), Richburg, SC
   org_url: https://ibhs.org
   title: Broadcast Engineering Intern → Broadcast Systems Engineer (Part-time)
   system: ibhs
@@ -20,9 +20,8 @@
     already running. First I had to make the case for changing something
     that worked. Then I moved switching to an ATEM and tied it together in
     Companion while shows kept running on the old system. The new one
-    carried its first live event nine weeks in. These days the work is RF
-    and fiber, with a Spectera deployment and a dark-fiber link across
-    campus both still in progress.
+    carried its first live event nine weeks in. Spectera deployment is in progress
+    as a replacement for legacy mic/IFB.
   photos:
     - /images/timeline/ibhs/01.webp
     - /images/timeline/ibhs/02.webp

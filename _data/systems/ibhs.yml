@@ -1,7 +1,7 @@
 # IBHS case study. Fields are documented in _data/systems/README.md.
 
 id: ibhs
-org: IBHS
+org: Insurance Institute for Business & Home Safety (IBHS)
 org_url: https://ibhs.org
 place: Richburg, SC
 dates: May 2026–
@@ -10,18 +10,15 @@ label: Live system
 facts:
   - num: "9 wk"
     label: Studio redesign to first live event at IBHS
-# Held until IBHS approves: the signal-flow diagram and design notes live in
-# _held/ (git-ignored, never published). While `pending` is set, the page shows
-# the header and a placeholder in their place. To publish, see _held/README.md.
-pending: Signal flow and design notes coming soon.
+diagram: ibhs
 summary: >-
   An established studio with events already on the calendar. I built a
   Companion-driven control layer over its ATEM, OBS and X32 in parallel
-  with the Studio 6 workflow, without interrupting live events. Studio 6 is
-  now deprecated but still works as a fallback.
+  with the Studio 6 workflow, without interrupting live events.
 gear:
   - Blackmagic ATEM 4K8
   - OBS Studio
+  - Blackmagic DeckLink 8K Pro G2
   - Behringer X32 Compact
   - Bitfocus Companion
   - Stream Deck + XL
@@ -29,7 +26,23 @@ gear:
   - Sierra Video routing
   - ZoomISO
   - NDI
+notes:
+  - title: One program, one place.
+    text: >-
+      Switching, streaming and recording now live on the ATEM, so the program
+      operators see on the multiview is the one that airs. OBS handles graphics,
+      media and guest layouts.
+  - title: Hide the complexity.
+    text: >-
+      The team runs shows alongside other responsibilities. Companion puts
+      routing, graphics and talkback on the Stream Deck, while program switching
+      stays on the ATEM. Routine show operations use physical controls rather
+      than sending operators through software menus.
+  - title: Migrate alongside live shows.
+    text: >-
+      Reusing familiar hardware kept retraining small. I carried improvements
+      back to the old workflow during development, so the team benefited
+      before the new system launched. The old system remains available as
+      a fallback.
 next: >-
-  A Sennheiser Spectera wideband RF system replacing Shure MXW, and a
-  dark-fiber link that will carry 4K SDI and DAD antenna data across campus.
-  Both in progress.
+  Spectera deployment is in progress as a replacement for legacy mic/IFB.
