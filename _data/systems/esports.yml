@@ -17,8 +17,8 @@ diagram: esports
 summary: >-
   I started with a shoestring budget and no broadcast system to build on. It's an
   IP-based studio: vMix, OBS and Companion over OMT across segmented
-  VLANs, with PXE boot for the lounge's 22 PCs. Most of what I know about
-  system design I learned here, usually by getting it wrong first.
+  VLANs, with PXE boot for the lounge's 22 PCs. This is where I learned to design
+  around constraints, troubleshoot failures, and document a system another crew could operate.
 notes:
   - title: No slot, no capture card.
     text: >-
@@ -64,3 +64,6 @@ gear:
   - PXE boot
 link: https://parkerknabb.com/esports-guide
 link_label: System and ops documentation
+next: >-
+  I'm redesigning the caster set so every connection lands at one setup point,
+  with a handover the next crew can run without me after graduation.

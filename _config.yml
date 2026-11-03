@@ -1,6 +1,6 @@
 # ── Site Config ──────────────────────────────────────────────
 title: "Parker Knabb — Broadcast Engineering & AV Infrastructure"
-description: "Purdue Computer Engineering senior seeking broadcast engineering roles and apprenticeships, including mobile production / OB. I design, build, and run live production systems, from a 22-PC esports arena to a corporate research studio."
+description: "Purdue Computer Engineering senior seeking broadcast engineering roles and apprenticeships, including mobile production / OB. I design, build and support studios, esports broadcasts and live event video systems."
 url: "https://parkerknabb.com"
 baseurl: ""
 
@@ -38,6 +38,7 @@ exclude:
   - PRODUCT.md
   - DESIGN.md
   - .impeccable
+  - scripts
   - node_modules
   - vendor
   - match-schedule/worker.js

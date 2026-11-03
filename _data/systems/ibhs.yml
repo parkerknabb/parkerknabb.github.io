@@ -44,5 +44,13 @@ notes:
       back to the old workflow during development, so the team benefited
       before the new system launched. The old system remains available as
       a fallback.
+  - title: Support beyond commissioning.
+    text: >-
+      I rebuilt the control-room rack and wiring, audited wiring documentation
+      for the studio, Master Control and chamber capture systems, and recommended
+      signal-flow fixes. With no engineer on site, I now document and support
+      the studio remotely. Staff
+      still call during setup as they learn the system, but most events run
+      start to finish without mid-show intervention.
 next: >-
   Spectera deployment is in progress as a replacement for legacy mic/IFB.

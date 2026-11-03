@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Parker Knabb — Broadcast Engineering & AV Infrastructure"
-description: "Purdue Computer Engineering senior seeking broadcast engineering roles and apprenticeships, including mobile production / OB. I design, build, and run live production systems, from a 22-PC esports arena to a corporate research studio."
+description: "Purdue Computer Engineering senior seeking broadcast engineering roles and apprenticeships, including mobile production / OB. I design, build and support studios, esports broadcasts and live event video systems."
 ---
 
 <!-- HERO -->
@@ -23,7 +23,7 @@ description: "Purdue Computer Engineering senior seeking broadcast engineering r
   <div class="hero-inner">
     <div class="hero-text">
       <h1>I build the systems behind the broadcast.</h1>
-      <p class="hero-sub"><strong>Today, that's a 22-PC esports arena and a corporate research studio. Next, it's the trucks and venues where live production is headed.</strong> Part-time broadcast systems engineer at IBHS, broadcast engineering coordinator for Purdue Esports, and production staff at Purdue's Hall of Music.</p>
+      <p class="hero-sub"><strong>Studios, esports broadcasts, and live event video systems. Next, the trucks and venues behind live sports.</strong> I'm a Purdue Computer Engineering senior graduating in May 2027. I design, build and support flexible production systems, with controls that let the crew adapt on show day.</p>
       <div class="hero-cta">
         <a href="#systems" class="btn btn-primary">View my work</a>
         <a href="{{ '/Parker_Knabb_Resume.pdf' | relative_url }}" class="btn btn-secondary" target="_blank" rel="noopener">Résumé (PDF)</a>
@@ -92,6 +92,28 @@ description: "Purdue Computer Engineering senior seeking broadcast engineering r
     <p class="system-pending">{{ system.pending }}</p>
     {% else %}
     {% if system.diagram %}{% include diagram.html key=system.diagram %}{% endif %}
+    {% if system.documents %}
+    <div class="system-documents diagram" role="group" aria-label="{{ system.title | escape }} drawings">
+      {% for document in system.documents %}
+      <input class="sf-radio document-radio-{{ document.id }}" type="radio" name="drawing-{{ system.id }}" id="{{ system.id }}-drawing-{{ document.id }}"{% if forloop.first %} checked{% endif %}>
+      {% endfor %}
+      <div class="sf-tabs">
+        {% for document in system.documents %}<label for="{{ system.id }}-drawing-{{ document.id }}">{{ document.label }}</label>{% endfor %}
+      </div>
+      <div class="document-panels">
+        {% for document in system.documents %}
+        <figure class="system-document document-panel-{{ document.id }}">
+          <figcaption class="document-summary sf-summary">{{ document.caption }}</figcaption>
+          <p class="document-hint">Scroll sideways for the full diagram.</p>
+          <div class="document-scroll" tabindex="0" role="group" aria-label="{{ document.title | escape }}, scrolls sideways on small screens">
+            <img src="{{ document.preview_src | default: document.src | relative_url }}?v={{ site.time | date: '%s' }}" alt="{{ document.alt | escape }}" width="{{ document.width }}" height="{{ document.height }}" loading="lazy">
+          </div>
+          <p class="document-link"><a class="more-link" href="{{ document.src | relative_url }}" target="_blank" rel="noopener">Open full-size {{ document.title | downcase }} (SVG) ↗</a></p>
+        </figure>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
     {% endif %}
 
     {% if system.notes and system.pending == nil %}
@@ -105,6 +127,19 @@ description: "Purdue Computer Engineering senior seeking broadcast engineering r
     {% endif %}
   </article>
   {% endfor %}
+</section>
+
+<!-- TECHNICAL EXPERIENCE -->
+<section id="technical" class="technical-range" aria-labelledby="technical-title">
+  <h2 id="technical-title">{{ site.data.sections.technical.heading }}</h2>
+    <dl class="rundown">
+      {% for row in site.data.sections.technical.rows %}
+      <div class="rd-row system-row">
+        <dt>{{ row.label }}</dt>
+        <dd>{{ row.text }}</dd>
+      </div>
+      {% endfor %}
+    </dl>
 </section>
 
 <!-- TIMELINE -->

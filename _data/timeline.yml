@@ -9,6 +9,26 @@
 # engineer to recognize) → one-sentence takeaway. ~60–90 words. The résumé
 # covers the what and the Systems section covers the how; this is the why.
 
+- year: "Oct 2026"
+  org: Live Events and Productions (LEAP), Purdue
+  org_url: https://boilerlink.purdue.edu/organization/leap-purdue
+  title: Video Department Head & Crew Chief, IMAG Show
+  system: leap
+  desc: >-
+    Leading video meant making decisions before load-in that would hold up
+    during the show. I documented signal and power flow, built routing that
+    let operators move graphics and cameras between displays, and shaped the
+    shared Stream Deck layout around the graphics and PTZ operators' workflows.
+    We verified the system during load-in and soundcheck. Video ran the full
+    four-hour show without interruption.
+  photos:
+    - src: /images/timeline/leap-imag/01.webp
+      alt: Video crew monitoring camera feeds, preview and program on the multiview during the LEAP IMAG show
+    - src: /images/timeline/leap-imag/02.webp
+      alt: LEAP crew handling the rear of an LED wall on stage during load-in
+    - src: /images/timeline/leap-imag/03.webp
+      alt: Band performing with live camera feeds on the center LED wall and two side IMAG screens
+
 - year: "2026–"
   org: Insurance Institute for Business & Home Safety (IBHS), Richburg, SC
   org_url: https://ibhs.org

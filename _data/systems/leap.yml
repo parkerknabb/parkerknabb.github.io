@@ -1,0 +1,70 @@
+# LEAP IMAG show: account supplied by Parker; drawings are the show documentation.
+id: leap
+org: Live Events and Productions (LEAP), Purdue
+org_url: https://boilerlink.purdue.edu/organization/leap-purdue
+place: West Lafayette, IN
+dates: Oct 2026
+title: IMAG show video system
+label: Live event
+facts:
+  - num: "4 hr"
+    label: Show completed without a video interruption
+summary: >-
+  As Video Department Head and Crew Chief for this student-run show, I planned
+  and documented the video signal and power flow, coordinated the operators,
+  and verified the system during load-in and soundcheck. Five cameras and a
+  graphics laptop fed a Roland V-160HD, with separate routes to the graphics
+  and IMAG displays, multiview and recording.
+gear:
+  - Roland V-160HD
+  - JVC cameras
+  - Sony PTZ cameras
+  - Marshall camera
+  - NovaPro HD processors
+  - PixelFLEX and Coleder LED panels
+  - AJA Ki Pro
+  - Stream Deck
+documents:
+  - id: signal
+    label: Signal
+    title: Video signal flow
+    src: /images/diagrams/leap-imag-signal.svg
+    preview_src: /images/diagrams/leap-imag-signal-preview.svg
+    width: 963
+    height: 586
+    alt: >-
+      Five cameras and a graphics laptop feed a Roland V-160HD. Separate
+      outputs feed two NovaPro HD processors for the center graphics wall
+      and side IMAG walls, a multiview TV and an AJA Ki Pro recorder.
+      The drawing distinguishes SDI, HDMI, USB, network and LED data paths;
+      video runs at 1080p59.94.
+    caption: Camera, graphics, display and recording paths, with LED data routing and panel resolutions.
+  - id: power
+    label: Power
+    title: Video power flow
+    src: /images/diagrams/leap-imag-power.svg
+    preview_src: /images/diagrams/leap-imag-power-preview.svg
+    width: 663
+    height: 504
+    alt: >-
+      Power distribution for a center PixelFLEX LED wall and two side Coleder
+      IMAG walls. Soco feeds run from distribution to breakouts at the center
+      and side hangs. The drawing identifies Edison and True1 connections,
+      including the Y cable serving two columns of each side wall.
+    caption: LED-wall power distribution and hang locations for the center and side displays.
+notes:
+  - title: Build routing options in.
+    text: >-
+      I routed graphics through the video switcher so operators could move
+      graphics and live camera feeds between displays without re-patching.
+      The choices needed during the show were available at the controls.
+  - title: Design around the operators.
+    text: >-
+      I observed the graphics and PTZ operators' workflows before finalizing
+      their shared Stream Deck layout. The controls followed how they worked,
+      rather than asking them to work around a preset layout.
+  - title: Verify before doors.
+    text: >-
+      The signal and power drawings gave the crew a common reference for
+      load-in. We verified the system during load-in and soundcheck, and
+      video ran the full four-hour show without interruption.

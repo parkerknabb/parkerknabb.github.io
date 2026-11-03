@@ -8,10 +8,13 @@ Fields:
 
 ```
 id:       anchor for the system (#ibhs); Story entries link here with `system: <id>`.
-label:    the system's role in the pair (Blank slate), shown at the top of the
+label:    the system's role (Blank slate), shown at the top of the
           left column beside the title.
 facts:    optional figures shown under the dates: num + label.
 diagram:  optional key: the name of a file in _data/diagrams/ (esports → esports.yml). Renders only once it has an svg/src.
+documents: optional Signal / Power drawings: id (signal or power), label, title,
+           src, width, height, alt, caption (intro above the drawing).
+           preview_src optionally supplies a themed preview; src stays the full-size original.
 summary:  one or two sentences on what the system is.
 notes:    design decisions, each a short title and the reasoning.
 gear:     what's in the chain, as a plain list.

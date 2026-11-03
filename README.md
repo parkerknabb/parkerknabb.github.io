@@ -13,7 +13,9 @@ All content lives in `_data/`. You never need to touch HTML.
 | `_data/sections.yml` | Section headings and intros (Systems, Story, Contact) |
 | `_config.yml` | Your name, email, LinkedIn URL, headshot toggle |
 
-The site doesn't list jobs or skills; the résumé PDF and LinkedIn cover those.
+Case studies lead with decisions and documentation. A compact technical range
+under `technical` in `_data/sections.yml` covers supporting experience; the résumé
+PDF and LinkedIn carry the full employment history.
 
 ### Adding a system
 
@@ -105,3 +107,13 @@ Point your domain DNS to GitHub Pages per their [custom domain docs](https://doc
 ├── index.html           # Page structure (loops over _data files)
 └── Gemfile
 ```
+
+### Updating LEAP drawings
+
+Run `python3 scripts/prepare-leap-diagrams.py /path/to/drawings` with a directory
+containing `Video Signal Flow.svg` and `Video Power Flow.svg`. It copies the
+originals and generates previews with the same geometry and theme-aware colours.
+It uses `rsvg-convert` and Pillow to fit each preview viewBox to the painted
+content with a 12-unit margin. Update the drawing dimensions in
+`_data/systems/leap.yml` to the dimensions printed by the script.
+The preview follows the site's theme toggle; full-size links open the originals.

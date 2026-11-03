@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 </head>
 <body>
 
@@ -63,7 +63,7 @@
 <footer>
   <span>© {% assign yr = 'now' | date: "%Y" %}{{ yr }} {{ site.author.name }}</span>
   <div class="footer-links">
-    <a href="https://parkerknabb.com/esports" target="_blank" rel="noopener">Esports Ops Doc</a>
+    <a href="https://parkerknabb.com/esports-guide" target="_blank" rel="noopener">Esports Ops Doc</a>
     <a href="{{ site.author.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
   </div>
 </footer>
@@ -141,6 +141,31 @@
       if (section) sectionObserver.observe(section);
     });
   }
+
+  // Show scroll hints only when the drawing actually exceeds its container.
+  var drawingScrolls = document.querySelectorAll('.diagram-scroll, .document-scroll');
+  function updateDrawingHint(scroll) {
+    var hint = scroll.previousElementSibling;
+    if (hint && hint.matches('.diagram-hint, .document-hint')) {
+      hint.classList.toggle('is-overflowing', scroll.clientWidth > 0 && scroll.scrollWidth > scroll.clientWidth + 1);
+    }
+  }
+  function updateDrawingHints() { drawingScrolls.forEach(updateDrawingHint); }
+  if ('ResizeObserver' in window) {
+    var drawingObserver = new ResizeObserver(updateDrawingHints);
+    drawingScrolls.forEach(function(scroll) {
+      drawingObserver.observe(scroll);
+      if (scroll.firstElementChild) drawingObserver.observe(scroll.firstElementChild);
+    });
+  }
+  window.addEventListener('resize', updateDrawingHints);
+  document.querySelectorAll('.system-documents input').forEach(function(input) {
+    input.addEventListener('change', updateDrawingHints);
+  });
+  drawingScrolls.forEach(function(scroll) {
+    scroll.querySelectorAll('img').forEach(function(img) { img.addEventListener('load', updateDrawingHints); });
+  });
+  updateDrawingHints();
 
   // ── PHOTO GALLERIES ──
   // photos entries are either a path string or { src, alt }.

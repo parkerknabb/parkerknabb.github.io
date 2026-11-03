@@ -1,6 +1,12 @@
 # Show credits, shown as a short list at the end of the Story section.
 # Newest first. url and location are optional.
 
+- show: LEAP IMAG Show
+  url: https://boilerlink.purdue.edu/organization/leap-purdue
+  role: Video Department Head & Crew Chief
+  date: Oct 2026
+  location: West Lafayette, IN
+
 - show: Purdue Varsity Glee Club Tour
   url: https://www.purdue.edu/pmo/ensembles/purdue-varsity-glee-club.php
   role: Audio Engineer

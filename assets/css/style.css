@@ -1064,3 +1064,28 @@ footer {
   .tl-entry::before { left: 96px; }
   .tl-dot { left: 92px; }
 }
+
+/* Show previews adapt their palette to the inherited color-scheme.
+   Full-size links retain the supplied original drawings. */
+.system-documents { position: relative; }
+.system-document { display: none; }
+.document-radio-signal:checked ~ .document-panels .document-panel-signal,
+.document-radio-power:checked ~ .document-panels .document-panel-power { display: block; }
+.document-radio-signal:checked ~ .sf-tabs label[for$="-signal"],
+.document-radio-power:checked ~ .sf-tabs label[for$="-power"] { background: var(--text); color: var(--bg); }
+.document-radio-signal:focus-visible ~ .sf-tabs label[for$="-signal"],
+.document-radio-power:focus-visible ~ .sf-tabs label[for$="-power"] { outline: 2px solid var(--accent-text); outline-offset: 2px; }
+.system-document .document-summary { margin-top: 0; margin-bottom: 24px; max-width: 68ch; font-size: 1.05rem; color: var(--text); }
+.document-link { margin-left: var(--content-inset); }
+.document-scroll { overflow-x: auto; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--bg); }
+.document-scroll img { display: block; width: 100%; min-width: 760px; height: auto; }
+.document-hint { display: none; }
+/* Measured overflow, rather than the viewport width, controls these hints. */
+.diagram-hint, .document-hint { display: none; }
+.diagram-hint.is-overflowing, .document-hint.is-overflowing { display: block; margin-bottom: 12px; font-size: 0.875rem; color: var(--text-dim); }
+@media (max-width: 700px) {
+  .document-link { margin-left: 0; }
+}
+
+.technical-range dt { font-size: 0.95rem; font-weight: 500; }
+.technical-range dd { max-width: 68ch; font-size: 0.95rem; color: var(--text-mid); line-height: 1.75; }
