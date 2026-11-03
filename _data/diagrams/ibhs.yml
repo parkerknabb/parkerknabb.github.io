@@ -18,7 +18,7 @@ layers:
   points:
   - Microphones come in over XLR and remote guests over USB.
   - The X32 sends one mixed feed to the ATEM, which carries it in the stream and the recording.
-  - 'Talkback runs from Companion, extending the 2 talkback channels to many individual sources, IFB-style.
+  - 'Talkback runs from Companion, extending the 2 talkback channels to many individual sources, IFB-style.'
 - id: video
   label: Video
   summary: 'Everything on screen: guest feeds in, switched program out.'
