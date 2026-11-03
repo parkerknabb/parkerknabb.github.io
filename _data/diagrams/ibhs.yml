@@ -16,46 +16,29 @@ layers:
   label: Audio
   summary: Every source meets at the X32; one mixed feed goes to the ATEM.
   points:
-  - 'Studio mics and Sennheiser EW-DX wireless lavs feed the X32 over XLR.'
-  - Remote guest audio arrives from ZoomISO over USB. OBS playback, such as package videos, arrives over 3.5 mm.
+  - Microphones come in over XLR and remote guests over USB.
   - The X32 sends one mixed feed to the ATEM, which carries it in the stream and the recording.
-  - 'Talkback runs from Companion: talk to the guest, and listen to the guest or any of four lavs. '
-  - 'Troubleshooting rule: if a guest can''t be heard, confirm them on the X32 before touching OBS.'
+  - 'Talkback runs from Companion, extending the 2 talkback channels to many individual sources, IFB-style.
 - id: video
   label: Video
   summary: 'Everything on screen: guest feeds in, switched program out.'
   points:
-  - 'Remote guests: ZoomISO outputs eight NDI feeds (Guest 1–4, Share 1–4). An NDI Router maps them to named destinations
-    (Box 1–4, Pres Speaker, Pres Deck) that OBS reads.'
-  - 'OBS builds the graphics and guest layouts: 20 live scenes, each tied to a Companion button, covering studio
-    2-, 3- and 4-box layouts, full-screen guests, presentation, media and countdown, with Lottie lower thirds.'
-  - The ATEM uses all eight SDI inputs and routes sources to the studio monitors. The OBS rig
-    uses a DeckLink 8K Pro G2 configured for three inputs from the ATEM (Program, GFX 1 and GFX 2)
-    and one GFX output back to the switcher.
-  - Program leaves as an RTMP stream and is recorded on the switcher.
-  - ZoomISO's Video Loss Mode is set to Testcard while verifying routing, then Freeze during the show.
+  - ZoomISO outputs individual NDI feeds for guests and screen share.
+  - OBS provides 20+ layouts combining remote guests and local inputs.
+  - A DeckLink card provides bidirectional video into and out of OBS for use on the ATEM.
+  - Program is streamed to its final destination by the ATEM over RTMP.
 - id: outputs
   label: Outputs
   points:
-  - 'Stream and recording: program leaves the ATEM as an RTMP stream, and the switcher records it.'
-  - 'Multiview: the ATEM''s multiview output drives the control-room multiview.'
-  - 'Studio monitors: ATEM aux outputs feed the in-studio displays, including the talent confidence monitors. The
-    TV CTRL menu on the Stream Deck picks what each one shows.'
-  - Three ATEM feeds (Program, GFX 1 and GFX 2) enter the OBS rig through its DeckLink 8K Pro G2.
-    The fourth bidirectional port sends GFX back to the ATEM.
+  - "Stream and recording: The ATEM's built-in streaming and recording engine gets program where it needs to go."
+  - 'Studio monitors: ATEM aux outputs feed the in-studio displays, including the talent confidence monitors. A dedicated Stream Deck page controls them all in one place.'
   summary: Where program goes after the ATEM.
 - id: control
   label: Control
   summary: One Stream Deck runs the studio through Bitfocus Companion.
   points:
-  - One Stream Deck + XL, through Companion, talks to the ATEM, OBS, X32 and both Sennheiser receivers.
-  - 'In-studio routing lives on the same deck. The TV CTRL menu sends ATEM aux outputs to the confidence monitors
-    talent see, and a talkback page gives granular control over who hears whom.'
-  - 'Six pages: main show control, talkback, TV routing, PC routing, lower-third assignment, and a compatibility
-    page that keeps the old workflow running.'
-  - OBS scene names are the contract between OBS and Companion. A scene isn't renamed without updating its buttons.
-  - Guest slots 1–4 are the same number in ZoomISO, the NDI Router, the OBS scene names and the Stream Deck.
-  - A dedicated page handles lower-third assignment across six studio slots.
+  - A Stream Deck + XL, through Companion, talks to the ATEM, OBS, X32, and microphone recievers.
+  - Dedicated pages for confidence monitor routing, talkback, and graphics input routing keep everything at the operators' fingertips.
 svg: |
   <svg viewBox="-12 -12 840 476" xmlns="http://www.w3.org/2000/svg" focusable="false"><defs><marker id="ibhs-arr-video" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="sf-arrow sf-arrow-video" d="M0 1 L10 5 L0 9 z"/></marker><marker id="ibhs-arr-audio" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="sf-arrow sf-arrow-audio" d="M0 1 L10 5 L0 9 z"/></marker><marker id="ibhs-arr-stream" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="sf-arrow sf-arrow-stream" d="M0 1 L10 5 L0 9 z"/></marker><marker id="ibhs-arr-ctl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="sf-arrow sf-arrow-ctl" d="M0 1 L10 5 L0 9 z"/></marker></defs>
   <rect class="sf-ctrl sf-x" data-l="control" x="242" y="2" width="420" height="448" rx="16"/>
