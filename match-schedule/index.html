@@ -576,11 +576,13 @@ const ICS_FEEDS = [
   {
     id: 'necc',
     name: 'NECC',
+    matchBaseUrl: 'https://necc.v1.leagueos.gg/league/matches/',
     url: 'https://api.leagueos.gg/league/ics/b1q6j3ea75j6zgk1s4i79dlw7/g/aqcat5fy908uu7q1xvahe9es4/matches.ics',
   },
   {
     id: 'project1',
     name: 'Project 1',
+    matchBaseUrl: 'https://project1.leagueos.gg/league/matches/',
     url: 'https://api.leagueos.gg/league/ics/9n7p4oxp0uzj12h4tjqu26wjq/g/aqcat5fy908uu7q1xvahe9es4/matches.ics',
   },
 ];
@@ -655,11 +657,6 @@ function parseICS(raw) {
     const dtend   = get('DTEND');
     const uid     = get('UID');
 
-    // Build the match URL from the event UID — LeagueOS's own URL field
-    // points at /match/<id>, but the live site now serves matches at
-    // /league/matches/<id> (same id).
-    const matchUrl = uid ? `https://necc.v1.leagueos.gg/league/matches/${uid}` : '';
-
     // Extract all ATTENDEE CN= values
     const attendeeMatches = [...block.matchAll(/ATTENDEE[^:]*;CN="([^"]+)"/g)];
     const attendees = attendeeMatches.map(m => m[1].trim());
@@ -691,7 +688,6 @@ function parseICS(raw) {
       opponent,
       start: parseICSDate(dtstart),
       end:   parseICSDate(dtend),
-      matchUrl,
       uid,
     });
   }
@@ -912,6 +908,12 @@ function setMainHtml(html) {
   document.getElementById('main').innerHTML = html;
 }
 
+function getMatchUrl(match) {
+  const league = currentLeagueFilter === 'all' ? match.leagues[0] : currentLeagueFilter;
+  const feed = ICS_FEEDS.find(feed => feed.id === league);
+  return match.uid && feed ? feed.matchBaseUrl + encodeURIComponent(match.uid) : '';
+}
+
 function render() {
   const now    = new Date();
   const todayS = now.toDateString();
@@ -984,9 +986,10 @@ function render() {
 
       const opponent  = m.opponent || m.summary;
       const gameLabel = m.gameTitle || game;
-      const cardTag   = m.matchUrl ? 'a' : 'div';
-      const cardAttrs = m.matchUrl
-        ? `href="${escHtml(m.matchUrl)}" target="_blank" rel="noopener"`
+      const matchUrl  = getMatchUrl(m);
+      const cardTag   = matchUrl ? 'a' : 'div';
+      const cardAttrs = matchUrl
+        ? `href="${escHtml(matchUrl)}" target="_blank" rel="noopener"`
         : '';
       const colors    = gameColors(gameLabel);
       const cardStyle = colors
@@ -997,7 +1000,7 @@ function render() {
         : '';
 
       html += `
-        <${cardTag} ${cardAttrs} class="match-card${m.matchUrl ? ' match-card--link' : ''}" style="${cardStyle}">
+        <${cardTag} ${cardAttrs} class="match-card${matchUrl ? ' match-card--link' : ''}" style="${cardStyle}">
           <div class="match-date-col" style="${dateColStyle}">
             <div class="match-day-num">${dayNum}</div>
             <div class="match-day-name">${dayName}</div>
@@ -1011,7 +1014,7 @@ function render() {
               </span>
               ${gameLabel ? `<span class="game-tag">${escHtml(gameLabel)}</span>` : ''}
               ${m.leagues.map(league => `<span class="league-tag">${escHtml(LEAGUE_FILTER_LABELS[league])}</span>`).join('')}
-              ${m.matchUrl ? `<span class="meta-chip link-hint">
+              ${matchUrl ? `<span class="meta-chip link-hint">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                 LeagueOS
               </span>` : ''}
@@ -1058,6 +1061,7 @@ function downloadMatchIcs(uid) {
   const match = allMatches.find(m => m.uid === uid);
   if (!match) return;
 
+  const matchUrl = getMatchUrl(match);
   const title = `${match.gameTitle || 'Match'} vs ${match.opponent || 'TBD'}`.trim();
   const lines = [
     'BEGIN:VCALENDAR',
@@ -1069,7 +1073,7 @@ function downloadMatchIcs(uid) {
     `DTSTART:${icsDate(match.start)}`,
     `DTEND:${icsDate(match.end)}`,
     `SUMMARY:${escapeICSText(title)}`,
-    match.matchUrl ? `URL:${match.matchUrl}` : '',
+    matchUrl ? `URL:${matchUrl}` : '',
     'END:VEVENT',
     'END:VCALENDAR',
   ].filter(Boolean);
